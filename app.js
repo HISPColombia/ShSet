@@ -1,4 +1,4 @@
-var appImport = angular.module("appImport", ['ngRoute', 'Dhis2Api', 'pascalprecht.translate', 'ui.bootstrap', 'd2Menu', 'angularFileUpload', 'angular-md5', 'ngJsonExplorer']);
+var appImport = angular.module("appImport", ['ngRoute', 'Dhis2Api', 'pascalprecht.translate', 'ui.bootstrap', 'd2Menu', 'angularFileUpload']);
 
 appImport.config(function($routeProvider) {
  
