@@ -1,61 +1,33 @@
 {
-	"_______________ Common ":" for APPS SHARING SETTING________",
+  "_______________ Common ":" for APPS SHARING SETTING________",
   "TITLE_APPS":"SHARING SETTING",
-  "YES":"Yes",
-  "NO": "No",
-  "IMPORT_START": "Import Start",
-  "IMPORT_CLEAR": "clear",
-  "IMPORT_CANCEL": "Stop importation",
-  "MENU_ENTITY": "Import Entities",
-  "TITLE_ENTITY": "List Entities imported from local file",
-  "BTN_READ": "read file",
-  "BTN_IMPORT_START": "Start import",
-  "LABEL_OPTIONIMPORT": "Import Options",
-  "LABEL_NUMREG":"Number of register",
-  "LABEL_INFOFILE": "File Information",
-  "LABEL_METHOD": "Method",
-  "MSG_ERRORFORIMPORT": "The file has the error: ",
-  "MSG_READYFORIMPORT": "File ready for import",
-  "MSG_INTRO": "verify that the json file has the structute and conent required for data import in DHIS, acording to type information",
-  "MSG_FINISHED": "Importaci�n finalizada",
-  "LIST_ERROR": "Error List",
-   "BTN_SAVEERROR": "Save error list",
-  "BTN_SAVEJSON": "Save objects don't imported",
-  "LABEL_NUMINIT": "Start In: ",
-   "LABEL_GOODIMPORT": "Imported",
-  "LABEL_BADIMPORT": "Not Imported"-
-   "LABEL_SELECTELEMENTS": "Select Elements"
-   "LBL_USER": "Usuario"
-   "LBL_USERGROUPS": "UsersGroup"
-   "LBL_USERPERMISIONS": "Permisions"
-   
-   "LBL_DATA_ELEMENTS": "DataElements"
-   "LBL_DATA_ELEMENTS_GROUPS": "Data Elements Groups"
-   "LBL_CATEGORY_OPTIONS: "Category Options"
-   "LBL_CATEGORY_COMBO": "CategoryCombo"
-   "LBLSELECT_ELEMENTS": "Select Elements"
-   
-   "LABEL_EDIT: "Can Edit "
-   "LABEL_EDIT_VIEW: "Can Edit - View "
-   "LABEL_EDIT_VIEW: "None"
-   "LABEL_ASIGN: "Assign"
-   "LABEL_INDICATORS: "Indicators"
-   "LABEL_INDICATORS_GROUPS: "Indicators Groups"
-   "LABEL_DATASETS: "Data sets"
-   "LABEL_ORGANIzATION_UNIT_GROUPS: "Organization Units Groups"
-   "LABEL_OPTION_SETS: "Option Sets"
-   "LABEL_USER_GROUPS: "User Groups"
-   "LABEL_ITEM: "Items"
-                  
-   
-   
-   
-   
-   
-   
-   
-
-
-}
-
-}
+  "LBL_DATA_ELEMENTS": "DataElements",
+  "LBL_DATA_ELEMENTS_GROUPS": "Data Elements Groups",
+  "LBL_CATEGORY_OPTIONS": "Category Options",
+  "LBL_CATEGORY_COMBO": "CategoryCombo",
+  "LBLSELECT_ELEMENTS": "Select Elements",
+  "LABEL_EDIT": "Can Edit ",
+  "LABEL_EDIT_VIEW": "Can Edit - View ",
+  "LABEL_NONE": "None",
+  "LABEL_ASIGN": "Assign",
+  "LABEL_INDICATORS": "Indicators",
+  "LABEL_INDICATORS_GROUPS": "Indicators groups",
+  "LABEL_DATASETS": "Data sets",
+  "LABEL_ORGANISATION_UNIT_GROUPS": "Organization units groups",
+  "LABEL_OPTION_SETS": "Option Sets",
+  "LABEL_ITEM": "Items",
+  "OBJ_DATAELEMENT":"Data Elements",
+  "OBJ_DATAELEMENTGROUP":"Data Element Groups",
+  "OBJ_CATEGORYOPTIONS":"Category options",
+  "OBJ_CATEGORYCOMBO":"Category Combo",
+  "OBJ_INDICATORS":"Indicators",
+  "OBJ_INDICATORSGROUPS":"Indicators groups",
+  "OBJ_DATASETS":"Data sets",
+  "OBJ_ORGANISATIONUNITGROUPS":"ORGANISATION UNIT GROUPS",
+  "OBJ_ORGANISATIONUNITGROUPSSETS":"ORGANISATION UNIT GROUPS SETS",
+  "OBJ_OPTIONSETS":"OPTION SETS",
+  "OBJ_USERGROUPS":"USER GROUPS",
+  "LABEL_USER":"User",
+  "LABEL_USERGROUP":"User group",
+  "LABEL_USERPERMISIONS":"User permision"  
+  }

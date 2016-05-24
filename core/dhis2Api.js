@@ -40,3 +40,18 @@ Dhis2Api.factory("sharingSetting", ['$resource', 'commonvariable', function ($re
 		});
 }]);
 
+///get Resource
+Dhis2Api.factory("dhisResource", ['$resource', 'commonvariable', function ($resource, commonvariable) {
+    return $resource(commonvariable.url + "/:resource",
+		{
+    	resource: '@resource',
+
+		},
+		{
+		    GET: { method: "GET" },
+		    POST: { method: "POST" },
+		    DELETE: { method: "DELETE" },
+		    PUT: { method: "PUT" },
+		    PATCH: { method: "PATCH" }
+		});
+}]);

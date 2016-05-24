@@ -1,45 +1,34 @@
 {
-	"_______________ Common ":" for APPS SHARING SETTING________",
+  "_______________ Common ":" for APPS SHARING SETTING________",
   "TITLE_APPS":"SHARING SETTING",
-  "YES":"Si",
-  "NO": "No",
-  "IMPORT_START": "Iniciar Importacion",
-   "IMPORT_CLEAR": "Limpiar pantalla",
-  "IMPORT_CANCEL": "Parar Importacion",
-  "MENU_ENTITY": "Importar entidades",
-  "TITLE_ENTITY": "Lista de Entidades importadas desde archivos locales",
-  "BTN_READ": "read file",
-  "BTN_IMPORT_START": "iniciar importaci�n",
-  "LABEL_OPTIONIMPORT": "Opciones de importaci�n",
-  "LABEL_NUMREG":"N�mero de registros",
-  "LABEL_INFOFILE": "informaci�n del archivo",
-  "LABEL_METHOD": "Metodo",
-   "MSG_ERRORFORIMPORT": "El archivo presenta el siguiente error: ",
-  "MSG_READYFORIMPORT": "Archivo listo para importar",
-  "MSG_INTRO": "Recuerde verficar que el archivo cumpla con la estructura y contenido requerida por DHIS de acuerdo al tipo de informaci�n a importar",
-  "MSG_FINISHED": "Importaci�n finalizada",
-  "LIST_ERROR": "Lista de errores",
-  "BTN_SAVEERROR": "Guardar Lista de Errores",
-  "BTN_SAVEJSON": "Guardar objetos no importados",
-  "LABEL_NUMINIT": "Iniciar en: ",
-  "LABEL_GOODIMPORT": "Importados",
-  "LABEL_BADIMPORT": "No Importados"
-  "LABEL_SELECTELEMENTS: "Seleccione Elementos"
+  "LBL_DATA_ELEMENTS": "DataElements",
+  "LBL_DATA_ELEMENTS_GROUPS": "Grupo de objetos",
+  "LBL_CATEGORY_OPTIONS": "Opciones De Categoría",
+  "LBL_CATEGORY_COMBO": "Combo de Categoría",
+  "LBLSELECT_ELEMENTS": "Selecione Elementos",
+  "LABEL_EDIT": "Puede Editar "	,
+  "LABEL_EDIT_VIEW": "Puede Editar - Ver ",
+  "LABEL_NONE":"Ninguno",   
+  "LABEL_ASIGN": "Asignar",
+  "LABEL_INDICATORS": "Indicadores",
+  "LABEL_INDICATORS_GROUPS": "Grupo de indicadores",
+  "LABEL_DATASETS": "Data sets",
+  "LABEL_ORGANIZATION_UNIT_GROUPS": "Grupos de unidad organizativa",
+  "LABEL_OPTION_SETS": "Opciones fijadas",
+  "LABEL_ITEM": "Items",
+  "OBJ_DATAELEMENT":"Elemento de datos",
+  "OBJ_DATAELEMENTGROUP":"Grupo de elemento de datos",
+  "OBJ_CATEGORYOPTIONS":"Opciones de categoría",
+  "OBJ_CATEGORYCOMBO":"Combo de categoría",
+  "OBJ_INDICATORS":"Indicadores",
+  "OBJ_INDICATORSGROUPS":"Grupos de indicadores",
+  "OBJ_DATASETS":"Datos Fijos",
+  "OBJ_ORGANISATIONUNITGROUPS":"Grupos de unidad de organización ",
+  "OBJ_ORGANISATIONUNITGROUPSSETS":"Grupos fijos de unidades de organización ",
+  "OBJ_OPTIONSETS":"Conjuntos de opciones",
+  "OBJ_USERGROUPS":"Grupos de usuarios",
+  "LABEL_USER":"Usuario",
+  "LABEL_USERGROUP":"Grupo de usuario",
+  "LABEL_USERPERMISIONS":"Permisos de usuario"
   
-  "LBL_DATA_ELEMENTS_GROUPS": "Grupo De Elementos"
-  "LBL_CATEGORY_OPTIONS: "Opciones De Categoria"
-  "LBL_CATEGORY_COMBO": "Combo de Categoria"
-  "LBLSELECT_ELEMENTS": "Selecione Elementos"
-  
-  "LABEL_EDIT: "Puede Editar "	
-  "LABEL_EDIT_VIEW: "Puede Editar - Ver "
-  "LABEL_EDIT_VIEW: "Ninguno"
-  "LABEL_ASIGN: "Asignar"
-  
-   "LABEL_INDICATORS: "Indicadores"
-   "LABEL_INDICATORS_GROUPS: "Grupo de Indicadores"
-   "LABEL_DATASETS: "Data sets"
-   "LABEL_ORGANIZATION_UNIT_GROUPS: "Grupos de Unidad Organizativa"
-   "LABEL_OPTION_SETS: "Optiones fijadas"
-   "LABEL_USER_GROUPS: "Grupos de Usuarios"
-   "LABEL_ITEM: "Items"
+   }
