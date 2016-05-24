@@ -9,19 +9,37 @@
   "MENU_ENTITY": "Importar entidades",
   "TITLE_ENTITY": "Lista de Entidades importadas desde archivos locales",
   "BTN_READ": "read file",
-  "BTN_IMPORT_START": "iniciar importación",
-  "LABEL_OPTIONIMPORT": "Opciones de importación",
-  "LABEL_NUMREG":"Número de registros",
-  "LABEL_INFOFILE": "información del archivo",
+  "BTN_IMPORT_START": "iniciar importaciï¿½n",
+  "LABEL_OPTIONIMPORT": "Opciones de importaciï¿½n",
+  "LABEL_NUMREG":"Nï¿½mero de registros",
+  "LABEL_INFOFILE": "informaciï¿½n del archivo",
   "LABEL_METHOD": "Metodo",
    "MSG_ERRORFORIMPORT": "El archivo presenta el siguiente error: ",
   "MSG_READYFORIMPORT": "Archivo listo para importar",
-  "MSG_INTRO": "Recuerde verficar que el archivo cumpla con la estructura y contenido requerida por DHIS de acuerdo al tipo de información a importar",
-  "MSG_FINISHED": "Importación finalizada",
+  "MSG_INTRO": "Recuerde verficar que el archivo cumpla con la estructura y contenido requerida por DHIS de acuerdo al tipo de informaciï¿½n a importar",
+  "MSG_FINISHED": "Importaciï¿½n finalizada",
   "LIST_ERROR": "Lista de errores",
   "BTN_SAVEERROR": "Guardar Lista de Errores",
   "BTN_SAVEJSON": "Guardar objetos no importados",
   "LABEL_NUMINIT": "Iniciar en: ",
   "LABEL_GOODIMPORT": "Importados",
   "LABEL_BADIMPORT": "No Importados"
-}
+  "LABEL_SELECTELEMENTS: "Seleccione Elementos"
+  
+  "LBL_DATA_ELEMENTS_GROUPS": "Grupo De Elementos"
+  "LBL_CATEGORY_OPTIONS: "Opciones De Categoria"
+  "LBL_CATEGORY_COMBO": "Combo de Categoria"
+  "LBLSELECT_ELEMENTS": "Selecione Elementos"
+  
+  "LABEL_EDIT: "Puede Editar "	
+  "LABEL_EDIT_VIEW: "Puede Editar - Ver "
+  "LABEL_EDIT_VIEW: "Ninguno"
+  "LABEL_ASIGN: "Asignar"
+  
+   "LABEL_INDICATORS: "Indicadores"
+   "LABEL_INDICATORS_GROUPS: "Grupo de Indicadores"
+   "LABEL_DATASETS: "Data sets"
+   "LABEL_ORGANIZATION_UNIT_GROUPS: "Grupos de Unidad Organizativa"
+   "LABEL_OPTION_SETS: "Optiones fijadas"
+   "LABEL_USER_GROUPS: "Grupos de Usuarios"
+   "LABEL_ITEM: "Items"

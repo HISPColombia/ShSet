@@ -1,86 +1,167 @@
-﻿<br />
+<br />
+
 <div class="row">
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="panel panel-default">
-                    <div class="panel-body">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="row">
+				<h3>{{"LBL_DATA_ELEMENTS_GROUPS"|translate}}</h3>
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>{{'LABEL_OPTIONIMPORT'| translate}}</h3>
-                            </div>
-                            <div class="col-md-12 form-group has-success">
-                                <input type="file" accept=".json" class="form-control" file-change="handler($event,files)" ng-model="MyFiles" ng-disabled="initImport" />
-                            </div>
-                            <div class="col-md-12">
-                                <button type="button" class="btn btn-info" ng-click="readFile()" >{{ 'BTN_READ' | translate }}</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"><div style="width:100%; word-wrap:break-word;">{{alert.msg}}</div></alert>
-                    <div ng-show="Importfinished"> 
-                        <button ng-click="saveJson(Importerror,'ListError.json')" class="btn btn-primary">{{'BTN_SAVEERROR' | translate}} </button>
-                        <button ng-click="saveJson(ImportValueError,'objectReview.json')" class="btn btn-primary">{{'BTN_SAVEJSON' | translate}} </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h3>{{'LABEL_INFOFILE'| translate}}</h3>
-                        <table class="table table-hover">
-                             <tr>
-                                <th>{{'LABEL_NUMREG'| translate}}</th>
-                                <td>{{numRegister}}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>{{'LABEL_METHOD'| translate}}</label><br />
-                                <input type="radio" name="verb" ng-model="webMethod" value="POST" ng-checked="true" ng-disabled="readyForImport">POST
-                                <input type="radio" name="verb" ng-model="webMethod" value="PUT" ng-disabled="readyForImport"> PUT
-                            </div>
-                            <div class="col-md-6">
-                                <br />
-                                {{'LABEL_NUMINIT'| translate}} <input type="text" ng-model="numposition" value="0" id="init"  ng-disabled="readyForImport" size="2"/><span>  </span><button type="button" class="btn btn-info" ng-click="startImport(numposition)" ng-disabled="readyForImport">{{'BTN_IMPORT_START'| translate}}</button>
-                            </div>
-                        </div>
-                    </div>
+<!-- 				<div class="panel panel-default"> -->
 
-                </div>
+					<!-- 						//////////////////////// grupo de elementos -->
 
-            </div>
-        </div>
-    </div>
+					<div class="radio">
+						<label><input type="radio" name="DataElements"{{elements.DataElements}}>{{"LBL_USER"|translate}}</label>
+					</div>
+
+					<div class="radio">
+						<label><input type="radio" name="DataElementsGroups"
+							value="">{{"LBL_DATA_ELEMENTS_GROUPS"|translate}}</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="CategoryOptions">{{"LBL_CATEGORY_OPTIONS"|translate}}</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="CategoryCombo">{{"LBL_CATEGORY_COMBO"|translate}}</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="CategoryCombo">{{"LABEL_INDICATORS"|translate}}</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="CategoryCombo">{{"LABEL_INDICATORS_GROUPS"|translate}}</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="CategoryCombo">{{"LABEL_DATASETS"|translate}}</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="CategoryCombo">{{"LABEL_ORGANIzATION_UNIT_GROUPS"|translate}}</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="CategoryCombo">{{"LABEL_OPTION_SETS"|translate}}</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="CategoryCombo">{{"LABEL_USER_GROUPS"|translate}}</label>
+					</div>
+					<!-- 						</div> -->
+					<!-- 						//////////////////////// -->
+
+					<br /> <br />
+<!-- 				</div> -->
+
+			</div>
+
+
+		</div>
+	</div>
 </div>
+
+
+<!-- 	//////tabla -->
 <div class="row">
-    <div class="col-md-8">
-        <progressbar class="progress-striped active" max="100" value="kon" type="success"><i>{{kon}}</i></progressbar>
-    </div>
-    <div class="col-md-3">
-        <button class="btn btn-success" type="button" ng-disabled="true">
-            {{'LABEL_GOODIMPORT' | translate}} <span class="badge">{{objImported}}</span>
-        </button>
-        <button class="btn btn-danger" type="button" ng-disabled="true">
-            {{'LABEL_BADIMPORT' | translate}} <span class="badge">{{objNoImported}}</span>
-        </button>
-    </div>
-</div>
 <div class="row">
-    <div class="col-md-11">
-        <div style="height:70%; overflow-y:scroll;">
-            <table class="table table-condensed">
-                <tr><th class="text-center"><h3>{{'LIST_ERROR' | translate}}</h3></th></tr>
 
-                <tr ng-repeat="err in Importerror track by $index">
-                    <td><json-explorer data="err"></json-explorer></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
+	<!-- /input-group -->
+	<div class="col-lg-6">
+		<div class="input-group">
+			<input type="text" class="form-control" placeholder="Search input...">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="button">Search</button>
+			</span>
+		</div>
+	</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>{{"LBL_USER"|translate}}</th>
+						<th>{{"LBL_USERGROUPS"|translate}}</th>
+						<th>{{"LBL_USERPERMISIONS"|translate}}</th>
+					</tr>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.DataElements}}</td>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.DataElementsGroups}}</td>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.CategoryOptions}}</td>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.CategoryCombo}}</td>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.indicators}}</td>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.indicatorsgroups}}</td>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.datasets}}</td>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.organisationunitsgroups}}</td>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.organisationunitsgroupssets}}</td>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.optionsets}}</td>
+					<tr ng-repeat="elements in elements">
+						<td>{{elements.usergroups}}</td>
+					<tr ng-repeat="elements in elements">
+
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	<br />
+
+
+	<!-- 	////////permisos -->
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="col-md-6">
+						<div class="col-md-6">
+							<div class="input-group">
+								<input type="text" class="form-control"
+									placeholder="Search input..."> <span
+									class="input-group-btn">
+									<button class="btn btn-default" type="button">Search</button>
+								</span>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<ul class="list-group">
+								<li class="list-group-item">elemento1</li>
+								<li class="list-group-item">Second item</li>
+							</ul>
+						</div>
+					</div>
+					<!-- 	////////////////////////////////////////////grupos de usuarios -->
+					<div class="row">
+						<div class="col-md-6">
+
+							<div class="col-md-6">
+
+								<ul class="list-group">
+									<li class="list-group-item">elemento1</li>
+									<li class="list-group-item">Second item</li>
+								</ul>
+								<button type="button" class="btn btn-default">{{"LABEL_ASIGN"|translate}}</button>
+							</div>
+
+							<div class="col-md-4">
+								<div class="radio">
+									<label><input type="radio" name="DataElementsGroups">{{"LABEL_EDIT"|translate}}</label>
+								</div>
+								<div class="radio">
+									<label><input type="radio" name="CategoryOptions">{{"LABEL_EDIT_VIEW"|translate}}</label>
+								</div>
+								<div class="radio">
+									<label><input type="radio" name="CategoryCombo">{{"LABEL_NONE"|translate}}</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>

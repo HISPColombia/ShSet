@@ -17,11 +17,45 @@
   "MSG_ERRORFORIMPORT": "The file has the error: ",
   "MSG_READYFORIMPORT": "File ready for import",
   "MSG_INTRO": "verify that the json file has the structute and conent required for data import in DHIS, acording to type information",
-  "MSG_FINISHED": "Importación finalizada",
+  "MSG_FINISHED": "Importaciï¿½n finalizada",
   "LIST_ERROR": "Error List",
    "BTN_SAVEERROR": "Save error list",
   "BTN_SAVEJSON": "Save objects don't imported",
   "LABEL_NUMINIT": "Start In: ",
    "LABEL_GOODIMPORT": "Imported",
-  "LABEL_BADIMPORT": "Not Imported"
+  "LABEL_BADIMPORT": "Not Imported"-
+   "LABEL_SELECTELEMENTS": "Select Elements"
+   "LBL_USER": "Usuario"
+   "LBL_USERGROUPS": "UsersGroup"
+   "LBL_USERPERMISIONS": "Permisions"
+   
+   "LBL_DATA_ELEMENTS": "DataElements"
+   "LBL_DATA_ELEMENTS_GROUPS": "Data Elements Groups"
+   "LBL_CATEGORY_OPTIONS: "Category Options"
+   "LBL_CATEGORY_COMBO": "CategoryCombo"
+   "LBLSELECT_ELEMENTS": "Select Elements"
+   
+   "LABEL_EDIT: "Can Edit "
+   "LABEL_EDIT_VIEW: "Can Edit - View "
+   "LABEL_EDIT_VIEW: "None"
+   "LABEL_ASIGN: "Assign"
+   "LABEL_INDICATORS: "Indicators"
+   "LABEL_INDICATORS_GROUPS: "Indicators Groups"
+   "LABEL_DATASETS: "Data sets"
+   "LABEL_ORGANIzATION_UNIT_GROUPS: "Organization Units Groups"
+   "LABEL_OPTION_SETS: "Option Sets"
+   "LABEL_USER_GROUPS: "User Groups"
+   "LABEL_ITEM: "Items"
+                  
+   
+   
+   
+   
+   
+   
+   
+
+
+}
+
 }
