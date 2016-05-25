@@ -6,8 +6,8 @@
   "LBL_CATEGORY_OPTIONS": "Category Options",
   "LBL_CATEGORY_COMBO": "CategoryCombo",
   "LBLSELECT_ELEMENTS": "Select Elements",
-  "LABEL_EDIT": "Can Edit ",
-  "LABEL_EDIT_VIEW": "Can Edit - View ",
+  "LABEL_EDIT": "Edit ",
+  "LABEL_EDIT_VIEW": "Edit - View ",
   "LABEL_NONE": "None",
   "LABEL_ASIGN": "Assign",
   "LABEL_INDICATORS": "Indicators",
@@ -29,5 +29,7 @@
   "OBJ_USERGROUPS":"USER GROUPS",
   "LABEL_USER":"User",
   "LABEL_USERGROUP":"User group",
+  "LABEL_READ":"Read",
+  "LABEL_READWRITE":"Read and Write",
   "LABEL_USERPERMISIONS":"User permision"  
   }

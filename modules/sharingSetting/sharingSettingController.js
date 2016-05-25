@@ -3,7 +3,7 @@
     // variables
     var $translate = $filter('translate');
     
-    ///Object array of api object and type variable in sharing Setting resource
+    // /Object array of api object and type variable in sharing Setting resource
     $scope.elements=[
                      {type:"dataElement",
                       resource:"dataElements",
@@ -42,15 +42,49 @@
     
     $scope.permissions = [{"Edit":"CANEDIT","EditView":"Edit-View"},{"None":"None"}];
   
-   ///methods 
+   // /methods
     $scope.getObjects=function(resource,title,page){
     	$scope.titleList=title;
     	$scope.page=page;
     	dhisResource.GET({resource:resource,fields:"id,displayName,userGroupAccesses,page"})
     	.$promise.then(function(response) {
     		$scope.mObjects=response.dataElements;
+    		
     	});
     }
+    
+    
+    // pagination variables
+    $scope.filteredTodos = [];
+    $scope.itemsPerPage = 30;
+    $scope.currentPage = 1;
+
+    //pagintation methods
+    $scope.makeTodos = function() {
+      $scope.todos = [];
+      for (i=1;i<=1000;i++) {
+        $scope.todos.push({ text:'todo '+i, done:false});
+      }
+    };
+
+    $scope.figureOutTodosToDisplay = function() {
+      var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
+      var end = begin + $scope.itemsPerPage;
+      $scope.filteredTodos = $scope.todos.slice(begin, end);
+    };
+
+    $scope.makeTodos(); 
+    $scope.figureOutTodosToDisplay();
+
+    $scope.pageChanged = function() {
+      $scope.figureOutTodosToDisplay();
+    };
+    
+    
+     //GET DROPDOWNLIST
+//    alert(document.getElementById("<%=dropdownElements.ClientID%>").options[document.getElementById("<%=dropdownElements.ClientID%>").selectedIndex].text)
+    
+ 
     }]);
     
     

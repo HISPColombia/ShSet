@@ -6,8 +6,8 @@
   "LBL_CATEGORY_OPTIONS": "Opciones De Categoría",
   "LBL_CATEGORY_COMBO": "Combo de Categoría",
   "LBLSELECT_ELEMENTS": "Selecione Elementos",
-  "LABEL_EDIT": "Puede Editar "	,
-  "LABEL_EDIT_VIEW": "Puede Editar - Ver ",
+  "LABEL_EDIT": "Editar "	,
+  "LABEL_EDIT_VIEW": "Editar - Ver ",
   "LABEL_NONE":"Ninguno",   
   "LABEL_ASIGN": "Asignar",
   "LABEL_INDICATORS": "Indicadores",
@@ -28,6 +28,8 @@
   "OBJ_OPTIONSETS":"Conjuntos de opciones",
   "OBJ_USERGROUPS":"Grupos de usuarios",
   "LABEL_USER":"Usuario",
+  "LABEL_READ":"Leer",
+  "LABEL_READWRITE":"Leer y Escribir",
   "LABEL_USERGROUP":"Grupo de usuario",
   "LABEL_USERPERMISIONS":"Permisos de usuario"
   

@@ -24,9 +24,9 @@
 		<div class="row ">
 
 			<div class="col-md-4">
-				<div class="input-group">
+				<div class="input-group " ng-model="searchText">
 					<input type="text" class="form-control"
-						placeholder="Search input..."> <span
+						placeholder="Search input..." ng-model="searchText"> <span
 						class="input-group-btn">
 						<button class="btn btn-success" type="button">Search</button>
 					</span>
@@ -34,8 +34,8 @@
 			</div>
 			<div class="input-group col-md-4">
 				<input type="text" class="form-control"
-					placeholder="Search By Name..."> <span
-					class="input-group-btn">
+					placeholder="Search By Name..." ng-model="searchTextDate">
+				<span class="input-group-btn">
 					<button class="btn btn-success" type="button">Search</button>
 				</span>
 			</div>
@@ -67,18 +67,20 @@
 							</div>
 						</div>
 
-						<div class="row list-group-item pagination"
-							ng-repeat="mObject in mObjects">
+						<div class="row list-group-item"
+							ng-repeat="mObject in mObjects | filter:searchText |filter:searchTextDate ">
 							<div class="col-md-6">{{mObject.displayName}}</div>
 							<div class="col-md-6">
-								<div class="row" ng-repeat="access in mObject.userGroupAccesses">
+								<div class="row"
+									ng-repeat="access in mObject.userGroupAccesses ">
 									<div class="col-md-6">{{access.displayName}}</div>
-									<div class="col-md-6">{{(access.access=="r-------"?"LABEL_USERGROUP":"LABEL_USERPERMISIONS")|translate}}</div>
+									<div class="col-md-6">{{(access.access=="r-------"?"LABEL_READ":"LABEL_READWRITE")|translate}}</div>
 								</div>
 							</div>
-							<li dir-paginate="page in mObject.page | itemsPerPage: 50">{{
-								page}}</li>
 						</div>
+						<pagination boundary-links="true" max-size="3"
+							items-per-page="itemsPerPage" total-items="todos.length"
+							ng-model="currentPage" ng-change="pageChanged()"></pagination>
 						<ul>
 						</ul>
 					</div>
@@ -97,20 +99,38 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="col-md-6">
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="input-group">
 									<input type="text" class="form-control"
-										placeholder="Search input..."> <span
+										placeholder="Search input..." ng-model="searchTextDrop"> <span
 										class="input-group-btn">
-										<button class="btn btn-default" type="button">Search</button>
+										<button class="btn btn-success" type="button" ng-model="searchTextDrop">Search</button>
 									</span>
 								</div>
 							</div>
-							<div class="col-md-4">
-								<ul class="list-group">
-									<li class="list-group-item">elemento1</li>
-									<li class="list-group-item">Second item</li>
-								</ul>
+							<br> <br />
+							<div class="col-dm-12">
+
+								<!-- 							////DROPDOWN -->
+								<div class="col-md-6">
+									<div class="dropdown">
+										<button class="btn btn-primary dropdown-toggle" type="button"
+											data-toggle="dropdown" id="dropdownElements">
+											SELECT<span class="caret">{{SELECT(dropdownElements)}}</span>
+										</button>
+										<ul class="dropdown-menu ">
+											<li ng-repeat="element in elements | filter :searchTextDrop">{{element.name}}
+										</ul>
+									</div>
+								</div>
+
+
+								<div class="col-md-6">
+									<ul class="list-group">
+										<li class="list-group-item">elemento1</li>
+										<li class="list-group-item">Second item</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 						<!-- 	////////////////////////////////////////////USER GROUPS -->
@@ -121,7 +141,7 @@
 										<li class="list-group-item">elemento1</li>
 										<li class="list-group-item">Second item</li>
 									</ul>
-									<button type="button" class="btn btn-default">{{"LABEL_ASIGN"|translate}}</button>
+									<button type="button" class="btn btn-success">{{"LABEL_ASIGN"|translate}}</button>
 								</div>
 
 								<div class="col-md-4">
