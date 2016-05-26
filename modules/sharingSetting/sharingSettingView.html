@@ -3,10 +3,11 @@
 	<div class="row">
 		<div class="panel panel-default">
 			<div class="panel-body">
+
 				<div class="row">
 					<h3>{{"LBL_DATA_ELEMENTS_GROUPS"|translate}}</h3>
 
-					<!-- 						//////////////////////// grupo de elementos -->
+					<!-----------------ELEMENTS GROUPS---------------------->
 
 					<div class="radio" ng-repeat="element in elements">
 						<label><input type="radio" name="lstObject"
@@ -18,8 +19,7 @@
 		</div>
 	</div>
 
-
-	<!-- 	//////SHOW PERMISSIONS -->
+	<!-------------------SHOW PERMISSIONS--------------------->
 	<div class="row ">
 		<div class="row ">
 
@@ -42,57 +42,55 @@
 			</ul>
 		</div>
 
-		<div class="panel panel-default  ">
+		<div class="panel panel-default">
 			<!-- 	___________________scroll -->
-			<nav class="navbar navbar-default ">
-				<!-- 		__________________ -->
+			<!-- 			ng-style="{'overflow': (parentScrollable && 'scroll'), 'position': (parentRelative && 'relative')}" -->
 
+			<!-- 			<nav class="navbar navbar-default "> -->
+			<!-- 		__________________ -->
+			<!-- 				<div class=" panel panel-scrollable" -->
+			<!-- 							ng-style="{'overflow': (parentScrollable && 'scroll'), 'position': (parentRelative && 'relative')}"> -->
 
-				<div class="panel-body">
-					<div class="list-group ">
-
-						<div class="row ">
-							<div class="col-md-12 text-center">
-								<h3>{{titleList}}</h3>
+			<div class="row ">
+				<div class="col-md-12 text-center">
+					<h3>{{titleList}}</h3>
+				</div>
+			</div>
+			<div class="panel panel-body" id="Layer1"
+				style="width: 1153px; height: 260px; overflow: scroll">
+				<div class="list-group ">
+					<div class="row list-group-item">
+						<div class="col-md-6 align-center"></div>
+						<div class="col-md-3 align-center">
+							<label>{{"LABEL_USERGROUP"|translate}}</label>
+						</div>
+						<div class="col-md-3 align-center">
+							<label>{{"LABEL_USERPERMISIONS"|translate}}</label>
+						</div>
+					</div>
+					<div class="row list-group-item "
+						ng-repeat="mObject in mObjects | filter:searchText ">
+						<div class="col-md-6">{{mObject.displayName}}</div>
+						<div class="col-md-6">
+							<div class="row"
+								ng-repeat="access in mObject.userGroupAccesses | filter:searchTextDate ">
+								<div class="col-md-6">{{access.displayName}}</div>
+								<div class="col-md-6">{{(access.access=="r-------"?"LABEL_READ":"LABEL_READWRITE")|translate}}</div>
 							</div>
 						</div>
-						<div class="row list-group-item">
-
-							<div class="col-md-6 align-center"></div>
-							<div class="col-md-3 align-center">
-								<label>{{"LABEL_USERGROUP"|translate}}</label>
-							</div>
-							<div class="col-md-3 align-center">
-								<label>{{"LABEL_USERPERMISIONS"|translate}}</label>
-							</div>
-						</div>
-
-						<div class="row list-group-item"
-							ng-repeat="mObject in mObjects | filter:searchText |filter:searchTextDate ">
-							<div class="col-md-6">{{mObject.displayName}}</div>
-							<div class="col-md-6">
-								<div class="row"
-									ng-repeat="access in mObject.userGroupAccesses ">
-									<div class="col-md-6">{{access.displayName}}</div>
-									<div class="col-md-6">{{(access.access=="r-------"?"LABEL_READ":"LABEL_READWRITE")|translate}}</div>
-								</div>
-							</div>
-						</div>
-						<pagination boundary-links="true" max-size="3"
-							items-per-page="itemsPerPage" total-items="todos.length"
-							ng-model="currentPage" ng-change="pageChanged()"></pagination>
-						<ul>
-						</ul>
 					</div>
 				</div>
-			</nav>
-
+			</div>
+			<pagination boundary-links="true" max-size="3"
+				items-per-page="itemsPerPage" total-items="total"
+				ng-model="currentPage" ng-change="pageChanged()"
+				num-pages="pageCount" boundary-links="true"></pagination>
+			<!-- 			</nav> -->
 			</ul>
 		</div>
 		<br />
 
-
-		<!-- 	////////ASSIGN PERMISSIONS -->
+		<!---------------ASSIGN PERMISSIONS--------------->
 
 		<div class="panel panel-default">
 			<div class="panel-body">
@@ -102,16 +100,18 @@
 							<div class="col-md-12">
 								<div class="input-group">
 									<input type="text" class="form-control"
-										placeholder="Search input..." ng-model="searchTextDrop"> <span
-										class="input-group-btn">
-										<button class="btn btn-success" type="button" ng-model="searchTextDrop">Search</button>
+										placeholder="Search input..." ng-model="searchTextDrop">
+									<span class="input-group-btn">
+										<button class="btn btn-success" type="button"
+											ng-model="searchTextDrop">Search</button>
 									</span>
 								</div>
 							</div>
 							<br> <br />
 							<div class="col-dm-12">
 
-								<!-- 							////DROPDOWN -->
+								<!---------------DROPDOWN -------------->
+
 								<div class="col-md-6">
 									<div class="dropdown">
 										<button class="btn btn-primary dropdown-toggle" type="button"
@@ -120,11 +120,17 @@
 										</button>
 										<ul class="dropdown-menu ">
 											<li ng-repeat="element in elements | filter :searchTextDrop">{{element.name}}
+
+
+
+
+
+
+
+											
 										</ul>
 									</div>
 								</div>
-
-
 								<div class="col-md-6">
 									<ul class="list-group">
 										<li class="list-group-item">elemento1</li>
@@ -133,7 +139,8 @@
 								</div>
 							</div>
 						</div>
-						<!-- 	////////////////////////////////////////////USER GROUPS -->
+
+						<!-------------USER GROUPS PERMISIONS------------->
 						<div class="row">
 							<div class="col-md-6">
 								<div class="col-md-6">
