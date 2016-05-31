@@ -15,7 +15,7 @@
   "LABEL_DATASETS": "Data sets",
   "LABEL_ORGANIZATION_UNIT_GROUPS": "Grupos de unidad organizativa",
   "LABEL_OPTION_SETS": "Opciones fijadas",
-  "LABEL_ITEM": "Items",
+  "LABEL_ITEM": "Elementos",
   "OBJ_DATAELEMENT":"Elemento de datos",
   "OBJ_DATAELEMENTGROUP":"Grupo de elemento de datos",
   "OBJ_CATEGORYOPTIONS":"Opciones de categoría",
@@ -31,6 +31,7 @@
   "LABEL_READ":"Leer",
   "LABEL_READWRITE":"Leer y Escribir",
   "LABEL_USERGROUP":"Grupo de usuario",
-  "LABEL_USERPERMISIONS":"Permisos de usuario"
+  "LABEL_USERPERMISIONS":"Permisos de usuario",
+  "LABEL_SELECTEDITEMS":"Elementos Seleccionados"   
   
    }

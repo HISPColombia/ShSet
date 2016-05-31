@@ -31,5 +31,6 @@
   "LABEL_USERGROUP":"User group",
   "LABEL_READ":"Read",
   "LABEL_READWRITE":"Read and Write",
-  "LABEL_USERPERMISIONS":"User permision"   
+  "LABEL_USERPERMISIONS":"User permision",
+  "LABEL_SELECTEDITEMS":"Selected items"   
   }

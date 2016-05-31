@@ -1,10 +1,10 @@
 <br />
+
 <div class="row col-md-12">
 	<div class="row">
 		<div class="panel panel-default">
 			<div class="panel-body">
-
-				<div class="row">
+				<div class="row col-md-6">
 					<h3>{{"LBL_DATA_ELEMENTS_GROUPS"|translate}}</h3>
 
 					<!-----------------ELEMENTS GROUPS---------------------->
@@ -13,8 +13,16 @@
 						<label><input type="radio" name="lstObject"
 							ng-click="getObjects(element.resource,element.name)">{{element.name}}</label>
 					</div>
-					<br /> <br />
 				</div>
+
+				<br /> <br />
+				<div class="row col-md-6">
+					<textarea class="form form-control" placeholer="Message"
+						style="width: 550px; height: 300px;">
+                                      </textarea>
+
+				</div>
+				<br /> <br />
 			</div>
 		</div>
 	</div>
@@ -22,7 +30,6 @@
 	<!-------------------SHOW PERMISSIONS--------------------->
 	<div class="row ">
 		<div class="row ">
-
 			<div class="col-md-4">
 				<div class="input-group " ng-model="searchText">
 					<input type="text" class="form-control"
@@ -60,7 +67,7 @@
 				style="width: 1153px; height: 260px; overflow: scroll">
 				<div class="list-group ">
 					<div class="row list-group-item">
-						<div class="col-md-6 align-center"></div>
+<!-- 						<div class="col-md-6 align-center"></div> -->
 						<div class="col-md-3 align-center">
 							<label>{{"LABEL_USERGROUP"|translate}}</label>
 						</div>
@@ -71,10 +78,20 @@
 					<div class="row list-group-item "
 						ng-repeat="mObject in mObjects | filter:searchText ">
 						<div class="col-md-6">{{mObject.displayName}}</div>
+<!-- 						<div class="col-md-5">{{mObject.code}}</div> -->
 						<div class="col-md-6">
 							<div class="row"
 								ng-repeat="access in mObject.userGroupAccesses | filter:searchTextDate ">
-								<div class="col-md-6">{{access.displayName}}</div>
+								
+								<div class="col-md-6">
+								<div class="col-md-3">{{access.displayName}}</div>
+								<div class="col-md-3">
+								
+<!-- 								<button class="button button-primary"></button> -->
+								</div>
+								
+								</div>
+								
 								<div class="col-md-6">{{(access.access=="r-------"?"LABEL_READ":"LABEL_READWRITE")|translate}}</div>
 							</div>
 						</div>
@@ -96,71 +113,36 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="col-md-6">
-							<div class="col-md-12">
-								<div class="input-group">
-									<input type="text" class="form-control"
-										placeholder="Search input..." ng-model="searchTextDrop">
-									<span class="input-group-btn">
-										<button class="btn btn-success" type="button"
-											ng-model="searchTextDrop">Search</button>
-									</span>
-								</div>
-							</div>
-							<br> <br />
-							<div class="col-dm-12">
-
-								<!---------------DROPDOWN -------------->
-
-								<div class="col-md-6">
-									<div class="dropdown">
-										<button class="btn btn-primary dropdown-toggle" type="button"
-											data-toggle="dropdown" id="dropdownElements">
-											SELECT<span class="caret">{{SELECT(dropdownElements)}}</span>
-										</button>
-										<ul class="dropdown-menu ">
-											<li ng-repeat="element in elements | filter :searchTextDrop">{{element.name}}
-
-
-
-
-
-
-
-											
-										</ul>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<ul class="list-group">
-										<li class="list-group-item">elemento1</li>
-										<li class="list-group-item">Second item</li>
-									</ul>
-								</div>
-							</div>
+						<div class="input-group">
+							<input id="filter_input" type="text" class="form-control"
+								placeholder="Filter" ng-model="search.$"> <span
+								class="input-group-btn">
+								<button class="btn btn-success" type="button">Search</button>
+							</span>
 						</div>
+						<br> <br />
+						<div class="col-md-12">
+							<div class="col-md-5">
+								<label>{{"LABEL_ITEM"|translate}}</label> <select
+									name="origen[]" id="origen" multiple="multiple"
+									style="height: 200px; width: 100%;" size="12">
+									<option ng-repeat="mObject in mObjects | filter: search.$">{{mObject.displayName}}</option>
+								</select>
+							</div>
+							<div class="col-md-1">
+								<br> <br> <br> <input type="button"
+									class=" pass left" style="width: 50px" value="> "> <input
+									type="button" class="remove " style="width: 50px" value="< ">
+								<br /> <input type="button" class=" passall left"
+									style="width: 50px" value=">>"> <input type="button"
+									class=" removeAll" style="width: 50px" value="<<">
+							</div>
 
-						<!-------------USER GROUPS PERMISIONS------------->
-						<div class="row">
-							<div class="col-md-6">
-								<div class="col-md-6">
-									<ul class="list-group">
-										<li class="list-group-item">elemento1</li>
-										<li class="list-group-item">Second item</li>
-									</ul>
-									<button type="button" class="btn btn-success">{{"LABEL_ASIGN"|translate}}</button>
-								</div>
-
-								<div class="col-md-4">
-									<div class="radio">
-										<label><input type="radio" name="DataElementsGroups">{{"LABEL_EDIT"|translate}}</label>
-									</div>
-									<div class="radio">
-										<label><input type="radio" name="CategoryOptions">{{"LABEL_EDIT_VIEW"|translate}}</label>
-									</div>
-									<div class="radio">
-										<label><input type="radio" name="CategoryCombo">{{"LABEL_NONE"|translate}}</label>
-									</div>
+							<div class="col-md-5">
+								<label>{{"LABEL_SELECTEDITEMS"|translate}}</label>
+								<div class="">
+									<select name="destino[]" id="destino" multiple="multiple"
+										style="height: 200px; width: 100%;" size="12"></select>
 								</div>
 							</div>
 						</div>
@@ -169,4 +151,3 @@
 			</div>
 		</div>
 	</div>
-</div>

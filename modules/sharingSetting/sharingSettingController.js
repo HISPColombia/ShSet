@@ -14,6 +14,7 @@
 							var $translate = $filter('translate');
 							$scope.filteredTodos = [];
 
+							
 							// /Object array of api object and type variable in
 							// sharing Setting resource
 							$scope.elements = [
@@ -70,14 +71,7 @@
 										resource : "userGroups",
 										name : $translate("OBJ_USERGROUPS")
 									}, ];
-
-							$scope.permissions = [ {
-								"Edit" : "CANEDIT",
-								"EditView" : "Edit-View"
-							}, {
-								"None" : "None"
-							} ];
-
+							
 							// /methods
 							$scope.getObjects = function(resource, title, page) {
 
@@ -90,7 +84,7 @@
 								dhisResource
 										.GET({
 											resource : resource,
-											fields : "id,displayName,userGroupAccesses",
+											fields : "id,code,displayName,userGroupAccesses",
 											page : page
 										}).$promise
 										.then(function(response) {
@@ -101,9 +95,22 @@
 											$scope.pageCount = response.pager.pageCount;
 											$scope.makeTodos($scope.pageCount);
 											$scope.total = response.pager.total;
+											$scope.id=response.userGroupAccesses;
 
 										});
 							}
+							
+							$scope.putObjects = function(publicAccess,user,userGroupAccesses){
+								$scope.publicAccess = false;
+//								$scope.user = ({});
+								$scope.userGroupAccesses;
+								$scope.id=response.id;
+//								dhisResource.PUT{(resource:resource,
+//										publicAccess: false,
+//										user: )}
+//								}
+								
+							};
 
 							// pagination methods
 							$scope.makeTodos = function() {
@@ -125,7 +132,6 @@
 										.getObjects($scope.currentResource,
 												$scope.currentTitle,
 												$scope.currentPage);
-
 							};
 
 							$scope.figureOutTodosToDisplay = function() {
@@ -135,6 +141,17 @@
 								$scope.filteredTodos = $scope.todos.slice(
 										begin, end);
 							};
+
+							$scope.permissions = [ {
+								"Edit" : "CANEDIT",
+								"EditView" : "Edit-View",
+								"None" : "None"
+							} ];
+							
+							
+							function removeRole( context ) {
+								  removeItem(context.id, context.name, i18n_confirm_delete, 'removeRole.action');
+								}
 							// /scroll
 
 							// $scope.elemVals = {};
@@ -175,6 +192,23 @@
 							// .positionElements(btnEl, divEl,
 							// 'auto bottom-left');
 							// };
+							
+							
+							$().ready(function() 
+									{
+										$('.pass').click(function() { return !$('#origen option:selected').remove().appendTo('#destino'); });  
+										$('.remove').click(function() { return !$('#destino option:selected').remove().appendTo('#origen'); });
+										$('.passAll').click(function() { $('#origen option').each(function() { $(this).remove().appendTo('#destino'); }); });
+										$('.removeAll').click(function() { $('#destino option').each(function() { $(this).remove().appendTo('#origen'); }); });
+//										function({$('#destino option').each(function() { $(this).remove().appendTo('#origen'); }); }});									
+									});
+							
+							
+							$scope.myFilter = function (item) { 
+							    return item === 'red' || item === 'blue'; 
+							};
+							
+							 
 
-							// urgadultos@gmail.com
+
 						} ]);

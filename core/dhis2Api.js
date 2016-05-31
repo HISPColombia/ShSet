@@ -7,51 +7,66 @@
  * It is the persistence in the FrontEnd
  * 
  * */
-var Dhis2Api = angular.module("Dhis2Api", ['ngResource']);
+var Dhis2Api = angular.module("Dhis2Api", [ 'ngResource' ]);
 
 var urlApi = "../../../api";
-//Create all common variables of the apps 
-Dhis2Api.factory("commonvariable", function () {
-	var Vari={
-	    url: urlApi
-			};
+// Create all common variables of the apps
+Dhis2Api.factory("commonvariable", function() {
+	var Vari = {
+		url : urlApi
+	};
 
-   return Vari; 
+	return Vari;
 });
-
 
 Dhis2Api.constant("urlApi", urlApi);
 
+// //Api Category option
+Dhis2Api.factory("sharingSetting", [ '$resource', 'commonvariable',
+		function($resource, commonvariable) {
+			return $resource(commonvariable.url + "/sharing", {
+				id : '@id',
+				type : '@type'
+			}, {
+				GET : {
+					method : "GET"
+				},
+				POST : {
+					method : "POST"
+				},
+				DELETE : {
+					method : "DELETE"
+				},
+				PUT : {
+					method : "PUT"
+				},
+				PATCH : {
+					method : "PATCH"
+				}
+			});
+		} ]);
 
+// /get Resource
+Dhis2Api.factory("dhisResource", [ '$resource', 'commonvariable',
+		function($resource, commonvariable) {
+			return $resource(commonvariable.url + "/:resource", {
+				resource : '@resource',
 
-////Api Category option
-Dhis2Api.factory("sharingSetting", ['$resource', 'commonvariable', function ($resource, commonvariable) {
-    return $resource(commonvariable.url + "/sharing",
-		{
-		    id: '@id',
-            type:'@type'
-		},
-		{
-		    GET: { method: "GET" },
-		    POST: { method: "POST" },
-		    DELETE: { method: "DELETE" },
-		    PUT: { method: "PUT" },
-		    PATCH: { method: "PATCH" }
-		});
-}]);
-
-///get Resource
-Dhis2Api.factory("dhisResource", ['$resource', 'commonvariable', function ($resource, commonvariable) {
-    return $resource(commonvariable.url + "/:resource",
-		{
-    	resource: '@resource',
-
-		},
-		{
-		    GET: { method: "GET" },
-		    POST: { method: "POST" },
-		    DELETE: { method: "DELETE" },
-		    PUT: { method: "PUT" },
-		    PATCH: { method: "PATCH" }
-		});
-}]);
+			}, {
+				GET : {
+					method : "GET"
+				},
+				POST : {
+					method : "POST"
+				},
+				DELETE : {
+					method : "DELETE"
+				},
+				PUT : {
+					method : "PUT"
+				},
+				PATCH : {
+					method : "PATCH"
+				}
+			});
+		} ]);
