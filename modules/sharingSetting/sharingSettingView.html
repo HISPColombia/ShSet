@@ -1,3 +1,11 @@
+<style>
+body { margin: 30px; }
+p { margin-top: 10px; }
+dl { margin-top: 15px; }
+.btn-group { margin-bottom: 15px; }
+.checkbox-inline { font-weight: bold; margin-bottom: 10px; }
+
+</style>
 <br />
 <div class="row col-md-12">
 	<tabset> <tab active="tabsPersonal0.active"
@@ -38,7 +46,8 @@
 					<input type="text" class="form-control"
 						placeholder="Search input..." ng-model="searchText"> <span
 						class="input-group-btn">
-						<button class="btn btn-success" type="button">Search</button>
+						<button class="btn btn-success" type="button">{{'LABEL_SEARCH'
+							| translate}}</button>
 					</span>
 				</div>
 			</div>
@@ -46,7 +55,8 @@
 				<input type="text" class="form-control"
 					placeholder="Search By Name..." ng-model="searchTextDate">
 				<span class="input-group-btn">
-					<button class="btn btn-success" type="button">Search</button>
+					<button class="btn btn-success" type="button">{{'LABEL_SEARCH'
+						| translate}}</button>
 				</span>
 			</div>
 
@@ -84,7 +94,7 @@
 										<br>
 									</div>
 								</div>
-								<div class="col-md-6">{{(access.access=="r-------"?"LABEL_READ":"LABEL_READWRITE")|translate}}</div>
+								<div class="col-md-6">{{(access.access=="r-------"?"LABEL_READ":"LABEL_READEDIT")|translate}}</div>
 							</div>
 						</div>
 					</div>
@@ -112,7 +122,8 @@
 						<input id="filter_input" type="text" class="form-control"
 							placeholder="Filter" ng-model="search.$"> <span
 							class="input-group-btn">
-							<button class="btn btn-success" type="button">Search</button>
+							<button class="btn btn-success" type="button">{{'LABEL_SEARCH'
+								| translate}}}</button>
 						</span>
 					</div>
 					<br> <br />
@@ -121,7 +132,7 @@
 							<label>{{"LABEL_ITEM"|translate}}</label> <select name="origen[]"
 								id="origen" multiple="multiple"
 								style="height: 200px; width: 100%;" size="12">
-																<option ng-repeat="mObject in mObjects | filter: search.$">{{mObject.displayName}}</option>
+								<option ng-repeat="mObject in mObjects | filter: search.$">{{mObject.displayName}}</option>
 							</select>
 						</div>
 						<div class="col-md-1">
@@ -154,29 +165,33 @@
 		</div>
 		<div class="panel-body">
 			<div class="col-md-12">
+				<div class="radio" ng-repeat="uGroup in uGroups">
+					<label><input type="radio" name="listUGroup">{{uGroup.displayName}}</label>
+					<button class="btn btn-default" id="Read" type="submit">{{'LABEL_READ'
+						| translate}}</button>
+					<button class="btn btn-primary" id="Edit" type="submit">{{'LABEL_READEDIT'
+						| translate}}</button>
+					<br> <br> <br>
 
-				<!-- <div class="radio" ng-repeat="element in userGr"> -->
-				<!-- 						<label><input type="radio" name="lstObject" -->
-				<!-- 							ng-click="getObject(element.resource,element.name)">{{element.name}}</label> -->
-				<!-- 					</div> -->
-				<div class="col-md-6">
-					<option ng-repeat="UGroupss in uGroup">{{UGroupss.displayName}}</option>
 				</div>
-				<div class="btn-group" role="group" aria-label="...">
-					<button class="btn btn-default" id="Ver" type="submit">Ver</button>
-					<button class="btn btn-primary" id="Editar" type="submit">Ver
-						- Editar</button>
-				</div>
-				<br> <br>
-				<button type="button" class="btn btn-info">ASIGNAR</button>
+				<button type="button" class="btn btn-info">{{'LABEL_ASIGN'
+					| translate}}</button>
 			</div>
 		</div>
 	</div>
 	</tabset>
 </div>
-<!-- <button class="btn btn-info" data-toggle="modal" -->
-<!-- 	data-target="#miVentana">abrir ventana</button> -->
 
+<div>
+	<h1 class="page-header">Multiple elements</h1>
+	<select selector multi="true" model="objectSelected"
+		options="objectToSelected" value-attr="value"  >
+	</select>
+	<p>
+		Current value:
+		<code ng-bind="objectSelected|json"></code>
+	</p>
+</div>
 
 <!-- 		___________________________modal____________________________-->
 
@@ -191,9 +206,10 @@
 				<div class="modal-body text-center ">
 
 					Desea eliminar este grupo de usuario ??? <br> <br>
-					<button class="btn btn-primary">Si</button>
+					<button class="btn btn-primary">{{'LABEL_YES' |
+						translate}}</button>
 					<button class="btn btn-primary" class="btn btn-primary"
-						data-dismiss="modal">No</button>
+						data-dismiss="modal">{{'LABEL_NO' | translate}}</button>
 				</div>
 			</div>
 		</div>

@@ -30,9 +30,13 @@
   "LABEL_USER":"User",
   "LABEL_USERGROUP":"User group",
   "LABEL_READ":"Read",
-  "LABEL_READWRITE":"Read and Write",
+  "LABEL_READEDIT":"Read and Edit",
   "LABEL_USERPERMISIONS":"User permision",
   "LABEL_SELECTEDITEMS":"Selected items",
   "TAB_USERS":"Watch Users",
-  "TAB_ASIGNPERMISSIONS":"Assign permisions"   
+  "TAB_ASIGNPERMISSIONS":"Assign permisions",
+  "LABEL_ASIGN":"Assign",
+  "LABEL_YES":"Yes",
+  "LABEL_NO":"No",
+  "LABEL_SEARCH":"Search"  
   }

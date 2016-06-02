@@ -13,7 +13,7 @@
 							// variables
 							var $translate = $filter('translate');
 							$scope.filteredTodos = [];
-
+							$scope.objectSelected = [];
 							
 							// /Object array of api object and type variable in
 							// sharing Setting resource
@@ -72,7 +72,7 @@
 										name : $translate("OBJ_USERGROUPS")
 									}, ];
 							
-							
+
 							$scope.userGr = [{
 								type : "userGroups",
 								resource : "userGroups",
@@ -95,8 +95,14 @@
 										}).$promise
 										.then(function(response) {
 											$scope.mObjects = response[resource];
-											$scope.uGroup=response[resource="userGroups"];
+											$scope.objectToSelected =[];
 											
+											angular.forEach($scope.mObjects, function(value,key){
+												$scope.objectToSelected.push({value :value.id ,
+													label : value.displayName });	
+											})
+											
+											$scope.uGroup=response[resource="userGroups"];
 											$scope.pager = response.pager.page;
 											$scope.itemsPerPage = response.pager.pageSize;
 											$scope.currentPage = response.pager.page;
@@ -108,25 +114,21 @@
 							}
 							
 							
-							$scope.getObject = function(resource, title, page) {
-								$scope.titleList = title;
-								$scope.currentResource = resource;
-								$scope.currentTitle = title;
-								
-								dhisResource
+							$scope.getUserGroups = function(resource) {
+							  $scope.currentResource = resource;
+							 dhisResource
 										.GET({
 											resource : resource,
 											fields : "id,displayName",
-											page : page
+											
 										}).$promise
 										.then(function(response) {
 											
-											$scope.uGroup=response[resource="userGroups"];
+											$scope.uGroups=response["userGroups"];
 											
 										});
 							}
-
-
+							$scope.getUserGroups("userGroups");
 							$scope.putObjects = function(publicAccess,user,userGroupAccesses){
 								$scope.publicAccess = false;
 								$scope.userGroupAccesses;
@@ -167,13 +169,27 @@
 								  removeItem(context.id, context.name, i18n_confirm_delete, 'removeRole.action');
 								}
 							
-							
+
 							$().ready(function() 
 									{
-										$('.pass').click(function() { return !$('#origen option:selected').remove().appendTo('#destino'); });  
-										$('.remove').click(function() { return !$('#destino option:selected').remove().appendTo('#origen'); });
-										$('.passAll').click(function() { $('#origen option').each(function() { $(this).remove().appendTo('#destino'); }); });
-										$('.removeAll').click(function() { $('#destino option').each(function() { $(this).remove().appendTo('#origen'); }); });
-																			
+										$('.pass').click(function() {
+													console.log(destino);	
+											return !$('#origen option:selected').remove().appendTo('#destino'); 
+										});  
+										$('.remove').click(function() {
+											return !$('#destino option:selected').remove().appendTo('#origen'); 
+											});
+										$('.passAll').click(function() {
+											$('#origen option').each(function() {
+												$(this).remove().appendTo('#destino'); 
+												});
+											});
+										$('.removeAll').click(function() {
+											$('#destino option').each(function() {
+												$(this).remove().appendTo('#origen'); 
+												});
+											});
+									
 									});
+							
 						}]);
