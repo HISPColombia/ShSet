@@ -32,5 +32,7 @@
   "LABEL_READ":"Read",
   "LABEL_READWRITE":"Read and Write",
   "LABEL_USERPERMISIONS":"User permision",
-  "LABEL_SELECTEDITEMS":"Selected items"   
+  "LABEL_SELECTEDITEMS":"Selected items",
+  "TAB_USERS":"Watch Users",
+  "TAB_ASIGNPERMISSIONS":"Assign permisions"   
   }

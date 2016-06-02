@@ -1,26 +1,29 @@
 <br />
-
 <div class="row col-md-12">
+	<tabset> <tab active="tabsPersonal0.active"
+		disable="tabsPersonal0.disabled" ng-show="RegisterMode!='Edit'">
+	<tab-heading> {{tabsPersonal0.tittle}} </tab-heading>
+
 	<div class="row">
 		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">{{'TAB_USERS'| translate}}</h3>
+			</div>
 			<div class="panel-body">
 				<div class="row col-md-6">
 					<h3>{{"LBL_DATA_ELEMENTS_GROUPS"|translate}}</h3>
 
 					<!-----------------ELEMENTS GROUPS---------------------->
-
 					<div class="radio" ng-repeat="element in elements">
 						<label><input type="radio" name="lstObject"
 							ng-click="getObjects(element.resource,element.name)">{{element.name}}</label>
 					</div>
 				</div>
-
 				<br /> <br />
 				<div class="row col-md-6">
 					<textarea class="form form-control" placeholer="Message"
 						style="width: 550px; height: 300px;">
                                       </textarea>
-
 				</div>
 				<br /> <br />
 			</div>
@@ -46,18 +49,10 @@
 					<button class="btn btn-success" type="button">Search</button>
 				</span>
 			</div>
-			</ul>
+
 		</div>
 
 		<div class="panel panel-default">
-			<!-- 	___________________scroll -->
-			<!-- 			ng-style="{'overflow': (parentScrollable && 'scroll'), 'position': (parentRelative && 'relative')}" -->
-
-			<!-- 			<nav class="navbar navbar-default "> -->
-			<!-- 		__________________ -->
-			<!-- 				<div class=" panel panel-scrollable" -->
-			<!-- 							ng-style="{'overflow': (parentScrollable && 'scroll'), 'position': (parentRelative && 'relative')}"> -->
-
 			<div class="row ">
 				<div class="col-md-12 text-center">
 					<h3>{{titleList}}</h3>
@@ -67,7 +62,7 @@
 				style="width: 1153px; height: 260px; overflow: scroll">
 				<div class="list-group ">
 					<div class="row list-group-item">
-<!-- 						<div class="col-md-6 align-center"></div> -->
+						<div class="col-md-6 align-center"></div>
 						<div class="col-md-3 align-center">
 							<label>{{"LABEL_USERGROUP"|translate}}</label>
 						</div>
@@ -78,72 +73,71 @@
 					<div class="row list-group-item "
 						ng-repeat="mObject in mObjects | filter:searchText ">
 						<div class="col-md-6">{{mObject.displayName}}</div>
-<!-- 						<div class="col-md-5">{{mObject.code}}</div> -->
 						<div class="col-md-6">
 							<div class="row"
 								ng-repeat="access in mObject.userGroupAccesses | filter:searchTextDate ">
-								
 								<div class="col-md-6">
-								<div class="col-md-3">{{access.displayName}}</div>
-								<div class="col-md-3">
-								
-<!-- 								<button class="button button-primary"></button> -->
+									<div class="col-md-4">{{access.displayName}}</div>
+									<div class="col-md-2">
+										<button class="button btn-default" data-toggle="modal"
+											data-target="#miVentana">x</button>
+										<br>
+									</div>
 								</div>
-								
-								</div>
-								
 								<div class="col-md-6">{{(access.access=="r-------"?"LABEL_READ":"LABEL_READWRITE")|translate}}</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<pagination boundary-links="true" max-size="3"
-				items-per-page="itemsPerPage" total-items="total"
-				ng-model="currentPage" ng-change="pageChanged()"
-				num-pages="pageCount" boundary-links="true"></pagination>
-			<!-- 			</nav> -->
-			</ul>
+			<uib-pagination boundary-links="true" max-size="2"
+				num-pages="itemsPerPage" total-items="total" ng-model="currentPage"
+				ng-change="pageChanged()" num-pages="pageCount"
+				boundary-links="true"></uib-pagination>
 		</div>
-		<br />
+	</tab> <br />
 
-		<!---------------ASSIGN PERMISSIONS--------------->
-
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div class="row">
+	<!---------------ASSIGN PERMISSIONS---------------> <tab
+		active="tabsPersonal1.active" disable="tabsPersonal1.disabled"
+		select='validation(1)'> <tab-heading>
+	{{tabsPersonal1.tittle}} </tab-heading>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{'TAB_ASIGNPERMISSIONS'| translate}}</h3>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="input-group">
+						<input id="filter_input" type="text" class="form-control"
+							placeholder="Filter" ng-model="search.$"> <span
+							class="input-group-btn">
+							<button class="btn btn-success" type="button">Search</button>
+						</span>
+					</div>
+					<br> <br />
 					<div class="col-md-12">
-						<div class="input-group">
-							<input id="filter_input" type="text" class="form-control"
-								placeholder="Filter" ng-model="search.$"> <span
-								class="input-group-btn">
-								<button class="btn btn-success" type="button">Search</button>
-							</span>
+						<div class="col-md-5">
+							<label>{{"LABEL_ITEM"|translate}}</label> <select name="origen[]"
+								id="origen" multiple="multiple"
+								style="height: 200px; width: 100%;" size="12">
+																<option ng-repeat="mObject in mObjects | filter: search.$">{{mObject.displayName}}</option>
+							</select>
 						</div>
-						<br> <br />
-						<div class="col-md-12">
-							<div class="col-md-5">
-								<label>{{"LABEL_ITEM"|translate}}</label> <select
-									name="origen[]" id="origen" multiple="multiple"
-									style="height: 200px; width: 100%;" size="12">
-									<option ng-repeat="mObject in mObjects | filter: search.$">{{mObject.displayName}}</option>
-								</select>
-							</div>
-							<div class="col-md-1">
-								<br> <br> <br> <input type="button"
-									class=" pass left" style="width: 50px" value="> "> <input
-									type="button" class="remove " style="width: 50px" value="< ">
-								<br /> <input type="button" class=" passall left"
-									style="width: 50px" value=">>"> <input type="button"
-									class=" removeAll" style="width: 50px" value="<<">
-							</div>
+						<div class="col-md-1">
+							<br> <br> <br> <input type="button"
+								class=" pass left" style="width: 50px" value="> "> <input
+								type="button" class="remove " style="width: 50px" value="< ">
+							<br /> <input type="button" class=" passall left"
+								style="width: 50px" value=">>"> <input type="button"
+								class=" removeAll" style="width: 50px" value="<<">
+						</div>
 
-							<div class="col-md-5">
-								<label>{{"LABEL_SELECTEDITEMS"|translate}}</label>
-								<div class="">
-									<select name="destino[]" id="destino" multiple="multiple"
-										style="height: 200px; width: 100%;" size="12"></select>
-								</div>
+						<div class="col-md-5">
+							<label>{{"LABEL_SELECTEDITEMS"|translate}}</label>
+							<div class="">
+								<select name="destino[]" id="destino" multiple="multiple"
+									style="height: 200px; width: 100%;" size="12"></select>
 							</div>
 						</div>
 					</div>
@@ -151,3 +145,57 @@
 			</div>
 		</div>
 	</div>
+	</tab>
+
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{'TAB_ASIGNPERMISSIONS'| translate}}</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-12">
+
+				<!-- <div class="radio" ng-repeat="element in userGr"> -->
+				<!-- 						<label><input type="radio" name="lstObject" -->
+				<!-- 							ng-click="getObject(element.resource,element.name)">{{element.name}}</label> -->
+				<!-- 					</div> -->
+				<div class="col-md-6">
+					<option ng-repeat="UGroupss in uGroup">{{UGroupss.displayName}}</option>
+				</div>
+				<div class="btn-group" role="group" aria-label="...">
+					<button class="btn btn-default" id="Ver" type="submit">Ver</button>
+					<button class="btn btn-primary" id="Editar" type="submit">Ver
+						- Editar</button>
+				</div>
+				<br> <br>
+				<button type="button" class="btn btn-info">ASIGNAR</button>
+			</div>
+		</div>
+	</div>
+	</tabset>
+</div>
+<!-- <button class="btn btn-info" data-toggle="modal" -->
+<!-- 	data-target="#miVentana">abrir ventana</button> -->
+
+
+<!-- 		___________________________modal____________________________-->
+
+<div class="modal fade" id="miVentana" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">X</button>
+				<h4>Eliminar Grupo de usuario</h4>
+				<div class="modal-body text-center ">
+
+					Desea eliminar este grupo de usuario ??? <br> <br>
+					<button class="btn btn-primary">Si</button>
+					<button class="btn btn-primary" class="btn btn-primary"
+						data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

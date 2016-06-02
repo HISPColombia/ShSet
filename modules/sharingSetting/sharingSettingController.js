@@ -72,9 +72,15 @@
 										name : $translate("OBJ_USERGROUPS")
 									}, ];
 							
+							
+							$scope.userGr = [{
+								type : "userGroups",
+								resource : "userGroups",
+								name : $translate("OBJ_USERGROUPS")
+							},];
+							
 							// /methods
 							$scope.getObjects = function(resource, title, page) {
-
 								$scope.titleList = title;
 								$scope.currentResource = resource;
 								$scope.currentTitle = title;
@@ -88,7 +94,9 @@
 											page : page
 										}).$promise
 										.then(function(response) {
-											$scope.mObjects = response.dataElements;
+											$scope.mObjects = response[resource];
+											$scope.uGroup=response[resource="userGroups"];
+											
 											$scope.pager = response.pager.page;
 											$scope.itemsPerPage = response.pager.pageSize;
 											$scope.currentPage = response.pager.page;
@@ -96,20 +104,33 @@
 											$scope.makeTodos($scope.pageCount);
 											$scope.total = response.pager.total;
 											$scope.id=response.userGroupAccesses;
-
 										});
 							}
 							
+							
+							$scope.getObject = function(resource, title, page) {
+								$scope.titleList = title;
+								$scope.currentResource = resource;
+								$scope.currentTitle = title;
+								
+								dhisResource
+										.GET({
+											resource : resource,
+											fields : "id,displayName",
+											page : page
+										}).$promise
+										.then(function(response) {
+											
+											$scope.uGroup=response[resource="userGroups"];
+											
+										});
+							}
+
+
 							$scope.putObjects = function(publicAccess,user,userGroupAccesses){
 								$scope.publicAccess = false;
-//								$scope.user = ({});
 								$scope.userGroupAccesses;
-								$scope.id=response.id;
-//								dhisResource.PUT{(resource:resource,
-//										publicAccess: false,
-//										user: )}
-//								}
-								
+								$scope.id=response.id;							
 							};
 
 							// pagination methods
@@ -142,56 +163,9 @@
 										begin, end);
 							};
 
-							$scope.permissions = [ {
-								"Edit" : "CANEDIT",
-								"EditView" : "Edit-View",
-								"None" : "None"
-							} ];
-							
-							
 							function removeRole( context ) {
 								  removeItem(context.id, context.name, i18n_confirm_delete, 'removeRole.action');
 								}
-							// /scroll
-
-							// $scope.elemVals = {};
-							// $scope.parentScrollable = true;
-							// $scope.parentRelative = true;
-							//
-							// $scope.getValues = function() {
-							// var divEl = $window.document
-							// .querySelector('#posdemodiv');
-							// var btnEl = $window.document
-							// .querySelector('#posdemobtn');
-							//
-							// var offsetParent = $uibPosition
-							// .offsetParent(divEl);
-							// $scope.elemVals.offsetParent = 'type: '
-							// + offsetParent.tagName + ', id: '
-							// + offsetParent.id;
-							//
-							// var scrollParent = $uibPosition
-							// .scrollParent(divEl);
-							// $scope.elemVals.scrollParent = 'type: '
-							// + scrollParent.tagName + ', id: '
-							// + scrollParent.id;
-							//
-							// $scope.scrollbarWidth = $uibPosition
-							// .scrollbarWidth();
-							//
-							// $scope.elemVals.position = $uibPosition
-							// .position(divEl);
-							//
-							// $scope.elemVals.offset = $uibPosition
-							// .offset(divEl);
-							//
-							// $scope.elemVals.viewportOffset = $uibPosition
-							// .viewportOffset(divEl);
-							//
-							// $scope.elemVals.positionElements = $uibPosition
-							// .positionElements(btnEl, divEl,
-							// 'auto bottom-left');
-							// };
 							
 							
 							$().ready(function() 
@@ -200,15 +174,6 @@
 										$('.remove').click(function() { return !$('#destino option:selected').remove().appendTo('#origen'); });
 										$('.passAll').click(function() { $('#origen option').each(function() { $(this).remove().appendTo('#destino'); }); });
 										$('.removeAll').click(function() { $('#destino option').each(function() { $(this).remove().appendTo('#origen'); }); });
-//										function({$('#destino option').each(function() { $(this).remove().appendTo('#origen'); }); }});									
+																			
 									});
-							
-							
-							$scope.myFilter = function (item) { 
-							    return item === 'red' || item === 'blue'; 
-							};
-							
-							 
-
-
-						} ]);
+						}]);

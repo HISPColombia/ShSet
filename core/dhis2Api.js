@@ -7,7 +7,7 @@
  * It is the persistence in the FrontEnd
  * 
  * */
-var Dhis2Api = angular.module("Dhis2Api", [ 'ngResource' ]);
+var Dhis2Api = angular.module("Dhis2Api", [ 'ngResource', ]);
 
 var urlApi = "../../../api";
 // Create all common variables of the apps
