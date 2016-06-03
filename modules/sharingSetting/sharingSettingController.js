@@ -14,8 +14,8 @@
 							var $translate = $filter('translate');
 							$scope.filteredTodos = [];
 							$scope.objectSelected = [];
-							$scope.change=1;
-							
+							$scope.changeButton ;
+
 							// /Object array of api object and type variable in
 							// sharing Setting resource
 							$scope.elements = [
@@ -73,13 +73,14 @@
 										name : $translate("OBJ_USERGROUPS")
 									}, ];
 							
-
-							$scope.userGr = [{
+							
+							//Object get userGroups
+							$scope.userGr = [ {
 								type : "userGroups",
 								resource : "userGroups",
 								name : $translate("OBJ_USERGROUPS")
-							},];
-							
+							}, ];
+
 							// /methods
 							$scope.getObjects = function(resource, title, page) {
 								$scope.titleList = title;
@@ -96,44 +97,48 @@
 										}).$promise
 										.then(function(response) {
 											$scope.mObjects = response[resource];
-											$scope.objectToSelected =[];
-											
-											angular.forEach($scope.mObjects, function(value,key){
-												$scope.objectToSelected.push({value :value.id ,
-													label : value.displayName });	
-											})
-											
-											$scope.uGroup=response[resource="userGroups"];
+											$scope.objectToSelected = [];
+
+											angular
+													.forEach(
+															$scope.mObjects,
+															function(value, key) {
+																$scope.objectToSelected
+																		.push({
+																			value : value.id,
+																			label : value.displayName
+																		});
+															})
+
+											$scope.uGroup = response[resource = "userGroups"];
 											$scope.pager = response.pager.page;
 											$scope.itemsPerPage = response.pager.pageSize;
 											$scope.currentPage = response.pager.page;
 											$scope.pageCount = response.pager.pageCount;
 											$scope.makeTodos($scope.pageCount);
 											$scope.total = response.pager.total;
-											$scope.id=response.userGroupAccesses;
+											$scope.id = response.userGroupAccesses;
 										});
 							}
-							
-							
+
 							$scope.getUserGroups = function(resource) {
-							  $scope.currentResource = resource;
-							 dhisResource
-										.GET({
-											resource : resource,
-											fields : "id,displayName",
-											
-										}).$promise
-										.then(function(response) {
-											
-											$scope.uGroups=response["userGroups"];
-											
-										});
+								$scope.currentResource = resource;
+								dhisResource.GET({
+									resource : resource,
+									fields : "id,displayName",
+
+								}).$promise.then(function(response) {
+
+									$scope.uGroups = response["userGroups"];
+
+								});
 							}
 							$scope.getUserGroups("userGroups");
-							$scope.putObjects = function(publicAccess,user,userGroupAccesses){
+							$scope.putObjects = function(publicAccess, user,
+									userGroupAccesses) {
 								$scope.publicAccess = false;
 								$scope.userGroupAccesses;
-								$scope.id=response.id;							
+								$scope.id = response.id;
 							};
 
 							// pagination methods
@@ -166,31 +171,15 @@
 										begin, end);
 							};
 
-							function removeRole( context ) {
-								  removeItem(context.id, context.name, i18n_confirm_delete, 'removeRole.action');
-								}
-							
+							function removeRole(context) {
+								removeItem(context.id, context.name,
+										i18n_confirm_delete,
+										'removeRole.action');
+							}
 
-							$().ready(function() 
-									{
-										$('.pass').click(function() {
-													console.log(destino);	
-											return !$('#origen option:selected').remove().appendTo('#destino'); 
-										});  
-										$('.remove').click(function() {
-											return !$('#destino option:selected').remove().appendTo('#origen'); 
-											});
-										$('.passAll').click(function() {
-											$('#origen option').each(function() {
-												$(this).remove().appendTo('#destino'); 
-												});
-											});
-										$('.removeAll').click(function() {
-											$('#destino option').each(function() {
-												$(this).remove().appendTo('#origen'); 
-												});
-											});
-									
-									});
-							
-						}]);
+							$scope.limpiarVariables = function(changeButton) {
+								changeButton = changeButton;
+								console.log("en change Button", changeButton);
+							}
+
+						} ]);

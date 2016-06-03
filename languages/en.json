@@ -42,5 +42,8 @@
   "LABEL_SEARCH":"Search",
   "LABEL_DELETEUSERGROUPS":"Delete user groups",
   "LABEL_WISHDELETEUSERGROUPS":"Do you Wish the  user groups delete",
-  "TAB_OBJECTS":"Objects"  
+  "TAB_OBJECTS":"Objects",
+  "LABEL_CLOSE":"Close",
+  "LABEL_SELECT":"Button selected for Read/Edit"
+    
   }

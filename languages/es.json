@@ -41,5 +41,7 @@
   "LABEL_SEARCH":"Buscar",
   "LABEL_DELETEUSERGROUPS":"Eliminar grupo de usuarios",
   "LABEL_WISHDELETEUSERGROUPS":"Desea elminar el grupo de usuarios",
-  "TAB_OBJECTS":"Objetos" 
+  "TAB_OBJECTS":"Objetos",
+  "LABEL_CLOSE":"Cerrar",
+  "LABEL_SELECT":"Boton seleccionado para Leer/Editar"
    }

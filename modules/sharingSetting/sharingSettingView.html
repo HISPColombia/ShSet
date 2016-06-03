@@ -1,5 +1,5 @@
 <br />
-<div class="row">
+<div class="row col-md-12">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">{{'TAB_USERS'| translate}}</h3>
@@ -10,8 +10,8 @@
 				<!-----------------ELEMENTS GROUPS---------------------->
 				<div class="radio" ng-repeat="element in elements">
 					<label><input type="radio" name="lstObject"
-						ng-click="getObjects(element.resource,element.name)">
-						{{element.name}}</label>
+						ng-click="getObjects(element.resource,element.name)"
+						onclick="buttonModal.disabled=false"> {{element.name}}</label>
 				</div>
 			</div>
 			<br /> <br />
@@ -24,42 +24,51 @@
 		</div>
 	</div>
 </div>
+<!-- -----Button Asign permissions-- -->
+<div class="row col-dm-12 text-center">
+	<button type="button" class="btn btn-success" disabled="true"
+		id="buttonModal" data-toggle="modal" data-target="#assignPermissions">
+		{{'TAB_ASIGNPERMISSIONS'| translate}} <span
+			class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
+	</button>
 
-<uib-tabset active="active"> 
+</div>
+<br>
 
-
-<uib-tab heading="{{'TAB_OBJECTS' | translate}}" index="0">
-	 
-	 <!-------------------OBJECTS--------------------->
-<div class="row ">
-	<div class="row ">
-		<div class="col-md-4">
-			<div class="input-group " ng-model="searchText">
+<!-------------------OBJECTS--------------------->
+<div class="row col-md-12">
+	<div class="panel panel-default">
+		<br>
+		<div class="row ">
+			<div class="col-md-4">
+				<div class="input-group " ng-model="searchText">
+					<input type="text" class="form-control"
+						placeholder="Search input..." ng-model="searchText"> <span
+						class="input-group-btn">
+						<button class="btn btn-success" type="button">{{'LABEL_SEARCH'
+							| translate}}</button>
+					</span>
+				</div>
+			</div>
+			<div class="input-group col-md-4">
 				<input type="text" class="form-control"
-					placeholder="Search input..." ng-model="searchText"> <span
-					class="input-group-btn">
+					placeholder="Search By Name..." ng-model="searchTextDate">
+				<span class="input-group-btn">
 					<button class="btn btn-success" type="button">{{'LABEL_SEARCH'
 						| translate}}</button>
 				</span>
 			</div>
 		</div>
-		<div class="input-group col-md-4">
-			<input type="text" class="form-control"
-				placeholder="Search By Name..." ng-model="searchTextDate"> <span
-				class="input-group-btn">
-				<button class="btn btn-success" type="button">{{'LABEL_SEARCH'
-					| translate}}</button>
-			</span>
-		</div>
-	</div>
-	<div class="panel panel-default">
-		<div class="row ">
-			<div class="col-md-12 text-center">
-				<h3>{{titleList}}</h3>
-			</div>
-		</div>
 		<div class="panel panel-body" id="Layer1"
-			style="width: 1098px; height: 260px; overflow: scroll">
+			style="width: 1125px; height: 260px; overflow: scroll">
+			<br>
+
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<h3>{{titleList}}</h3>
+				</div>
+			</div>
+
 			<div class="list-group ">
 				<div class="row list-group-item">
 					<div class="col-md-6 align-center"></div>
@@ -80,7 +89,7 @@
 								<div class="col-md-4">{{access.displayName}}</div>
 								<div class="col-md-2">
 									<button class="button btn-default" data-toggle="modal"
-										data-target="#miVentana">x</button>
+										data-target="#modal">x</button>
 									<br>
 								</div>
 							</div>
@@ -96,83 +105,10 @@
 	</div>
 </div>
 <br />
-</uib-tab> 
-
-
-<uib-tab heading="{{'TAB_ASIGNPERMISSIONS' | translate}}" index="1">
-<!---------------ASSIGN PERMISSIONS--------------->
-<div class="row">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">{{'TAB_ASIGNELEMENTS'| translate}}</h3>
-		</div>
-		<div class="panel-body">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="input-group">
-						<input id="filter_input" type="text" class="form-control"
-							placeholder="Filter" ng-model="search.$"> <span
-							class="input-group-btn">
-							<button class="btn btn-success" type="button">{{'LABEL_SEARCH'
-								| translate}}</button>
-						</span>
-					</div>
-					<br> <br>
-					<!-- 					___________________ASSIGN ELEMENTS___________ -->
-					<div class="col-md-12">
-						<h1 class="page-header"></h1>
-						<select selector multi="true" model="objectSelected"
-							options="objectToSelected" value-attr="value">
-						</select>
-						<!-- 						<p> -->
-						<!-- 							Current value: -->
-						<!-- 							<code ng-bind="objectSelected|json"></code> -->
-						<!-- 						</p> -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<!-- ____________________ASIGN PERMISSIONS_______________________________________--->
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">{{'TAB_ASIGNPERMISSIONS'| translate}}</h3>
-		</div>
-		<div class="panel-body">
-			<div class="col-md-12">
-				<div class="row" ng-repeat="uGroup in uGroups">
-					<div class="col-md-7">
-						<div class="input-group">
-							<span class="input-group-addon"> <input type="checkbox"
-								aria-label="...">
-							</span> <label class="form-control" aria-label="...">{{uGroup.displayName}}</label>
-							<span class="input-group-btn">
-								<button type="button" ng-click=" change = 1"
-									class="btn {{change==1?' btn-primary':' btn-default'}}">{{'LABEL_READ'
-									| translate}}</button>
-							</span> <span class="input-group-btn">
-								<button type="button" ng-click=" change = 2"
-									class="btn {{change==2?' btn-primary':' btn-default'}}">{{'LABEL_READEDIT'
-									| translate}}</button>
-							</span>
-
-						</div>
-					</div>
-				</div>
-				<button type="button" class="btn btn-info">{{'LABEL_ASIGN'
-					| translate}}</button>
-			</div>
-		</div>
-	</div>
-</div>
-</uib-tab> </uib-tabset>
-
 
 <!-- 		___________________________MODAL____________________________-->
 
-<div class="modal fade" id="miVentana" tabindex="-1" role="dialog"
+<div class="modal fade" id="modal" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -192,3 +128,104 @@
 		</div>
 	</div>
 </div>
+
+<!-- -----------------------------MODAL PERMISSIONS----------------------- -->
+
+<div class="modal fade" id="assignPermissions" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<!---------------ASSIGN PERMISSIONS--------------->
+				<div class="row col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{'TAB_ASIGNELEMENTS'| translate}}</h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="input-group">
+										<input id="filter_input" type="text" class="form-control"
+											placeholder="Filter" ng-model="search.$"> <span
+											class="input-group-btn">
+											<button class="btn btn-success" type="button">{{'LABEL_SEARCH'
+												| translate}}</button>
+										</span>
+									</div>
+
+									<!-- 					___________________ASSIGN ELEMENTS___________ -->
+									<br> <select selector multi="true" model="objectSelected"
+										options="objectToSelected" value-attr="value">
+									</select>
+									<!-- 										<p> -->
+									<!-- 											Current value: -->
+									<!-- 											<code ng-bind="objectToSelected|json"></code> -->
+									<!-- 										</p> -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- ____________________ASIGN PERMISSIONS_______________________________________--->
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{'TAB_ASIGNPERMISSIONS'|
+								translate}}</h3>
+						</div>
+						
+						<br>
+						<div class="panel-body">
+							<div class="col-md-12">
+								<div class="row" ng-repeat="uGroup in uGroups">
+									<div class="col-md-7">
+										<div class="input-group">
+											<label class="form-control" aria-label="...">{{uGroup.displayName}}</label>
+											<span class="input-group-addon"> <input
+												type="checkbox" aria-label="...">
+											</span> <span class="input-group-addon"> <input
+												type="checkbox" aria-label="...">
+											</span>
+											<!-- <span class="input-group-btn "> -->
+											<!-- <button type="button" ng-click=" change = 1" -->
+											<!-- class="btn {{change==1?' btn-primary':' btn-default'}}"><span -->
+											<!-- class=" glyphicon  glyphicon-list" -->
+											<!-- aria-hidden="true"></span></button> -->
+											<!-- </span> -->
+<!-- 											<span class="input-group-btn "> <span> -->
+<!-- 												<button type="button" ng-click="changeButton = 2" -->
+<!-- 													class="btn btn{{changeButton==2?' btn-primary':' btn-default'}}"> -->
+<!-- 													<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> -->
+<!-- 												</button> </span> -->
+
+<!-- 											</span> -->
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+					<div class="col-md-12 text-center">
+						<div class="input-group">
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">{{'LABEL_ASIGN' | translate}}</button>
+
+								<button type="button" class="btn btn-default"
+									ng-click="limpiarVariables(changeButton=1)"
+									data-dismiss="modal">{{'LABEL_CLOSE' | translate}}</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+
