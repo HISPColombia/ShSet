@@ -14,6 +14,7 @@
 							var $translate = $filter('translate');
 							$scope.filteredTodos = [];
 							$scope.objectSelected = [];
+							$scope.change=1;
 							
 							// /Object array of api object and type variable in
 							// sharing Setting resource

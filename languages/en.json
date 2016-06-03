@@ -35,8 +35,12 @@
   "LABEL_SELECTEDITEMS":"Selected items",
   "TAB_USERS":"Watch Users",
   "TAB_ASIGNPERMISSIONS":"Assign permisions",
+  "TAB_ASIGNELEMENTS":"Assign elements",
   "LABEL_ASIGN":"Assign",
   "LABEL_YES":"Yes",
   "LABEL_NO":"No",
-  "LABEL_SEARCH":"Search"  
+  "LABEL_SEARCH":"Search",
+  "LABEL_DELETEUSERGROUPS":"Delete user groups",
+  "LABEL_WISHDELETEUSERGROUPS":"Do you Wish the  user groups delete",
+  "TAB_OBJECTS":"Objects"  
   }

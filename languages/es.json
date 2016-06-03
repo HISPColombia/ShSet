@@ -35,9 +35,11 @@
   "LABEL_SELECTEDITEMS":"Elementos Seleccionados",
   "TAB_USERS":"Ver usuarios",
   "TAB_ASIGNPERMISSIONS":"Asignar permisos",
+  "TAB_ASIGNELEMENTS":"Asignar elementos",
   "LABEL_YES":"Si",
   "LABEL_NO":"No",
-  "LABEL_SEARCH":"Buscar"
-        
-  
+  "LABEL_SEARCH":"Buscar",
+  "LABEL_DELETEUSERGROUPS":"Eliminar grupo de usuarios",
+  "LABEL_WISHDELETEUSERGROUPS":"Desea elminar el grupo de usuarios",
+  "TAB_OBJECTS":"Objetos" 
    }
