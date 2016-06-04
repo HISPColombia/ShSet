@@ -15,7 +15,7 @@
 							$scope.filteredTodos = [];
 							$scope.objectSelected = [];
 							$scope.changeButton ;
-
+							$scope.ugStatus=[0,0,0,0];	
 							// /Object array of api object and type variable in
 							// sharing Setting resource
 							$scope.elements = [

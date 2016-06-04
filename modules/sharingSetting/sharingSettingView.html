@@ -179,15 +179,27 @@
 						<br>
 						<div class="panel-body">
 							<div class="col-md-12">
-								<div class="row" ng-repeat="uGroup in uGroups">
-									<div class="col-md-7">
-										<div class="input-group">
-											<label class="form-control" aria-label="...">{{uGroup.displayName}}</label>
-											<span class="input-group-addon"> <input
-												type="checkbox" aria-label="...">
-											</span> <span class="input-group-addon"> <input
-												type="checkbox" aria-label="...">
-											</span>
+								<div class="row" >
+									<div class="col-md-8">
+										<div class="list-group">
+											<div class="row list-group-item" ng-repeat="(kug,uGroup) in uGroups">
+												<div class="col-md-6">
+													<label aria-label="...">{{uGroup.displayName}}</label>
+												</div>
+												<div class="col-md-6">
+													<div class="row">
+														<div class="col-md-12">
+															<div class="btn-group" role="group" aria-label="...">
+																<button ng-click="ugStatus[kug]=0" type="button" class="btn btn-{{ugStatus[kug]==0?'danger':'default'}} btn-lg"></button>
+																<button ng-click="ugStatus[kug]=1" type="button" class="btn btn-{{ugStatus[kug]==1?'warning':'default'}} btn-lg"></button>
+																<button ng-click="ugStatus[kug]=2" type="button" class="btn btn-{{ugStatus[kug]==2?'success':'default'}} btn-lg"></button>
+												    		</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											
 											<!-- <span class="input-group-btn "> -->
 											<!-- <button type="button" ng-click=" change = 1" -->
 											<!-- class="btn {{change==1?' btn-primary':' btn-default'}}"><span -->
@@ -203,6 +215,13 @@
 <!-- 											</span> -->
 										</div>
 									</div>
+									<div class="col-md-4">
+										<label>Convencion de colores</label><br>
+										<button type="button" class="btn btn-danger btn-sm">None</button>
+										<button type="button" class="btn btn-warning btn-sm">Read</button>
+										<button type="button" class="btn btn-success btn-sm">Read/write</button>
+										
+									</div>
 								</div>
 
 							</div>
@@ -212,7 +231,7 @@
 					<div class="col-md-12 text-center">
 						<div class="input-group">
 							<span class="input-group-btn">
-								<button type="button" class="btn btn-default"
+								<button type="button" class="btn btn-default" style="color: @gray-darker"
 									data-dismiss="modal">{{'LABEL_ASIGN' | translate}}</button>
 
 								<button type="button" class="btn btn-default"
