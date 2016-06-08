@@ -29,7 +29,8 @@
   "OBJ_USERGROUPS":"Grupos de usuarios",
   "LABEL_USER":"Usuario",
   "LABEL_READ":"Leer",
-  "LABEL_READEDIT":"Leer y Editar",
+  "LABEL_READWRITE":"Leer / Escribir",
+  "LABEL_NONE":"Ninguno",
   "LABEL_USERGROUP":"Grupo de usuario",
   "LABEL_USERPERMISIONS":"Permisos de usuario",
   "LABEL_SELECTEDITEMS":"Elementos Seleccionados",
@@ -43,5 +44,9 @@
   "LABEL_WISHDELETEUSERGROUPS":"Desea elminar el grupo de usuarios",
   "TAB_OBJECTS":"Objetos",
   "LABEL_CLOSE":"Cerrar",
-  "LABEL_SELECT":"Boton seleccionado para Leer/Editar"
+  "LABEL_CONVENTION":"Convención de colores",
+  "LABEL_PUBLICACCESS":"Publico",
+  "LABEL_EXTERNALACCESS":"Externo",
+  "LABEL_PERMISSIONS":"Permisos"
+  
    }

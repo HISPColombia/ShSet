@@ -14,8 +14,9 @@
 							var $translate = $filter('translate');
 							$scope.filteredTodos = [];
 							$scope.objectSelected = [];
-							$scope.changeButton ;
-							$scope.ugStatus=[0,0,0,0];	
+							$scope.changeButton = 0;
+							$scope.ugStatus = [ 0, 0, 0, 0 ];
+							$scope.ugStatusAccess = [ 0, 0, 0, 0 ];
 							// /Object array of api object and type variable in
 							// sharing Setting resource
 							$scope.elements = [
@@ -64,39 +65,41 @@
 										resource : "organisationUnitGroupSets",
 										name : $translate("OBJ_ORGANISATIONUNITGROUPSSETS")
 									}, {
-										type : "optionsets",
+										type : "optionset",
 										resource : "optionSets",
 										name : $translate("OBJ_OPTIONSETS")
 									}, {
-										type : "userGroups",
+										type : "userGroup",
 										resource : "userGroups",
 										name : $translate("OBJ_USERGROUPS")
 									}, ];
-							
-							
-							//Object get userGroups
+
+							// Object get userGroups
 							$scope.userGr = [ {
-								type : "userGroups",
+								type : "userGroup",
 								resource : "userGroups",
 								name : $translate("OBJ_USERGROUPS")
 							}, ];
 
 							// /methods
-							$scope.getObjects = function(resource, title, page) {
-								$scope.titleList = title;
-								$scope.currentResource = resource;
-								$scope.currentTitle = title;
-								if (page == undefined) {
-									page = 1
+							$scope.getObjects = function(object) {
+
+								$scope.titleList = object.title;
+								$scope.currentResource = object.resource;
+								$scope.currentTitle = object.title;
+								$scope.type = object.type;
+								$scope.page = object.page;
+								if ($scope.page == undefined) {
+									$scope.page = 1
 								}
 								dhisResource
 										.GET({
-											resource : resource,
+											resource : object.resource,
 											fields : "id,code,displayName,userGroupAccesses",
-											page : page
+											page : $scope.page
 										}).$promise
 										.then(function(response) {
-											$scope.mObjects = response[resource];
+											$scope.mObjects = response[object.resource];
 											$scope.objectToSelected = [];
 
 											angular
@@ -110,7 +113,7 @@
 																		});
 															})
 
-											$scope.uGroup = response[resource = "userGroups"];
+											$scope.uGroup = response[object.resource = "userGroups"];
 											$scope.pager = response.pager.page;
 											$scope.itemsPerPage = response.pager.pageSize;
 											$scope.currentPage = response.pager.page;
@@ -134,12 +137,6 @@
 								});
 							}
 							$scope.getUserGroups("userGroups");
-							$scope.putObjects = function(publicAccess, user,
-									userGroupAccesses) {
-								$scope.publicAccess = false;
-								$scope.userGroupAccesses;
-								$scope.id = response.id;
-							};
 
 							// pagination methods
 							$scope.makeTodos = function() {
@@ -177,9 +174,59 @@
 										'removeRole.action');
 							}
 
-							$scope.limpiarVariables = function(changeButton) {
-								changeButton = changeButton;
-								console.log("en change Button", changeButton);
+							$scope.clean = function() {
+								console.log("Cleannnning");
+								$scope.ugStatus = [ 0, 0, 0, 0 ];
+								$scope.objectSelected = [];
+
+							}
+
+							$scope.changeButtons = function(changeButton) {
+
+								if (changeButton == 1) {
+									access = "r------";
+									console.log("en change Button ", access);
+								}
+								if (changeButton == 2) {
+									access = "rw------";
+									console.log("en change Button ", access);
+								}
+								if (changeButton == 0) {
+									access = "";
+								}
+							}
+
+							// /Assign the permissions to the object
+							$scope.assignPermissions = function(objectSelected) {
+								console.log(objectSelected);
+								angular.forEach($scope.objectSelected,
+										function(objectSelected) {
+											sharingSetting.get({
+												id : objectSelected,
+												type : $scope.type
+											}).$promise.then(function(result) {
+												$scope.objectSelected = [];
+
+												// dhisResource.post({
+												// $scope.objectPermissions.push[{
+												// "publicAccess" :"--------",
+												// "externalAccess" : false,
+												// "user" : {
+												// "id" :objectSelected,
+												// "name" : displayName
+												// },
+												// "userGroupAccesses" : [{
+												// "id" :userGroupAccesses.id,
+												// "access" : "rw------"
+												// }
+												// ];
+												// }];
+												// });
+												console.log(result);
+
+											})
+
+										})
 							}
 
 						} ]);

@@ -30,7 +30,8 @@
   "LABEL_USER":"User",
   "LABEL_USERGROUP":"User group",
   "LABEL_READ":"Read",
-  "LABEL_READEDIT":"Read and Edit",
+  "LABEL_READWRITE":"Read / Write",
+  "LABEL_NONE":"None",
   "LABEL_USERPERMISIONS":"User permision",
   "LABEL_SELECTEDITEMS":"Selected items",
   "TAB_USERS":"Watch Users",
@@ -44,6 +45,9 @@
   "LABEL_WISHDELETEUSERGROUPS":"Do you Wish the  user groups delete",
   "TAB_OBJECTS":"Objects",
   "LABEL_CLOSE":"Close",
-  "LABEL_SELECT":"Button selected for Read/Edit"
+  "LABEL_CONVENTION":"Convencion of colors",
+  "LABEL_PUBLICACCESS":"Public",
+  "LABEL_EXTERNALACCESS":"External",
+  "LABEL_PERMISSIONS":"Permissions"
     
   }
