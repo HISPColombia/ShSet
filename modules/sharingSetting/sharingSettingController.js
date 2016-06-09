@@ -252,32 +252,67 @@
 										function(objectSelected) {
 											sharingSetting.get({
 												id : objectSelected,
-												type : $scope.type,
-												name:$scope.name
+												type : $scope.type
 											}).$promise.then(function(result) {
 												
-												$scope.objectSelected = [];
-											
-												 dhisResource.POST({
-												 resource:$scope.currentResource,	  
-												 "publicAccess" :publicAccess,
-												 "externalAccess" : externalAccess,
-												 
-												 "user" : {
-												 "id" :objectSelected,
-												 "name" : result.object.user.name
-												 },
-												 "userGroupAccesses" : [{
-//												 "id" :$scope.uGroups.id,
-													 "id" :	 "nU4L3bxaIvA",
-												 "access" : access
-												 }
-												 ]
-												 });
 												
+												console.log("ugroupsss",$scope.uGroups);
+												newShSetting = $scope.newShareObject(result,$scope.uGroups);
+												sharingSetting.POST({
+													id : objectSelected,
+													type : $scope.type
+												},newShSetting).$promise.then(function(resultPost) {
+													console.log(resultPost);
+												});	
 												console.log("RESULT", result);
 											})
 										})
+							}	
+
+
+
+
+
+
+							$scope.newShareObject=function(result,uGroups){
+
+								console.log("compare", result);
+								console.log("uGroupslength", uGroups.length);
+								var newShSetting;
+								try{
+								for (a = 0; a < result.object.userGroupAccesses.length; a++) {
+									console.log("iiiii", i);
+									for (i = 0; i < uGroups.length; i++) {
+										if ((result.object.userGroupAccesses[a].id) == (uGroups[a].id)) {
+											console.log("iguales");
+//											(uGroups).splice(0,uGroups[a]);
+											newShSetting=result;	
+//											newShSetting.object.userGroupAccesses.push(
+//													{access:access,
+//														id:uGroups[a].id}
+//													);
+										} else {
+											console.log("Diferentes");
+											newShSetting=result;
+											newShSetting.object.userGroupAccesses.push(
+													{access:access,
+														id:uGroups[a].id}
+													);
+//											return newShSetting;
+										}
+										return newShSetting;
+										
+									}
+								}}catch(error){
+									newShSetting=result;
+									newShSetting.object["userGroupAccesses"]=[
+											{access:access,
+												id:uGroups[a].id}
+											];
+									return newShSetting;
+								}
+								
+								
 							}
 
 						} ]);
