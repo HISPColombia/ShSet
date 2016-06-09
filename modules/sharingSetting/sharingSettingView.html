@@ -180,25 +180,29 @@
 						<div class="panel-body">
 							<div class="col-md-12">
 								<div class="row">
-									<div class="col-md-8">
+									<div class="col-md-12">
+
 										<div class="row">
-											<div class="col-md-8 text-right">
-												<label>{{'LABEL_PERMISSIONS'| translate}}</label>
+											<div class="col-md-6 text-center">
+												<label >{{'LABEL_PERMISSIONS'| translate}}</label>
 											</div>
-											<div class="col-md-4 text-center">
-												<label>{{'LABEL_PUBLICACCESS'| translate}}</label> <label>{{'LABEL_EXTERNALACCESS'|
+											<div class="col-md-3 text-center">
+												<label> {{'LABEL_PUBLICACCESS'|
 													translate}}</label>
+											</div>
+											<div class="col-md-2 " >
+												<label>{{'LABEL_EXTERNALACCESS'|translate}}</label>
 											</div>
 										</div>
 										<div class="list-group">
 											<div class="row list-group-item"
 												ng-repeat="(kug,uGroup) in uGroups">
-												<div class="col-md-6">
+												<div class="col-md-4">
 													<label aria-label="...">{{uGroup.displayName}}</label>
 												</div>
-												<div class="col-md-6">
+												<div class="col-md-8">
 													<div class="row">
-														<div class="col-md-7">
+														<div class="col-md-4">
 															<div class="btn-group" role="group" aria-label="...">
 																<button
 																	ng-click="ugStatus[kug]=0; changeButtons(changeButton=0)"
@@ -215,49 +219,55 @@
 															</div>
 														</div>
 														<div class="row">
-															<div class=" col-md-5 btn-group" role="groupAccess"
+															<div class=" col-md-3 btn-group" role="groupAccess"
 																aria-label="...">
-																<button ng-click="ugStatusAccess[kug]=0" type="button"
+																<button ng-click="ugStatusAccess[kug]=0;changeButtons(changeButton=3)" type="button"
 																	class="btn btn-{{ugStatusAccess[kug]==0?'danger':'default'}} btn-lg"></button>
-																<button ng-click="ugStatusAccess[kug]=1" type="button"
-																	class="btn btn-{{ugStatusAccess[kug]==1?'warning':'default'}} btn-lg"></button>
-
+																<button ng-click="ugStatusAccess[kug]=1;changeButtons(changeButton=4)" type="button"
+																	class="btn btn-{{ugStatusAccess[kug]==1?'success':'default'}} btn-lg"></button>
 															</div>
-														</div>
 
+															<div class="row">
+																<div class=" col-md-3 btn-group" role="groupAccessExternal"
+																	aria-label="...">
+																	<button ng-click="ugStatusAccessExternal[kug]=0;changeButtons(changeButton=5)"
+																		type="button"
+																		class="btn btn-{{ugStatusAccessExternal[kug]==0?'danger':'default'}} btn-lg"></button>
+																	<button ng-click="ugStatusAccessExternal[kug]=1;changeButtons(changeButton=6)"
+																		type="button"
+																		class="btn btn-{{ugStatusAccessExternal[kug]==1?'success':'default'}} btn-lg"></button>
+																</div>
+															</div>
+
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									<br>
-									<div class="col-md-4">
-										<label>{{'LABEL_CONVENTION'| translate}}</label><br> <label
-											class="label label-danger">{{'LABEL_NONE'|translate}}</label>
-										<label class=" label label-warning">{{'LABEL_READ'|translate}}</label>
-										<label class=" label label-success">{{'LABEL_READWRITE'|translate}}</label>
+										<br>
+										<div class="col-md-4">
+											<label>{{'LABEL_CONVENTION'| translate}}</label><br> <label
+												class="label label-danger">{{'LABEL_NONE'|translate}}</label>
+											<label class=" label label-warning">{{'LABEL_READ'|translate}}</label>
+											<label class=" label label-success">{{'LABEL_READWRITE'|translate}}</label>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div class="col-md-12 text-center">
-						<div class="input-group">
-							<span class="input-group-btn">
-								<button type="button" class="btn btn-primary"
-									style="color: @gray-darker" data-dismiss="modal"
-									ng-click="assignPermissions(objectSelected); clean()">{{'LABEL_ASIGN'
-									| translate}}</button>
-								<button type="button" class="btn btn-default"
-									data-dismiss="modal">{{'LABEL_CLOSE' | translate}}</button>
-							</span>
+							<div class="col-md-12 text-center">
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-primary"
+											style="color: @gray-darker" data-dismiss="modal"
+											ng-click="assignPermissions(objectSelected); clean()">{{'LABEL_ASIGN'
+											| translate}}</button>
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal" ng-click="clean()">{{'LABEL_CLOSE' | translate}}</button>
+									</span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
-
-
-
