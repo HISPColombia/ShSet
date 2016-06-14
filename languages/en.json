@@ -48,6 +48,11 @@
   "LABEL_CONVENTION":"Convencion of colors",
   "LABEL_PUBLICACCESS":"Public",
   "LABEL_EXTERNALACCESS":"External",
-  "LABEL_PERMISSIONS":"Permissions"
+  "LABEL_PERMISSIONS":"Permissions",
+  "LABEL_SEARCHCODE":"Search by code",
+  "LABEL_SEARCHPROGRAMS":"Search by program",
+  "LABEL_SEARCHNAME":"Search by name",
+  "LABEL_SEARCHDATASET":"Search by data set",
+  "BUTTON_CLEAR":"Clear"
     
   }

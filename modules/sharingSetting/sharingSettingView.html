@@ -18,7 +18,7 @@
 			<div class="row col-md-6">
 				<textarea class="form form-control" placeholer="Message"
 					style="width: 550px; height: 300px;">
-                                      </textarea>
+					</textarea>
 			</div>
 			<br /> <br />
 		</div>
@@ -34,6 +34,8 @@
 
 </div>
 <br>
+
+
 
 <!-------------------OBJECTS--------------------->
 <div class="row col-md-12">
@@ -86,7 +88,7 @@
 						<div class="row"
 							ng-repeat="access in mObject.userGroupAccesses | filter:searchTextDate ">
 							<div class="col-md-6">
-								<div class="col-md-4">{{access.displayName}}</div>
+								<div class="col-md-6">{{access.displayName}}</div>
 								<div class="col-md-2">
 									<button class="button btn-default" data-toggle="modal"
 										data-target="#modal">x</button>
@@ -105,6 +107,8 @@
 	</div>
 </div>
 <br />
+
+
 
 <!-- 		___________________________MODAL____________________________-->
 
@@ -137,137 +141,260 @@
 		<div class="modal-content">
 			<div class="modal-header">
 
-				<!---------------ASSIGN PERMISSIONS--------------->
-				<div class="row col-md-12">
+				<!---------------SELECT ELEMENTS--------------->
+				<div class="row ">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">{{'TAB_ASIGNELEMENTS'| translate}}</h3>
 						</div>
 						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="input-group">
-										<input id="filter_input" type="text" class="form-control"
-											placeholder="Filter" ng-model="search.$"> <span
-											class="input-group-btn">
-											<button class="btn btn-success" type="button">{{'LABEL_SEARCH'
-												| translate}}</button>
-										</span>
-									</div>
+							<div class="row col-md-12">
+								<!-- 								<div class="col-md-6"> -->
+								<!-- 									<input id="filter_input" type="text" class="form-control" -->
+								<!-- 										placeholder="Filter" ng-model="searchElements"> -->
+								<!-- 								</div> -->
 
-									<!-- 					___________________ASSIGN ELEMENTS___________ -->
-									<br> <select selector multi="true" model="objectSelected"
-										options="objectToSelected" value-attr="value">
-									</select>
-									<!-- 																			<p> -->
-									<!-- 																				Current value: -->
-									<!-- 																				<code ng-bind="objectSelected|json"></code> -->
-									<!-- 																			</p> -->
+								<div class="col-md-12">
+
+									<nav class="navbar navbar-default">
+										<div class="container-fluid">
+											<div class="navbar-header">
+												<button type="button" class="navbar-toggle collapsed"
+													data-toggle="collapse"
+													data-target="#bs-example-navbar-collapse-2"
+													aria-expanded="false">
+													<span class="sr-only">Toggle navigation</span> <span
+														class="icon-bar"></span> <span class="icon-bar"></span> <span
+														class="icon-bar"></span>
+												</button>
+
+											</div>
+
+
+											<accordion close-others="oneAtATime"> <accordion-group
+												is-open="status.open"> <accordion-heading>
+											<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+											Opciones de busqueda <i class="pull-right glyphicon"
+												ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+
+											</accordion-heading> <br>
+											<div class="row">
+												<div class="col-md-10">
+													<label class="label-control">Buscar por:</label>
+													<div class="btn-group" role="group" aria-label="...">
+														<button type="button"
+															class="btn btn-{{opSearch==1?'primary':'default'}}"
+															ng-click="opSearch=1">{{'LABEL_SEARCHCODE'|translate}}</button>
+														<button type="button"
+															class="btn btn-{{opSearch==2?'primary':'default'}}"
+															ng-click="opSearch=2">{{'LABEL_SEARCHPROGRAMS'|translate}}</button>
+														<button type="button"
+															class="btn btn-{{opSearch==3?'primary':'default'}}"
+															ng-click="opSearch=3">{{'LABEL_SEARCHNAME'|translate}}</button>
+														<button type="button"
+															class="btn btn-{{opSearch==4?'primary':'default'}}"
+															ng-click="opSearch=4">{{'LABEL_SEARCHDATASET'|translate}}</button>
+													</div>
+													<div class="row" ng-show="opSearch==1">
+														<form class="navbar-form navbar-left" role="search">
+															<div class="form-group">
+																<label class="label-control">{{'LABEL_SEARCHCODE'|translate}}</label>
+																<input type="text" class="form-control"
+																	ng-model="searchElements"
+																	placeholder="Escribe el codigo a buscar">
+															</div>
+															<button type="submit" class="btn btn-primary sm"
+																ng-click="searchElements=''">{{'BUTTON_CLEAR'|translate}}</button>
+														</form>
+													</div>
+
+													<!-- 													<div class="row" ng-show="opSearch!=1"> -->
+													<!-- 														<form class="navbar-form navbar-left" role="search"> -->
+													<!-- 															<label -->
+													<!-- 																class="{{ValidationField.hpsdeppr.active?'label label-danger':'control-label'}}" -->
+													<!-- 																for="departamentoss">{{ 'LABEL_SEARCHPROGRAMS' | -->
+													<!-- 																translate }} </label> -->
+													<!-- 															<d2-dropdownoptionset tittleoption='departamentoss' -->
+													<!-- 																resource='department' -->
+													<!-- 																preload='{{obligService.hpsdeppr}}'></d2-dropdownoptionset> -->
+													<!-- 														</form> -->
+													<!-- 													</div> -->
+
+													<div class="row" ng-show="opSearch==3">
+														<form class="navbar-form navbar-left" role="search">
+															<div class="form-group">
+																<label class="label-control">{{'LABEL_SEARCHNAME'|translate}}</label>
+																<input type="text" class="form-control"
+																	ng-model="searchName"
+																	placeholder="Escribe el nombre a buscar">
+															</div>
+															<button type="submit" class="btn btn-primary sm"
+																ng-click="searchElements=''">{{'BUTTON_CLEAR'|translate}}</button>
+														</form>
+													</div>
+
+													<div class="row" ng-show="opSearch==4">
+														<form class="navbar-form navbar-left" role="search">
+															<div class="form-group">
+																<label class="label-control">{{'LABEL_SEARCHDATASET'|translate}}</label>
+																<input type="text" class="form-control"
+																	ng-model="searchDataSets"
+																	placeholder="Escribe el set de datos a buscar">
+															</div>
+															<button type="submit" class="btn btn-primary sm"
+																ng-click="searchElements=''">{{'BUTTON_CLEAR'|translate}}</button>
+														</form>
+													</div>
+
+												</div>
+											</accordion-group> </accordion>
+										</div>
+									</nav>
+								</div>
+
+
+								<!-- 					___________________ASSIGN ELEMENTS___________ -->
+								<br> <br>
+
+								<div class="col-md-5">
+									<select class="sectionLeft" id="myselection"
+										style="width: 400px; height: 150px; margin-right: 0px;"
+										multiple="true" ng-model="selectElements"
+										ng-dblclick="getOptionSelected(selectElements)"
+										ng-options="mObject.displayName for mObject in mObjects | filter:searchElements | filter: mObject.status=1"></select>
+								</div>
+
+								<div class="col-md-1"></div>
+								<div class="col-md-1">
+									<br> <input type="button" class=" pass left"
+										style="width: 40px" value="<<" type="submit"
+										ng-click="removeOptionSelected(mObjects)"> <br>
+									<input type="button" class="pass Rigth" style="width: 40px"
+										value="<" type="submit"
+										ng-click="removeOptionSelected(selectElements)"> <br>
+									<input type="button" class="pass Rigth" style="width: 40px"
+										value=">>" type="submit"
+										ng-click="getOptionSelected(objectSelected)"> <br>
+									<input type="button" class="pass Rigth" style="width: 40px"
+										value=">" type="submit"
+										ng-click="getOptionSelected(selectElements,mObjects);searchElements='' ">
 
 								</div>
+
+
+
+								<div class="col-md-5">
+									<select class="select" id="SelectedElements"
+										style="width: 348px; height: 150px;" multiple="multiple">
+										<optgroup label="Selected Elements">
+											<option
+												ng-repeat="mObject in mObjects | filter: mObject.status=2">{{mObject.displayName}}</option>
+										</optgroup>
+									</select>
+								</div>
+
+
+
+								<!-- 									 <select selector multi="true" -->
+								<!-- 										model="objectSelected" options="objectToSelected" -->
+								<!-- 										value-attr="value"> -->
+								<!-- 									</select> -->
+								
+								<!-- 																			<p> -->
+								<!-- 																				Current value: -->
+								<!-- 																				<code ng-bind="objectSelected|json"></code> -->
+								<!-- 																			</p> -->
 							</div>
+
 						</div>
 					</div>
+				</div>
 
-					<!-- ____________________ASIGN PERMISSIONS_______________________________________--->
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">{{'TAB_ASIGNPERMISSIONS'|
-								translate}}</h3>
-						</div>
-
-						<br>
-						<div class="panel-body">
-							<div class="col-md-12">
+				<!-- ____________________ASIGN PERMISSIONS_______________________________________--->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">{{'TAB_ASIGNPERMISSIONS'| translate}}</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-12"></div>
 								<div class="row">
-									<div class="col-md-12">
-
-										<div class="row">
-											<div class="col-md-6 text-center">
-												<label >{{'LABEL_PERMISSIONS'| translate}}</label>
-											</div>
-											<div class="col-md-3 text-center">
-												<label> {{'LABEL_PUBLICACCESS'|
-													translate}}</label>
-											</div>
-											<div class="col-md-2 " >
-												<label>{{'LABEL_EXTERNALACCESS'|translate}}</label>
-											</div>
+									<div class="col-md-6 text-center">
+										<label>{{'LABEL_PERMISSIONS'| translate}}</label>
+									</div>
+									<div class="col-md-3 text-center">
+										<label> {{'LABEL_PUBLICACCESS'| translate}}</label>
+									</div>
+								</div>
+								<div class="list-group">
+									<div class="row list-group-item"
+										ng-repeat="(kug,uGroup) in uGroups">
+										<div class="col-md-4">
+											<label aria-label="...">{{uGroup.displayName}}</label>
 										</div>
-										<div class="list-group">
-											<div class="row list-group-item"
-												ng-repeat="(kug,uGroup) in uGroups">
+										<div class="col-md-8">
+											<div class="row">
 												<div class="col-md-4">
-													<label aria-label="...">{{uGroup.displayName}}</label>
+													<div class="btn-group" role="group" aria-label="...">
+														<button
+															ng-click="ugStatus[kug]=0; changeButtons(changeButton=0)"
+															type="button"
+															class="btn btn-{{ugStatus[kug]==0?'danger':'default'}} btn-lg"></button>
+														<button
+															ng-click="ugStatus[kug]=1; changeButtons(changeButton=1)"
+															type="button"
+															class="btn btn-{{ugStatus[kug]==1?'warning':'default'}} btn-lg"></button>
+														<button
+															ng-click="ugStatus[kug]=2; changeButtons(changeButton=2)"
+															type="button"
+															class="btn btn-{{ugStatus[kug]==2?'success':'default'}} btn-lg"></button>
+													</div>
 												</div>
-												<div class="col-md-8">
-													<div class="row">
-														<div class="col-md-4">
-															<div class="btn-group" role="group" aria-label="...">
-																<button
-																	ng-click="ugStatus[kug]=0; changeButtons(changeButton=0)"
-																	type="button"
-																	class="btn btn-{{ugStatus[kug]==0?'danger':'default'}} btn-lg"></button>
-																<button
-																	ng-click="ugStatus[kug]=1; changeButtons(changeButton=1)"
-																	type="button"
-																	class="btn btn-{{ugStatus[kug]==1?'warning':'default'}} btn-lg"></button>
-																<button
-																	ng-click="ugStatus[kug]=2; changeButtons(changeButton=2)"
-																	type="button"
-																	class="btn btn-{{ugStatus[kug]==2?'success':'default'}} btn-lg"></button>
-															</div>
-														</div>
-														<div class="row">
-															<div class=" col-md-3 btn-group" role="groupAccess"
-																aria-label="...">
-																<button ng-click="ugStatusAccess[kug]=0;changeButtons(changeButton=3)" type="button"
-																	class="btn btn-{{ugStatusAccess[kug]==0?'danger':'default'}} btn-lg"></button>
-																<button ng-click="ugStatusAccess[kug]=1;changeButtons(changeButton=4)" type="button"
-																	class="btn btn-{{ugStatusAccess[kug]==1?'success':'default'}} btn-lg"></button>
-															</div>
-
-															<div class="row">
-																<div class=" col-md-3 btn-group" role="groupAccessExternal"
-																	aria-label="...">
-																	<button ng-click="ugStatusAccessExternal[kug]=0;changeButtons(changeButton=5)"
-																		type="button"
-																		class="btn btn-{{ugStatusAccessExternal[kug]==0?'danger':'default'}} btn-lg"></button>
-																	<button ng-click="ugStatusAccessExternal[kug]=1;changeButtons(changeButton=6)"
-																		type="button"
-																		class="btn btn-{{ugStatusAccessExternal[kug]==1?'success':'default'}} btn-lg"></button>
-																</div>
-															</div>
-
-														</div>
+												<div class="row">
+													<div class=" col-md-3 btn-group" role="groupAccess"
+														aria-label="...">
+														<button
+															ng-click="ugStatusAccess[kug]=0;changeButtons(changeButton=3)"
+															type="button"
+															class="btn btn-{{ugStatusAccess[kug]==0?'danger':'default'}} btn-lg"></button>
+														<button
+															ng-click="ugStatusAccess[kug]=1;changeButtons(changeButton=4)"
+															type="button"
+															class="btn btn-{{ugStatusAccess[kug]==1?'success':'default'}} btn-lg"></button>
 													</div>
 												</div>
 											</div>
 										</div>
-										<br>
-										<div class="col-md-4">
-											<label>{{'LABEL_CONVENTION'| translate}}</label><br> <label
-												class="label label-danger">{{'LABEL_NONE'|translate}}</label>
-											<label class=" label label-warning">{{'LABEL_READ'|translate}}</label>
-											<label class=" label label-success">{{'LABEL_READWRITE'|translate}}</label>
-										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-md-12 text-center">
-								<div class="input-group">
-									<span class="input-group-btn">
-										<button type="button" class="btn btn-primary"
-											style="color: @gray-darker" data-dismiss="modal"
-											ng-click="assignPermissions(objectSelected);clean()">{{'LABEL_ASIGN'
-											| translate}}</button>
-										<button type="button" class="btn btn-default"
-											data-dismiss="modal" ng-click="clean()">{{'LABEL_CLOSE' | translate}}</button>
-									</span>
+								<br>
+								<div class="col-md-4">
+
+									<label>{{'LABEL_CONVENTION'| translate}}</label><br> <label
+										class="label label-danger">{{'LABEL_NONE'|translate}}</label>
+									<label class=" label label-warning">{{'LABEL_READ'|translate}}</label>
+									<label class=" label label-success">{{'LABEL_READWRITE'|translate}}</label>
 								</div>
 							</div>
+						</div>
+					</div>
+					<div class="col-md-12 text-center">
+						<div class="input-group">
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-primary"
+									style="color: @gray-darker" data-dismiss="modal"
+									ng-click="assignPermissions(objectSelected);clean()">{{'LABEL_ASIGN'
+									| translate}}</button>
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal" ng-click="clean()">{{'LABEL_CLOSE'
+									| translate}}</button>
+							</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+
+</div>
