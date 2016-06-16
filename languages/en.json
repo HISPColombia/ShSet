@@ -19,7 +19,10 @@
   "OBJ_DATAELEMENT":"Data Elements",
   "OBJ_DATAELEMENTGROUP":"Data Element Groups",
   "OBJ_CATEGORYOPTIONS":"Category options",
+  "OBJ_CATEGORIES":"Categories",
   "OBJ_CATEGORYCOMBO":"Category Combo",
+  "OBJ_CATEGORYOPTIONCOMBOS":"Category optiom combos",
+  "OBJ_CATEGORYOPTIONGROUPS":"Grupos de opciones de categoria",
   "OBJ_INDICATORS":"Indicators",
   "OBJ_INDICATORSGROUPS":"Indicators groups",
   "OBJ_DATASETS":"Data sets",
@@ -53,6 +56,7 @@
   "LABEL_SEARCHPROGRAMS":"Search by program",
   "LABEL_SEARCHNAME":"Search by name",
   "LABEL_SEARCHDATASET":"Search by data set",
+  "LABEL_SEARCHGROUP":"Search by group",
   "BUTTON_CLEAR":"Clear"
     
   }

@@ -70,3 +70,39 @@ Dhis2Api.factory("dhisResource", [ '$resource', 'commonvariable',
 				}
 			});
 		} ]);
+
+Dhis2Api.factory("dataSets", [ '$resource', 'commonvariable',
+		function($resource, commonvariable) {
+			return $resource(commonvariable.url + "/dataSets/:id", {
+				id : '@id',
+
+			}, {
+				GET : {
+					method : "GET"
+				}
+			});
+		} ]);
+
+Dhis2Api.factory("dataElementsGroups", [ '$resource', 'commonvariable',
+		function($resource, commonvariable) {
+			return $resource(commonvariable.url + "/dataElementGroups/:id", {
+				id : '@id',
+
+			}, {
+				GET : {
+					method : "GET"
+				}
+			});
+		} ]);
+
+Dhis2Api.factory("categories", [ '$resource', 'commonvariable',
+                                 		function($resource, commonvariable) {
+                                 			return $resource(commonvariable.url + "/categories/:id", {
+                                 				id : '@id',
+
+                                 			}, {
+                                 				GET : {
+                                 					method : "GET"
+                                 				}
+                                 			});
+                                 		} ]);

@@ -107,9 +107,6 @@
 	</div>
 </div>
 <br />
-
-
-
 <!-- 		___________________________MODAL____________________________-->
 
 <div class="modal fade" id="modal" tabindex="-1" role="dialog"
@@ -123,8 +120,8 @@
 				<div class="modal-body text-center ">
 
 					{{'LABEL_WISHDELETEUSERGROUPS' | translate}} <br> <br>
-					<button class="btn btn-primary">{{'LABEL_YES' |
-						translate}}</button>
+					<button class="btn btn-primary" ng-click="removeGroupAccess()">{{'LABEL_YES'
+						| translate}}</button>
 					<button class="btn btn-primary" class="btn btn-primary"
 						data-dismiss="modal">{{'LABEL_NO' | translate}}</button>
 				</div>
@@ -182,15 +179,16 @@
 												<div class="col-md-10">
 													<label class="label-control">Buscar por:</label>
 													<div class="btn-group" role="group" aria-label="...">
-														<button type="button"
+														<button id="code" type="button"
 															class="btn btn-{{opSearch==1?'primary':'default'}}"
-															ng-click="opSearch=1">{{'LABEL_SEARCHCODE'|translate}}</button>
+															ng-click="opSearch=1">{{'LABEL_SEARCHCODE'|translate}}
+														</button>
 														<button type="button"
 															class="btn btn-{{opSearch==2?'primary':'default'}}"
-															ng-click="opSearch=2">{{'LABEL_SEARCHPROGRAMS'|translate}}</button>
+															ng-click="opSearch=2">{{'LABEL_SEARCHNAME'|translate}}</button>
 														<button type="button"
 															class="btn btn-{{opSearch==3?'primary':'default'}}"
-															ng-click="opSearch=3">{{'LABEL_SEARCHNAME'|translate}}</button>
+															ng-click="opSearch=3">{{'LABEL_SEARCHGROUP'|translate}}</button>
 														<button type="button"
 															class="btn btn-{{opSearch==4?'primary':'default'}}"
 															ng-click="opSearch=4">{{'LABEL_SEARCHDATASET'|translate}}</button>
@@ -207,20 +205,7 @@
 																ng-click="searchElements=''">{{'BUTTON_CLEAR'|translate}}</button>
 														</form>
 													</div>
-
-													<!-- 													<div class="row" ng-show="opSearch!=1"> -->
-													<!-- 														<form class="navbar-form navbar-left" role="search"> -->
-													<!-- 															<label -->
-													<!-- 																class="{{ValidationField.hpsdeppr.active?'label label-danger':'control-label'}}" -->
-													<!-- 																for="departamentoss">{{ 'LABEL_SEARCHPROGRAMS' | -->
-													<!-- 																translate }} </label> -->
-													<!-- 															<d2-dropdownoptionset tittleoption='departamentoss' -->
-													<!-- 																resource='department' -->
-													<!-- 																preload='{{obligService.hpsdeppr}}'></d2-dropdownoptionset> -->
-													<!-- 														</form> -->
-													<!-- 													</div> -->
-
-													<div class="row" ng-show="opSearch==3">
+													<div class="row" ng-show="opSearch==2">
 														<form class="navbar-form navbar-left" role="search">
 															<div class="form-group">
 																<label class="label-control">{{'LABEL_SEARCHNAME'|translate}}</label>
@@ -233,20 +218,77 @@
 														</form>
 													</div>
 
-													<div class="row" ng-show="opSearch==4">
+													<div class="row" ng-show="opSearch==3">
 														<form class="navbar-form navbar-left" role="search">
 															<div class="form-group">
-																<label class="label-control">{{'LABEL_SEARCHDATASET'|translate}}</label>
+																<label class="label-control">{{'LABEL_SEARCHGROUP'|translate}}</label>
 																<input type="text" class="form-control"
-																	ng-model="searchDataSets"
-																	placeholder="Escribe el set de datos a buscar">
+																	ng-model="searchName"
+																	placeholder="Escribe el grupo a buscar">
 															</div>
 															<button type="submit" class="btn btn-primary sm"
 																ng-click="searchElements=''">{{'BUTTON_CLEAR'|translate}}</button>
 														</form>
 													</div>
 
+													<div class="row" ng-show="opSearch==4">
+														<form class="navbar-form navbar-left" role="search">
+															<div class="form-group">
+																<label class="label-control">{{'LABEL_SEARCHDATASET'|translate}}</label>
+																<br> <input type="text" class="form-control"
+																	ng-model="searchDataSets"
+																	placeholder="Escribe el set de datos a buscar"
+																	ng-change="getdataSets(searchDataSets)">
+
+																____________
+																<div class="row">
+																	<div class="col-md-10">
+
+																		<div class="input-group-btn {{ouExist}}">
+																			<input type="text" ng-model="optionsetSelected"
+																			ng-model="searchDataSets"
+																				id="searchDataSets"
+																				placeholder="{{'OPTIONSET_SEARCH' | translate }}"
+																				typeahead="dataSet dataSet.displayName for dataSet in getdataSets($viewValue)"
+																				typeahead-min-length="2" 
+																				typeahead-loading="loadingrefresh"
+																				class="form-control">
+																			<i ng-show="loadingrefresh"
+																				class="glyphicon glyphicon-refresh"></i>
+
+																		</div>
+																	</div>
+																	<div class="col-md-1">
+																		<button type="button"
+																			class="btn btn-default btn-warning"
+																			aria-label="Advertencia" ng-show="errorFoundshow"
+																			popover="Debe seleccionar una opción"
+																			popover-trigger="mouseenter"
+																			popover-placement="right">
+																			<span class="glyphicon glyphicon-warning-sign"
+																				aria-hidden="true"></span>
+																		</button>
+																	</div>
+																	<div class="col-md-1"></div>
+																</div>
+
+															</div>
+
+
+
+
+
+
+															___________--
+
+															<button type="submit" class="btn btn-primary sm"
+																ng-click="searchElements=''">{{'BUTTON_CLEAR'|translate}}</button>
+													</div>
+
+													</form>
 												</div>
+
+											</div>
 											</accordion-group> </accordion>
 										</div>
 									</nav>
@@ -260,36 +302,34 @@
 									<select class="sectionLeft" id="myselection"
 										style="width: 400px; height: 150px; margin-right: 0px;"
 										multiple="true" ng-model="selectElements"
-										ng-dblclick="getOptionSelected(selectElements)"
-										ng-options="mObject.displayName for mObject in mObjects | filter:searchElements | filter: mObject.status=1"></select>
+										ng-dblclick="getOptionSelected(selectElements,mObjects)"
+										ng-options="mObject.displayName for mObject in mObjects | filter: searchName"></select>
 								</div>
-
 								<div class="col-md-1"></div>
 								<div class="col-md-1">
 									<br> <input type="button" class=" pass left"
 										style="width: 40px" value="<<" type="submit"
-										ng-click="removeOptionSelected(mObjects)"> <br>
-									<input type="button" class="pass Rigth" style="width: 40px"
-										value="<" type="submit"
-										ng-click="removeOptionSelected(selectElements)"> <br>
+										ng-click="removeOptionSelected(selectedElements,mObjects);myselection">
+									<br> <input type="button" class="pass left"
+										style="width: 40px" value="<" type="submit"
+										ng-click="removeOptionSelected(objectSele)"> <br>
 									<input type="button" class="pass Rigth" style="width: 40px"
 										value=">>" type="submit"
 										ng-click="getOptionSelected(objectSelected)"> <br>
 									<input type="button" class="pass Rigth" style="width: 40px"
 										value=">" type="submit"
 										ng-click="getOptionSelected(selectElements,mObjects);searchElements='' ">
-
 								</div>
-
-
-
 								<div class="col-md-5">
-									<select class="select" id="SelectedElements"
-										style="width: 348px; height: 150px;" multiple="multiple">
-										<optgroup label="Selected Elements">
-											<option
-												ng-repeat="mObject in mObjects | filter: mObject.status=2">{{mObject.displayName}}</option>
-										</optgroup>
+									<select class="sectionRigth"
+										style="width: 348px; height: 150px;" multiple="true"
+										ng-model="selectedElements"
+										ng-dblclick="removeOptionSelected(selectedElements,mObjects)"
+										ng-options="objectSelec.displayName for objectSelec in objectSele">
+
+										<!-- 										<optgroup label="Selected Elements"> -->
+										<!-- 											<option ng-repeat="objectSelec in objectSele ">{{objectSelec.name}}</option> -->
+										<!-- 										</optgroup> -->
 									</select>
 								</div>
 
@@ -299,7 +339,7 @@
 								<!-- 										model="objectSelected" options="objectToSelected" -->
 								<!-- 										value-attr="value"> -->
 								<!-- 									</select> -->
-								
+
 								<!-- 																			<p> -->
 								<!-- 																				Current value: -->
 								<!-- 																				<code ng-bind="objectSelected|json"></code> -->
