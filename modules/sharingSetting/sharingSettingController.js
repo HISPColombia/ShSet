@@ -9,9 +9,13 @@
 						'dhisResource',
 						'commonvariable',
 						'dataSets',
+						'dataElementGroups',
+						'categories',
+						'dataElements',
 						function($scope, $filter, commonvariable,
 								sharingSetting, dhisResource, commonvariable,
-								dataSets) {
+								dataSets, dataElementGroups, categories,
+								dataElements) {
 
 							// variables
 							var $translate = $filter('translate');
@@ -25,6 +29,9 @@
 							$scope.externalAccess;
 							$scope.objectSele = [];
 							$scope.object = [];
+							$scope.respo = [];
+							$scope.objects = [];
+							$scope.showButtons;
 
 							// /Object array of api object and type variable in
 							// sharing Setting resource
@@ -38,6 +45,11 @@
 										type : "dataElementGroup",
 										resource : "dataElementGroups",
 										name : $translate("OBJ_DATAELEMENTGROUP")
+									},
+									{
+										type : "dataElementGroupSets",
+										resource : "dataElementGroupSets",
+										name : $translate("OBJ_DATAELEMENTGROUPSETS")
 									},
 									{
 										type : "categories",
@@ -64,11 +76,21 @@
 										resource : "categoryOptionGroups",
 										name : $translate("OBJ_CATEGORYOPTIONGROUPS")
 									},
+									{
+										type : "categoryOptionGroupSets",
+										resource : "categoryOptionGroupSets",
+										name : $translate("OBJ_CATEGORYOPTIONGROUPSETS")
+									},
 
 									{
 										type : "indicators",
 										resource : "indicators",
 										name : $translate("OBJ_INDICATORS")
+									},
+									{
+										type : "indicatorTypes",
+										resource : "indicatorTypes",
+										name : $translate("OBJ_INDICATORSTYPES")
 									},
 									{
 										type : "indicatorGroup",
@@ -114,6 +136,12 @@
 								$scope.type = object.type;
 								$scope.page = object.page;
 
+								if (object.name == ($translate("OBJ_DATAELEMENT"))) {
+									$scope.showButtons = true;
+								} else if (object.name == ($translate("OBJ_CATEGORIES"))) {
+									$scope.showButtons = false;
+								}
+
 								dhisResource
 										.GET({
 											resource : object.resource,
@@ -123,6 +151,8 @@
 										.then(function(response) {
 											$scope.mObjects = response[object.resource];
 											$scope.listmObjects = $scope.mObjects;
+											$scope.objectPrincipal = $scope.mObjects;
+
 											for (a = 0; a < $scope.mObjects.length; a++) {
 												$scope.mObjects[a]["status"] = "1";
 												$scope.mObjects[a]["key"] = a;
@@ -176,73 +206,136 @@
 							}
 							$scope.getUserGroups("userGroups");
 
+							// Get data Elements By code
+							$scope.getCode = function(code) {
+								
+								return dataElements
+										.GET({
+											filter : "code:like:" + code,
+											fields : "id,name,displayName,user,userGroupAccesses"
+										}).$promise
+										.then(function(responseDataElements) {
+											console.log("codeee", responseDataElements);
+											$scope.mObjects = responseDataElements.dataElements;
+											return responseDataElements;
+										});
+							}
+
 							// Get datasets By name
 							$scope.getdataSets = function(name) {
-								dataSets.GET({
-									// id : id,
+								return dataSets.GET({
 									filter : "name:like:" + name
-
 								}).$promise.then(function(responseDataSet) {
-									console.log("response", responseDataSet)
-
+									return responseDataSet.dataSets;
 								});
 							}
+
+							$scope.onSelect = function($item, $model, $label) {
+								$scope.getElementByDataSet($item.id);
+
+							};
 
 							// Get DataElements by DataSet
 							$scope.getElementByDataSet = function(id) {
-								dataSets
+								return dataSets
 										.GET({
 											id : id,
 											fields : "dataElements[id,name,displayName,user,userGroupAccesses]"
-
-										}).$promise.then(function(response) {
+										}).$promise.then(function(
+										getElementByDataSet) {
+									$scope.validateObject(getElementByDataSet);
+									$scope.mObjects = $scope.objects;
+									return getElementByDataSet;
 								});
+							}
+
+							$scope.validateObject = function(objects) {
+								for (x = 0; x < objects.dataElements.length; x++) {
+									$scope.objects
+											.push({
+												id : objects.dataElements[x].id,
+												displayName : objects.dataElements[x].displayName,
+												user : objects.dataElements[x].user
+											});
+								}
+								return objects;
+							}
+
+							// return object "mObject" to the original List
+							$scope.returnMobject = function() {
+								$scope.mObjects = $scope.objectPrincipal;
+								$scope.objects = [];
+								console.log($scope.mObjects);
 							}
 
 							// Get dataElementsGroups By name
-							$scope.getDataElementsGroups = function(name) {
-								dataElementsGroups.GET({
-									// id : id,
-									filter : "name:like:" + name
-
-								}).$promise.then(function(responseDataSet) {
-									console.log("respuesta", responseDataSet)
-
-								});
+							$scope.getDataElementsGroups = function(
+									nameElementGroup) {
+								return dataElementGroups.GET({
+									filter : "name:like:" + nameElementGroup
+								}).$promise
+										.then(function(responseElementGroup) {
+											return responseElementGroup.dataElementGroups;
+										});
 							}
+							$scope.onSelectGroups = function($item, $model,
+									$label) {
+								$scope.getElementByDataElementsGroups($item.id);
+
+							};
 
 							// Get DataElements by DataElementsGroups
 							$scope.getElementByDataElementsGroups = function(id) {
-								dataElementsGroups
+								return dataElementGroups
 										.GET({
 											id : id,
 											fields : "dataElements[id,name,displayName,user,userGroupAccesses]"
-
-										}).$promise.then(function(response) {
-								});
+										}).$promise
+										.then(function(
+												responseByDataElementsGroups) {
+											$scope
+													.validateObject(responseByDataElementsGroups);
+											$scope.mObjects = $scope.objects;
+											return responseByDataElementsGroups;
+										});
 							}
 
 							// Get categories By name
 							$scope.getCategories = function(name) {
-								categories.GET({
-									// id : id,
+								return categories.GET({
 									filter : "name:like:" + name
-
-								}).$promise.then(function(responseDataSet) {
-									console.log("respuesta", responseDataSet)
-
+								}).$promise.then(function(responseCategories) {
+									return responseCategories.categories;
 								});
 							}
 
-							// Get DataElements by categories
+							// /get categories
+							$scope.onSelectCategories = function($item, $model,
+									$label) {
+								$scope.getElementByCategory($item.id);
+
+							};
+
+							// Get categoryOptions by categories
 							$scope.getElementByCategory = function(id) {
-								categories
+								return categories
 										.GET({
 											id : id,
-											fields : "dataElements[id,name,displayName,user,userGroupAccesses]"
+											fields : "categoryOptions[id,name,displayName,user,userGroupAccesses]"
 
-										}).$promise.then(function(response) {
-								});
+										}).$promise
+										.then(function(responseCategories) {
+											for (x = 0; x < responseCategories.length; x++) {
+												$scope.objects
+														.push({
+															id : responseCategories.categoryOptions[x].id,
+															displayName : responseCategories.categoryOptions[x].displayName,
+															user : responseCategories.categoryOptions[x].user
+														});
+											}
+											$scope.mObjects = responseCategories.categoryOptions;
+											return responseCategories;
+										});
 							}
 
 							// pagination methods
@@ -333,28 +426,35 @@
 							// /Get and Put the permissions to the object
 							$scope.assignPermissions = function(objectSelected) {
 								console.log(objectSelected);
-								angular.forEach(
+								angular
+										.forEach(
 												$scope.objectSelected,
 												function(objectSelected) {
 													sharingSetting.get({
 														id : objectSelected,
 														type : $scope.type
-													}).$promise.then(function(
+													}).$promise
+															.then(function(
 																	result) {
-																console.log("ugroupsss",$scope.uGroups);
+																console
+																		.log(
+																				"ugroupsss",
+																				$scope.uGroups);
 																newShSetting = $scope
 																		.newShareObject(
 																				result,
 																				$scope.uGroups);
 																sharingSetting
-																		.POST({
-																			id : objectSelected,
-																			type : $scope.type
-																			},
-																			newShSetting).$promise
+																		.POST(
+																				{
+																					id : objectSelected,
+																					type : $scope.type
+																				},
+																				newShSetting).$promise
 																		.then(function(
 																				resultPost) {
-																			console.log(resultPost);
+																			console
+																					.log(resultPost);
 																		});
 																console
 																		.log(
@@ -371,7 +471,10 @@
 								var newShSetting = result;
 								try {
 									for (i = 0; i < (uGroups.length) - 1; i++) {
-										console.log("iiiii",result.object.userGroupAccesses.length);
+										console
+												.log(
+														"iiiii",
+														result.object.userGroupAccesses.length);
 
 										// for (a = 0; a <
 										// (result.object.userGroupAccesses.length)-1;
@@ -417,7 +520,7 @@
 							$scope.getOptionSelected = function(objectSelected,
 									mObjects) {
 								$scope.listmObjects = mObjects;
-								console.log("objectSelected",objectSelected);
+								console.log("objectSelected", objectSelected);
 								try {
 									for (a = 0; a < objectSelected.length; a++) {
 										for (i = 0; i < mObjects.length; i++) {
@@ -430,13 +533,16 @@
 															displayName : objectSelected[a].displayName,
 															status : "2",
 															key : objectSelected[a].key
-//															,
-//															userGroupAccesses({
-//																id : objectSelected[a].id,
-//																displayName : objectSelected[a].displayName,
-//																access: objectSelected[a].access	
-//															});
-															
+														// ,
+														// userGroupAccesses({
+														// id :
+														// objectSelected[a].id,
+														// displayName :
+														// objectSelected[a].displayName,
+														// access:
+														// objectSelected[a].access
+														// });
+
 														});
 												console.log("objeto mObject",
 														$scope.mObjects);
@@ -455,12 +561,13 @@
 								try {
 									for (a = 0; a < object.length; a++) {
 										for (i = 0; i < mObjects.length; i++) {
-											$scope.mObjects.push({
-												id : object[a].id,
-												displayName : object[a].name,
-												status : "1",
-												key : object[a].key
-											});
+											$scope.mObjects
+													.push({
+														id : object[a].id,
+														displayName : object[a].displayName,
+														status : "1",
+														key : object[a].key
+													});
 											console.log("ob2 remove", mObjects);
 											$scope.objectSele.splice(i, 1);
 											break;

@@ -83,7 +83,19 @@ Dhis2Api.factory("dataSets", [ '$resource', 'commonvariable',
 			});
 		} ]);
 
-Dhis2Api.factory("dataElementsGroups", [ '$resource', 'commonvariable',
+Dhis2Api.factory("dataElements", [ '$resource', 'commonvariable',
+		function($resource, commonvariable) {
+			return $resource(commonvariable.url + "/dataElements/:id", {
+				id : '@id',
+
+			}, {
+				GET : {
+					method : "GET"
+				}
+			});
+		} ]);
+
+Dhis2Api.factory("dataElementGroups", [ '$resource', 'commonvariable',
 		function($resource, commonvariable) {
 			return $resource(commonvariable.url + "/dataElementGroups/:id", {
 				id : '@id',
@@ -96,13 +108,13 @@ Dhis2Api.factory("dataElementsGroups", [ '$resource', 'commonvariable',
 		} ]);
 
 Dhis2Api.factory("categories", [ '$resource', 'commonvariable',
-                                 		function($resource, commonvariable) {
-                                 			return $resource(commonvariable.url + "/categories/:id", {
-                                 				id : '@id',
+		function($resource, commonvariable) {
+			return $resource(commonvariable.url + "/categories/:id", {
+				id : '@id',
 
-                                 			}, {
-                                 				GET : {
-                                 					method : "GET"
-                                 				}
-                                 			});
-                                 		} ]);
+			}, {
+				GET : {
+					method : "GET"
+				}
+			});
+		} ]);

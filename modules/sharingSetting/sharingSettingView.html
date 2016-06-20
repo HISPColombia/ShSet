@@ -34,9 +34,6 @@
 
 </div>
 <br>
-
-
-
 <!-------------------OBJECTS--------------------->
 <div class="row col-md-12">
 	<div class="panel panel-default">
@@ -146,10 +143,6 @@
 						</div>
 						<div class="panel-body">
 							<div class="row col-md-12">
-								<!-- 								<div class="col-md-6"> -->
-								<!-- 									<input id="filter_input" type="text" class="form-control" -->
-								<!-- 										placeholder="Filter" ng-model="searchElements"> -->
-								<!-- 								</div> -->
 
 								<div class="col-md-12">
 
@@ -171,8 +164,8 @@
 											<accordion close-others="oneAtATime"> <accordion-group
 												is-open="status.open"> <accordion-heading>
 											<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-											Opciones de busqueda <i class="pull-right glyphicon"
-												ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+											Opciones de busqueda <!-- 											<i class="pull-right glyphicon" -->
+											<!-- 												ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i> -->
 
 											</accordion-heading> <br>
 											<div class="row">
@@ -191,30 +184,41 @@
 															ng-click="opSearch=3">{{'LABEL_SEARCHGROUP'|translate}}</button>
 														<button type="button"
 															class="btn btn-{{opSearch==4?'primary':'default'}}"
-															ng-click="opSearch=4">{{'LABEL_SEARCHDATASET'|translate}}</button>
+															ng-click="opSearch=4" ng-show="type == 'dataElement' || type == 'dataSet'" >{{'LABEL_SEARCHDATASET'|translate}}</button>
+														<button type="button"
+															class="btn btn-{{opSearch==5?'primary':'default'}}"
+															ng-show="type == 'categories' || type == 'categoryOptions'" ng-click="opSearch=5">{{'LABEL_SEARCHCATEGORIES'|translate}}</button>
 													</div>
 													<div class="row" ng-show="opSearch==1">
 														<form class="navbar-form navbar-left" role="search">
 															<div class="form-group">
 																<label class="label-control">{{'LABEL_SEARCHCODE'|translate}}</label>
+																<br>
 																<input type="text" class="form-control"
-																	ng-model="searchElements"
-																	placeholder="Escribe el codigo a buscar">
+																	ng-model="searchCode"
+																	placeholder="Escribe el codigo a buscar" ng-change="getCode(searchCode)" >
+
+																<button type="submit" class="btn btn-success sm"
+																	ng-click="searchElements=''"><span class="glyphicon glyphicon-remove"
+																		aria-hidden="true"></span></button>
 															</div>
-															<button type="submit" class="btn btn-primary sm"
-																ng-click="searchElements=''">{{'BUTTON_CLEAR'|translate}}</button>
 														</form>
 													</div>
 													<div class="row" ng-show="opSearch==2">
 														<form class="navbar-form navbar-left" role="search">
 															<div class="form-group">
 																<label class="label-control">{{'LABEL_SEARCHNAME'|translate}}</label>
+																<br>
 																<input type="text" class="form-control"
 																	ng-model="searchName"
 																	placeholder="Escribe el nombre a buscar">
+
+																<button type="submit" class="btn btn-success sm"
+																	ng-click="searchName=''">
+																	<span class="glyphicon glyphicon-remove"
+																		aria-hidden="true"></span>
+																</button>
 															</div>
-															<button type="submit" class="btn btn-primary sm"
-																ng-click="searchElements=''">{{'BUTTON_CLEAR'|translate}}</button>
 														</form>
 													</div>
 
@@ -222,12 +226,25 @@
 														<form class="navbar-form navbar-left" role="search">
 															<div class="form-group">
 																<label class="label-control">{{'LABEL_SEARCHGROUP'|translate}}</label>
-																<input type="text" class="form-control"
-																	ng-model="searchName"
-																	placeholder="Escribe el grupo a buscar">
+																<br> <input type="text" ng-model="groupSelected"
+																	typeahead-loading="loadingLocations"
+																	typeahead-no-results="noResults"
+																	placeholder="{{'LABEL_SEARCHGROUP'|translate}}"
+																	uib-typeahead="resultElementGroup as resultElementGroup.displayName for resultElementGroup in getDataElementsGroups($viewValue)"
+																	class="form-control" typeahead-on-select="onSelectGroups($item, $model, $label)"> 
+																	<i	ng-show="loadingLocations"
+																	class="glyphicon glyphicon-refresh"></i>
+																<div ng-show="noResults">
+																	<i class="glyphicon glyphicon-remove"></i>
+																	{{'LABEL_NORESULTSFOUND'| translate}}
+																</div>
+
+																<button type="submit" class="btn btn-success sm"
+																	ng-click="groupSelected=''; returnMobject()">
+																	<span class="glyphicon glyphicon-remove"
+																		aria-hidden="true"></span>
+																</button>
 															</div>
-															<button type="submit" class="btn btn-primary sm"
-																ng-click="searchElements=''">{{'BUTTON_CLEAR'|translate}}</button>
 														</form>
 													</div>
 
@@ -235,66 +252,58 @@
 														<form class="navbar-form navbar-left" role="search">
 															<div class="form-group">
 																<label class="label-control">{{'LABEL_SEARCHDATASET'|translate}}</label>
-																<br> <input type="text" class="form-control"
-																	ng-model="searchDataSets"
-																	placeholder="Escribe el set de datos a buscar"
-																	ng-change="getdataSets(searchDataSets)">
-
-																____________
-																<div class="row">
-																	<div class="col-md-10">
-
-																		<div class="input-group-btn {{ouExist}}">
-																			<input type="text" ng-model="optionsetSelected"
-																			ng-model="searchDataSets"
-																				id="searchDataSets"
-																				placeholder="{{'OPTIONSET_SEARCH' | translate }}"
-																				typeahead="dataSet dataSet.displayName for dataSet in getdataSets($viewValue)"
-																				typeahead-min-length="2" 
-																				typeahead-loading="loadingrefresh"
-																				class="form-control">
-																			<i ng-show="loadingrefresh"
-																				class="glyphicon glyphicon-refresh"></i>
-
-																		</div>
-																	</div>
-																	<div class="col-md-1">
-																		<button type="button"
-																			class="btn btn-default btn-warning"
-																			aria-label="Advertencia" ng-show="errorFoundshow"
-																			popover="Debe seleccionar una opción"
-																			popover-trigger="mouseenter"
-																			popover-placement="right">
-																			<span class="glyphicon glyphicon-warning-sign"
-																				aria-hidden="true"></span>
-																		</button>
-																	</div>
-																	<div class="col-md-1"></div>
+																<br> <input type="text" ng-model="dataSetselected"
+																	typeahead-loading="loadingLocations"
+																	typeahead-no-results="noResults"
+																	placeholder="{{'LABEL_SEARCHDATASET'|translate}}"
+																	uib-typeahead="resultdataSets as resultdataSets.displayName for resultdataSets in getdataSets($viewValue)"
+																	typeahead-min-length="2" class="form-control"
+																	typeahead-on-select="onSelect($item, $model, $label)">
+																<i ng-show="loadingLocations"
+																	class="glyphicon glyphicon-refresh"></i>
+																<div ng-show="noResults">
+																	<i class="glyphicon glyphicon-remove"></i>
+																	{{'LABEL_NORESULTSFOUND'| translate}}
 																</div>
-
+																<button type="submit" class="btn btn-success sm"
+																	ng-click="dataSetselected='' ; returnMobject()">
+																	<span class="glyphicon glyphicon-remove"
+																		aria-hidden="true"></span>
+																</button>
 															</div>
-
-
-
-
-
-
-															___________--
-
-															<button type="submit" class="btn btn-primary sm"
-																ng-click="searchElements=''">{{'BUTTON_CLEAR'|translate}}</button>
+														</form>
 													</div>
-
-													</form>
+													<div class="row" ng-show="opSearch==5; ">
+														<form class="navbar-form navbar-left" role="search">
+															<div class="form-group">
+																<label class="label-control">{{'LABEL_SEARCHCATEGORIES'|translate}}</label>
+																<br> <input type="text"
+																	ng-model="selectedCategories"
+																	typeahead-loading="loadingLocations"
+																	typeahead-no-results="noResults"
+																	placeholder="{{'LABEL_SEARCHDATASET'|translate}}"
+																	uib-typeahead="resultCategories as resultCategories.displayName for resultCategories in getCategories($viewValue)"
+																	class="form-control"
+																	typeahead-on-select="onSelectCategories($item, $model, $label)" > 
+																	<i	ng-show="loadingLocations"
+																	class="glyphicon glyphicon-refresh"></i>
+																<div ng-show="noResults">
+																	<i class="glyphicon glyphicon-remove"></i>
+																	{{'LABEL_NORESULTSFOUND'| translate}}
+																</div>
+																<button type="submit" class="btn btn-success sm"
+																	ng-click="selectedCategories=''; returnMobject()">
+																	<span class="glyphicon glyphicon-remove"
+																		aria-hidden="true"></span>
+																</button>
+															</div>
+														</form>
+													</div>
 												</div>
-
-											</div>
 											</accordion-group> </accordion>
 										</div>
 									</nav>
 								</div>
-
-
 								<!-- 					___________________ASSIGN ELEMENTS___________ -->
 								<br> <br>
 
@@ -304,12 +313,14 @@
 										multiple="true" ng-model="selectElements"
 										ng-dblclick="getOptionSelected(selectElements,mObjects)"
 										ng-options="mObject.displayName for mObject in mObjects | filter: searchName"></select>
+									<!-- 										ng-options="mObject.displayName for mObject in mObjects | filter: searchName"></select> -->
+
 								</div>
 								<div class="col-md-1"></div>
 								<div class="col-md-1">
 									<br> <input type="button" class=" pass left"
 										style="width: 40px" value="<<" type="submit"
-										ng-click="removeOptionSelected(selectedElements,mObjects);myselection">
+										ng-click="removeOptionSelected(selectedElements,mObjects)">
 									<br> <input type="button" class="pass left"
 										style="width: 40px" value="<" type="submit"
 										ng-click="removeOptionSelected(objectSele)"> <br>
@@ -326,10 +337,6 @@
 										ng-model="selectedElements"
 										ng-dblclick="removeOptionSelected(selectedElements,mObjects)"
 										ng-options="objectSelec.displayName for objectSelec in objectSele">
-
-										<!-- 										<optgroup label="Selected Elements"> -->
-										<!-- 											<option ng-repeat="objectSelec in objectSele ">{{objectSelec.name}}</option> -->
-										<!-- 										</optgroup> -->
 									</select>
 								</div>
 
