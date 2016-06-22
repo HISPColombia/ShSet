@@ -32,6 +32,7 @@
 							$scope.respo = [];
 							$scope.objects = [];
 							$scope.showButtons;
+							$scope.permissions;
 
 							// /Object array of api object and type variable in
 							// sharing Setting resource
@@ -151,7 +152,8 @@
 										.then(function(response) {
 											$scope.mObjects = response[object.resource];
 											$scope.listmObjects = $scope.mObjects;
-											$scope.objectPrincipal = $scope.mObjects;
+											$scope.objectPrincipal = response[object.resource];
+											;
 
 											for (a = 0; a < $scope.mObjects.length; a++) {
 												$scope.mObjects[a]["status"] = "1";
@@ -208,14 +210,15 @@
 
 							// Get data Elements By code
 							$scope.getCode = function(code) {
-								
+
 								return dataElements
 										.GET({
 											filter : "code:like:" + code,
 											fields : "id,name,displayName,user,userGroupAccesses"
 										}).$promise
 										.then(function(responseDataElements) {
-											console.log("codeee", responseDataElements);
+											console.log("codeee",
+													responseDataElements);
 											$scope.mObjects = responseDataElements.dataElements;
 											return responseDataElements;
 										});
@@ -249,6 +252,7 @@
 								});
 							}
 
+							// validate the object to push
 							$scope.validateObject = function(objects) {
 								for (x = 0; x < objects.dataElements.length; x++) {
 									$scope.objects
@@ -278,6 +282,8 @@
 											return responseElementGroup.dataElementGroups;
 										});
 							}
+
+							// element select on groups
 							$scope.onSelectGroups = function($item, $model,
 									$label) {
 								$scope.getElementByDataElementsGroups($item.id);
@@ -377,140 +383,166 @@
 								$scope.objectSele = [];
 								$scope.ugStatusAccess = [ 0, 0, 0, 0 ];
 								$scope.objectSele = [];
-								for (a = 0; a < $scope.mObjects.length; a++) {
-									$scope.mObjects[a]["status"] = "1";
-									$scope.mObjects[a]["key"] = a;
-								}
+								mObjects = $scope.objectPrincipal;
+								$scope.permissions = null;
 
 							}
-
+							$scope.uGroupSelected = [];
 							// Method Access depending of the button change
 							// public Access and External Access
-							$scope.changeButtons = function(changeButton) {
+							$scope.changeButtons = function(changeButton,
+									uGroupSelect) {
 								if (changeButton == 0) {
 									access = "";
+									$scope.uGroupSelected.push({
+										id : uGroupSelect.id,
+										displayName : uGroupSelect.displayName
+									});
+									
+									console.log("UGROUP SELECTED",
+											$scope.uGroupSelected);
 								}
 								if (changeButton == 1) {
 									access = "r------";
 									console.log("R", access);
+									$scope.uGroupSelected.push({
+										id : uGroupSelect.id,
+										displayName : uGroupSelect.displayName
+									});
 								}
 								if (changeButton == 2) {
 									access = "rw------";
-									console.log("RW ", access);
+									$scope.uGroupSelected.push({
+										id : uGroupSelect.id,
+										displayName : uGroupSelect.displayName
+									});
 								}
 
 								if (changeButton == 3) {
 									publicAccess = false;
-									console.log("PUBLIC ACCESS FALSE ",
-											publicAccess)
 
 								}
 								if (changeButton == 4) {
 									publicAccess = true;
-									console.log("PUBLIC ACCESS TRUE",
-											publicAccess);
 								}
 								if (changeButton == 5) {
 									externalAccess = false;
-									console.log("EXTERNAL ACCESS FALSE",
-											externalAccess);
 								}
 								if (changeButton == 6) {
 									externalAccess = true;
-									console.log("EXTERNAL ACCESS TRUE",
-											externalAccess);
 								}
+
+							}
+
+							// get uGroupsSelected
+							$scope.ugroupsSelected = function() {
 
 							}
 
 							// /Get and Put the permissions to the object
 							$scope.assignPermissions = function(objectSelected) {
-								console.log(objectSelected);
+
 								angular
 										.forEach(
-												$scope.objectSelected,
+												objectSelected,
 												function(objectSelected) {
-													sharingSetting.get({
-														id : objectSelected,
-														type : $scope.type
-													}).$promise
-															.then(function(
-																	result) {
-																console
-																		.log(
-																				"ugroupsss",
-																				$scope.uGroups);
-																newShSetting = $scope
-																		.newShareObject(
-																				result,
-																				$scope.uGroups);
-																sharingSetting
-																		.POST(
-																				{
-																					id : objectSelected,
-																					type : $scope.type
-																				},
-																				newShSetting).$promise
-																		.then(function(
-																				resultPost) {
-																			console
-																					.log(resultPost);
-																		});
-																console
-																		.log(
-																				"RESULT",
-																				result);
-															})
+													if (permissions == 'keep') {// keep
+														// Permissions
+														console.log("keepppp");
+														sharingSetting
+																.get({
+																	id : objectSelected.id,
+																	type : $scope.type
+																}).$promise
+																.then(function(
+																		result) {
+
+																	newShSetting = $scope
+																			.newShareObject(
+																					result,
+																					$scope.uGroupSelected);
+																	sharingSetting
+																			.POST(
+																					{
+																						id : newShSetting.object.id,
+																						type : $scope.type
+																					},
+																					newShSetting).$promise
+																			.then(function(
+
+																			resultPost) {
+
+																			});
+																})
+													} else if (permissions == 'update') {// update
+														// Permissions
+														console.log("update");
+														sharingSetting
+																.get({
+																	id : objectSelected.id,
+																	type : $scope.type
+																}).$promise
+																.then(function(
+																		result) {
+
+																	$scope.newShSetting =result;
+																	$scope.newShSetting.object["userGroupAccesses"] = [];
+																	for (int = 0; int < $scope.uGroupSelected.length; int++) {
+//																		$scope.newShSetting.object["userGroupAccesses"] = [];
+																		$scope.newShSetting.object.userGroupAccesses
+																				.push({
+																					access : access,
+																					id : $scope.uGroupSelected[int].id,
+																					displayName : $scope.uGroupSelected[int].displayName
+																				});
+																	}
+																	sharingSetting
+																			.POST(
+																					{
+																						id : $scope.newShSetting.object.id,
+																						type : $scope.type
+																					},
+																					$scope.newShSetting).$promise
+																			.then(function(
+																					resultPost) {
+																			});
+																})
+													}
 												})
 							}
 
 							// Assign Elements to the Api
-							$scope.newShareObject = function(result, uGroups) {
-								console.log("compare", result);
-								console.log("uGroupslength", uGroups.length);
+							$scope.newShareObject = function(result,
+									uGroupSelected) {
 								var newShSetting = result;
 								try {
-									for (i = 0; i < (uGroups.length) - 1; i++) {
-										console
-												.log(
-														"iiiii",
-														result.object.userGroupAccesses.length);
-
-										// for (a = 0; a <
-										// (result.object.userGroupAccesses.length)-1;
-										// a++) {
-
-										if ((result.object.userGroupAccesses[i].id) == (uGroups[i].id)) {
+									for (z = 0; z <= (uGroupSelected.length) - 1; z++) {
+										if ((result.object.userGroupAccesses[z].id) == (uGroupSelected[z].id)) {
 											newShSetting = result;
 											newShSetting.object.userGroupAccesses
 													.push({
 														access : access,
-														id : uGroups[i].id
+														id : uGroupSelected[z].id,
+														displayName : uGroupSelected[z].displayName
 													});
 										} else {
 											newShSetting = result;
 											newShSetting.object.userGroupAccesses
 													.push({
 														access : access,
-														id : uGroups[i].id
+														id : uGroupSelected[z].id,
+														displayName : uGroupSelected[z].displayName
 													});
-											return newShSetting;
 										}
-										// return newShSetting;
-
-										// }
 									}
 									return newShSetting;
 								} catch (error) {
-
-									newShSetting.object["userGroupAccesses"] = [ {
-										access : access,
-										id : uGroups[i].id
-									} ];
+									newShSetting.object["userGroupAccesses"] = [];
 									newShSetting.object.userGroupAccesses
 											.push({
 												access : access,
-												id : uGroups[i].id
+												id : uGroupSelected[z].id,
+												displayName : uGroupSelected[z].displayName
 											});
 									return newShSetting;
 								}
@@ -520,7 +552,6 @@
 							$scope.getOptionSelected = function(objectSelected,
 									mObjects) {
 								$scope.listmObjects = mObjects;
-								console.log("objectSelected", objectSelected);
 								try {
 									for (a = 0; a < objectSelected.length; a++) {
 										for (i = 0; i < mObjects.length; i++) {
@@ -533,19 +564,7 @@
 															displayName : objectSelected[a].displayName,
 															status : "2",
 															key : objectSelected[a].key
-														// ,
-														// userGroupAccesses({
-														// id :
-														// objectSelected[a].id,
-														// displayName :
-														// objectSelected[a].displayName,
-														// access:
-														// objectSelected[a].access
-														// });
-
 														});
-												console.log("objeto mObject",
-														$scope.mObjects);
 												break;
 											}
 										}
@@ -568,7 +587,6 @@
 														status : "1",
 														key : object[a].key
 													});
-											console.log("ob2 remove", mObjects);
 											$scope.objectSele.splice(i, 1);
 											break;
 										}

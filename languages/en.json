@@ -52,7 +52,7 @@
   "TAB_OBJECTS":"Objects",
   "LABEL_CLOSE":"Close",
   "LABEL_CONVENTION":"Convencion of colors",
-  "LABEL_PUBLICACCESS":"Public",
+  "LABEL_PUBLICACCESS":"Public Access",
   "LABEL_EXTERNALACCESS":"External",
   "LABEL_PERMISSIONS":"Permissions",
   "LABEL_SEARCHCODE":"code",
@@ -62,6 +62,11 @@
   "LABEL_SEARCHGROUP":"group",
   "LABEL_SEARCHCATEGORIES":"categories",
   "LABEL_NORESULTSFOUND" :"NO RESULTS FOUND",
-  "BUTTON_CLEAR":"Clear"
+  "LABEL_SEARCHBY":"Search by",
+  "LABEL_FINDOPTIONS":"Find options",
+  "BUTTON_CLEAR":"Clear",
+  "LABEL_KEEPPERMISSIONS":"Kepp permissions",
+  "LABEL_UPDATEPERMISSIONS":"Update permissions",
+  "TAB_WHATDOYOUWANTTODO":"What do you want to do"
     
   }
