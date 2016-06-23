@@ -3,6 +3,7 @@
 				'importController',
 				[
 						'$scope',
+						'$q',
 						'$filter',
 						'commonvariable',
 						'sharingSetting',
@@ -12,7 +13,7 @@
 						'dataElementGroups',
 						'categories',
 						'dataElements',
-						function($scope, $filter, commonvariable,
+						function($scope,$q, $filter, commonvariable,
 								sharingSetting, dhisResource, commonvariable,
 								dataSets, dataElementGroups, categories,
 								dataElements) {
@@ -33,6 +34,7 @@
 							$scope.objects = [];
 							$scope.showButtons;
 							$scope.permissions;
+							$scope.uGroupSelected = [];
 
 							// /Object array of api object and type variable in
 							// sharing Setting resource
@@ -385,37 +387,30 @@
 								$scope.objectSele = [];
 								mObjects = $scope.objectPrincipal;
 								$scope.permissions = null;
+//								$scope.uGroupSelected =[];
 
 							}
-							$scope.uGroupSelected = [];
+
 							// Method Access depending of the button change
 							// public Access and External Access
 							$scope.changeButtons = function(changeButton,
 									uGroupSelect) {
+
 								if (changeButton == 0) {
 									access = "";
-									$scope.uGroupSelected.push({
-										id : uGroupSelect.id,
-										displayName : uGroupSelect.displayName
-									});
-									
-									console.log("UGROUP SELECTED",
-											$scope.uGroupSelected);
+									$scope.setValue(uGroupSelect,
+											$scope.uGroupSelected,access);
 								}
 								if (changeButton == 1) {
 									access = "r------";
 									console.log("R", access);
-									$scope.uGroupSelected.push({
-										id : uGroupSelect.id,
-										displayName : uGroupSelect.displayName
-									});
+									$scope.setValue(uGroupSelect,
+											$scope.uGroupSelected,access);
 								}
 								if (changeButton == 2) {
 									access = "rw------";
-									$scope.uGroupSelected.push({
-										id : uGroupSelect.id,
-										displayName : uGroupSelect.displayName
-									});
+									$scope.setValue(uGroupSelect,
+											$scope.uGroupSelected,access);
 								}
 
 								if (changeButton == 3) {
@@ -433,6 +428,45 @@
 								}
 
 							}
+							
+							
+
+							$scope.findKey = function(uGroupSelect,
+									uGroupSelected) {
+								
+								var defered = $q.defer();
+						        var promise = defered.promise;
+								defered.resolve(uGroupSelected.findIndex(function(element, index,
+												array) {
+											if (element.id == uGroupSelect.id) {
+												return promise;
+											} else {
+												return false;
+											}
+
+										}));
+								return promise;
+							
+							}
+							
+							
+							$scope.setValue = function(uGroupSelect,uGroupSelected,access) {
+								
+								$scope.findKey(uGroupSelect,uGroupSelected).then(function(position){ 
+									if (position >= 0) {
+										uGroupSelected[position].id = uGroupSelect.id;
+									} else  {
+										uGroupSelected.push({
+											id : uGroupSelect.id,
+											displayName : uGroupSelect.displayName,
+											access : access
+										})
+										console.log(uGroupSelected);
+									}
+								});
+							}
+							
+							
 
 							// get uGroupsSelected
 							$scope.ugroupsSelected = function() {
@@ -485,16 +519,17 @@
 																.then(function(
 																		result) {
 
-																	$scope.newShSetting =result;
+																	$scope.newShSetting = result;
 																	$scope.newShSetting.object["userGroupAccesses"] = [];
 																	for (int = 0; int < $scope.uGroupSelected.length; int++) {
-//																		$scope.newShSetting.object["userGroupAccesses"] = [];
+																		
 																		$scope.newShSetting.object.userGroupAccesses
 																				.push({
-																					access : access,
+																					
 																					id : $scope.uGroupSelected[int].id,
-																					displayName : $scope.uGroupSelected[int].displayName
-																				});
+																					displayName : $scope.uGroupSelected[int].displayName,
+																					access : $scope.uGroupSelected[int].access
+																				});console.log("updateeee uGroupSelected",$scope.uGroupSelected );
 																	}
 																	sharingSetting
 																			.POST(
@@ -505,6 +540,7 @@
 																					$scope.newShSetting).$promise
 																			.then(function(
 																					resultPost) {
+//																				$scope.uGroupSelected=[];
 																			});
 																})
 													}
@@ -514,6 +550,8 @@
 							// Assign Elements to the Api
 							$scope.newShareObject = function(result,
 									uGroupSelected) {
+								
+								
 								var newShSetting = result;
 								try {
 									for (z = 0; z <= (uGroupSelected.length) - 1; z++) {
@@ -521,28 +559,31 @@
 											newShSetting = result;
 											newShSetting.object.userGroupAccesses
 													.push({
-														access : access,
 														id : uGroupSelected[z].id,
-														displayName : uGroupSelected[z].displayName
+														displayName : uGroupSelected[z].displayName,
+														access: uGroupSelected[z].access
 													});
+											
 										} else {
+											console.log("elseee accesss",$scope.uGroupSelected[z].access );
 											newShSetting = result;
 											newShSetting.object.userGroupAccesses
 													.push({
-														access : access,
 														id : uGroupSelected[z].id,
-														displayName : uGroupSelected[z].displayName
+														displayName : uGroupSelected[z].displayName,
+														access:uGroupSelected[z].access
 													});
 										}
 									}
 									return newShSetting;
 								} catch (error) {
+									console.log("updateeee accesss",$scope.uGroupSelected[z].access );
 									newShSetting.object["userGroupAccesses"] = [];
 									newShSetting.object.userGroupAccesses
 											.push({
-												access : access,
 												id : uGroupSelected[z].id,
-												displayName : uGroupSelected[z].displayName
+												displayName : uGroupSelected[z].displayName,
+												access: uGroupSelected[z]	.access
 											});
 									return newShSetting;
 								}
