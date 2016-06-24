@@ -87,8 +87,10 @@
 							<div class="col-md-6">
 								<div class="col-md-6">{{access.displayName}}</div>
 								<div class="col-md-2">
-									<button class="button btn-default" data-toggle="modal"
-										data-target="#modal">x</button>
+									<button class="button btn-default btn-xs" data-toggle="modal"
+										data-target="#modal" ng-click="returnObjectToRemove(access,mObject)">
+										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									</button>
 									<br>
 								</div>
 							</div>
@@ -117,7 +119,8 @@
 				<div class="modal-body text-center ">
 
 					{{'LABEL_WISHDELETEUSERGROUPS' | translate}} <br> <br>
-					<button class="btn btn-primary" ng-click="removeGroupAccess()">{{'LABEL_YES'
+					<button class="btn btn-primary"
+						ng-click="removeGroupAccess(access,mObject)" data-dismiss="modal">{{'LABEL_YES'
 						| translate}}</button>
 					<button class="btn btn-primary" class="btn btn-primary"
 						data-dismiss="modal">{{'LABEL_NO' | translate}}</button>
@@ -199,7 +202,7 @@
 																	ng-change="getCode(searchCode)">
 
 																<button type="submit" class="btn btn-success sm"
-																	ng-click="searchElements=''">
+																	ng-click="searchCode=''">
 																	<span class="glyphicon glyphicon-remove"
 																		aria-hidden="true"></span>
 																</button>
@@ -389,29 +392,24 @@
 										<div class="panel-body">
 
 											<div class=" btn-group" role="EditUpdate">
-												<button
-													ng-click="ugStatusAccess[kug]=0;changeButtons(changeButton=7)"
+												<button ng-click="changeColor =1"
 													onclick="buttonAsign.disabled=false; permissions='keep'"
 													type="button"
-													class="btn btn-{{ugStatusAccess[kug]==0?'primary':'default'}} btn-sm">
+													class="btn btn-{{changeColor==1?'primary':'default'}} btn-sm">
 													{{'LABEL_KEEPPERMISSIONS'| translate}} <span
 														class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
 												</button>
-												<button
-													ng-click="ugStatusAccess[kug]=1;changeButtons(changeButton=8)"
+												<button ng-click="changeColor =2"
 													onclick="buttonAsign.disabled=false;permissions='update'"
 													type="button"
-													class="btn btn-{{ugStatusAccess[kug]==1?'success':'default'}} btn-sm">
+													class="btn btn-{{changeColor==2?'success':'default'}} btn-sm">
 													{{'LABEL_UPDATEPERMISSIONS'| translate}} <span
 														class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 												</button>
 											</div>
-											<br>
-											<br>
+											<br> <br> <label> {{'LABEL_PUBLICACCESS'|
+												translate}}</label> <br>
 
-												<label> {{'LABEL_PUBLICACCESS'| translate}}</label>
-											<br>
-											
 
 											<div class="btn-group" role="groupAccess">
 												<button
@@ -429,30 +427,46 @@
 								</div>
 							</div>
 
-
 							<div class="col-md-8">
+								<button
+									ng-click="ugStatusAccess=0;changeButtons(changeButton=0,uGroups) "
+									type="button" class="btn btn-danger btn-lg"></button>
+								<button
+									ng-click="ugStatusAccess=1;changeButtons(changeButton=1,uGroups)"
+									type="button" class="btn btn-warning btn-lg"></button>
+								<button
+									ng-click="ugStatusAccess=2;changeButtons(changeButton=2,uGroups)"
+									type="button" class="btn btn-success btn-lg"></button>
+								<br>
 
-								<label>{{'LABEL_CONVENTION'| translate}}</label><br> <label
-									class="label label-danger">{{'LABEL_NONE'|translate}}</label> <label
-									class=" label label-warning">{{'LABEL_READ'|translate}}</label>
-								<label class=" label label-success">{{'LABEL_READWRITE'|translate}}</label>
 							</div>
-							<div class="col-md-12 text-center">
-								<div class="input-group">
-									<span class="input-group-btn">
-										<button id="buttonAsign" type="button" class="btn btn-primary"
-											style="color: @gray-darker" data-dismiss="modal"
-											ng-click="assignPermissions(objectSele);clean()"
-											disabled="true">{{'LABEL_ASIGN' | translate}}</button>
-										<button type="button" class="btn btn-default"
-											data-dismiss="modal" ng-click="clean()">{{'LABEL_CLOSE'
-											| translate}}</button>
-									</span>
-								</div>
+
+
+
+						</div>
+						<div class="col-md-8">
+
+							<label>{{'LABEL_CONVENTION'| translate}}</label><br> <label
+								class="label label-danger">{{'LABEL_NONE'|translate}}</label> <label
+								class=" label label-warning">{{'LABEL_READ'|translate}}</label>
+							<label class=" label label-success">{{'LABEL_READWRITE'|translate}}</label>
+						</div>
+						<div class="col-md-12 text-center">
+							<div class="input-group">
+								<span class="input-group-btn">
+									<button id="buttonAsign" type="button" class="btn btn-primary"
+										style="color: @gray-darker" data-dismiss="modal"
+										ng-click="assignPermissions(objectSele);clean()"
+										disabled="true">{{'LABEL_ASIGN' | translate}}</button>
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal" ng-click="clean()">{{'LABEL_CLOSE'
+										| translate}}</button>
+								</span>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
+
+	</div>

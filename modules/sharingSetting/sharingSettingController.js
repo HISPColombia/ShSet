@@ -13,7 +13,7 @@
 						'dataElementGroups',
 						'categories',
 						'dataElements',
-						function($scope,$q, $filter, commonvariable,
+						function($scope, $q, $filter, commonvariable,
 								sharingSetting, dhisResource, commonvariable,
 								dataSets, dataElementGroups, categories,
 								dataElements) {
@@ -50,17 +50,17 @@
 										name : $translate("OBJ_DATAELEMENTGROUP")
 									},
 									{
-										type : "dataElementGroupSets",
+										type : "dataElementGroupSet",
 										resource : "dataElementGroupSets",
 										name : $translate("OBJ_DATAELEMENTGROUPSETS")
 									},
 									{
-										type : "categories",
+										type : "category",
 										resource : "categories",
 										name : $translate("OBJ_CATEGORIES")
 									},
 									{
-										type : "categoryOptions",
+										type : "categoryOption",
 										resource : "categoryOptions",
 										name : $translate("OBJ_CATEGORYOPTIONS")
 									},
@@ -70,28 +70,23 @@
 										name : $translate("OBJ_CATEGORYCOMBO")
 									},
 									{
-										type : "categoryOptionCombos",
-										resource : "categoryOptionCombos",
-										name : $translate("OBJ_CATEGORYOPTIONCOMBOS")
-									},
-									{
-										type : "categoryOptionGroups",
+										type : "categoryOptionGroup",
 										resource : "categoryOptionGroups",
 										name : $translate("OBJ_CATEGORYOPTIONGROUPS")
 									},
 									{
-										type : "categoryOptionGroupSets",
+										type : "categoryOptionGroupSet",
 										resource : "categoryOptionGroupSets",
 										name : $translate("OBJ_CATEGORYOPTIONGROUPSETS")
 									},
 
 									{
-										type : "indicators",
+										type : "indicator",
 										resource : "indicators",
 										name : $translate("OBJ_INDICATORS")
 									},
 									{
-										type : "indicatorTypes",
+										type : "indicatorType",
 										resource : "indicatorTypes",
 										name : $translate("OBJ_INDICATORSTYPES")
 									},
@@ -115,7 +110,7 @@
 										resource : "organisationUnitGroupSets",
 										name : $translate("OBJ_ORGANISATIONUNITGROUPSSETS")
 									}, {
-										type : "optionset",
+										type : "optionSet",
 										resource : "optionSets",
 										name : $translate("OBJ_OPTIONSETS")
 									}, {
@@ -219,8 +214,6 @@
 											fields : "id,name,displayName,user,userGroupAccesses"
 										}).$promise
 										.then(function(responseDataElements) {
-											console.log("codeee",
-													responseDataElements);
 											$scope.mObjects = responseDataElements.dataElements;
 											return responseDataElements;
 										});
@@ -271,7 +264,6 @@
 							$scope.returnMobject = function() {
 								$scope.mObjects = $scope.objectPrincipal;
 								$scope.objects = [];
-								console.log($scope.mObjects);
 							}
 
 							// Get dataElementsGroups By name
@@ -370,7 +362,6 @@
 							};
 
 							$scope.figureOutTodosToDisplay = function() {
-								console.log($scope.itemsPerPage);
 								var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
 								var end = begin + $scope.itemsPerPage;
 								$scope.filteredTodos = $scope.todos.slice(
@@ -387,7 +378,7 @@
 								$scope.objectSele = [];
 								mObjects = $scope.objectPrincipal;
 								$scope.permissions = null;
-//								$scope.uGroupSelected =[];
+								// $scope.uGroupSelected =[];
 
 							}
 
@@ -399,23 +390,21 @@
 								if (changeButton == 0) {
 									access = "";
 									$scope.setValue(uGroupSelect,
-											$scope.uGroupSelected,access);
+											$scope.uGroupSelected, access);
 								}
 								if (changeButton == 1) {
 									access = "r------";
-									console.log("R", access);
 									$scope.setValue(uGroupSelect,
-											$scope.uGroupSelected,access);
+											$scope.uGroupSelected, access);
 								}
 								if (changeButton == 2) {
 									access = "rw------";
 									$scope.setValue(uGroupSelect,
-											$scope.uGroupSelected,access);
+											$scope.uGroupSelected, access);
 								}
 
 								if (changeButton == 3) {
 									publicAccess = false;
-
 								}
 								if (changeButton == 4) {
 									publicAccess = true;
@@ -428,15 +417,14 @@
 								}
 
 							}
-							
-							
 
 							$scope.findKey = function(uGroupSelect,
 									uGroupSelected) {
-								
+
 								var defered = $q.defer();
-						        var promise = defered.promise;
-								defered.resolve(uGroupSelected.findIndex(function(element, index,
+								var promise = defered.promise;
+								defered.resolve(uGroupSelected
+										.findIndex(function(element, index,
 												array) {
 											if (element.id == uGroupSelect.id) {
 												return promise;
@@ -446,27 +434,51 @@
 
 										}));
 								return promise;
-							
+
 							}
-							
-							
-							$scope.setValue = function(uGroupSelect,uGroupSelected,access) {
-								
-								$scope.findKey(uGroupSelect,uGroupSelected).then(function(position){ 
-									if (position >= 0) {
-										uGroupSelected[position].id = uGroupSelect.id;
-									} else  {
-										uGroupSelected.push({
-											id : uGroupSelect.id,
-											displayName : uGroupSelect.displayName,
-											access : access
-										})
-										console.log(uGroupSelected);
-									}
-								});
+
+							$scope.setValue = function(uGroupSelect,
+									uGroupSelected, access) {
+
+								$scope
+										.findKey(uGroupSelect, uGroupSelected)
+										.then(
+												function(position) {
+
+													if (position >= 0) {
+														uGroupSelected[position].id = uGroupSelect.id;
+													} else {
+
+														try {
+															if(uGroupSelect.length){
+															for (b = 0; b < uGroupSelect.length; b++) {
+																uGroupSelected
+																		.push({
+																			id : uGroupSelect[b].id,
+																			displayName : uGroupSelect[b].displayName,
+																			access : access
+																		})
+															}
+															}
+															else{
+																uGroupSelected
+																		.push({
+																			id : uGroupSelect.id,
+																			displayName : uGroupSelect.displayName,
+																			access : access
+																		})
+															}
+														} catch (error) {
+															uGroupSelected
+																	.push({
+																		id : uGroupSelect.id,
+																		displayName : uGroupSelect.displayName,
+																		access : access
+																	})
+														}
+													}// end else
+												});
 							}
-							
-							
 
 							// get uGroupsSelected
 							$scope.ugroupsSelected = function() {
@@ -482,7 +494,6 @@
 												function(objectSelected) {
 													if (permissions == 'keep') {// keep
 														// Permissions
-														console.log("keepppp");
 														sharingSetting
 																.get({
 																	id : objectSelected.id,
@@ -510,7 +521,6 @@
 																})
 													} else if (permissions == 'update') {// update
 														// Permissions
-														console.log("update");
 														sharingSetting
 																.get({
 																	id : objectSelected.id,
@@ -522,14 +532,14 @@
 																	$scope.newShSetting = result;
 																	$scope.newShSetting.object["userGroupAccesses"] = [];
 																	for (int = 0; int < $scope.uGroupSelected.length; int++) {
-																		
+
 																		$scope.newShSetting.object.userGroupAccesses
 																				.push({
-																					
+
 																					id : $scope.uGroupSelected[int].id,
 																					displayName : $scope.uGroupSelected[int].displayName,
 																					access : $scope.uGroupSelected[int].access
-																				});console.log("updateeee uGroupSelected",$scope.uGroupSelected );
+																				});
 																	}
 																	sharingSetting
 																			.POST(
@@ -540,7 +550,6 @@
 																					$scope.newShSetting).$promise
 																			.then(function(
 																					resultPost) {
-//																				$scope.uGroupSelected=[];
 																			});
 																})
 													}
@@ -550,8 +559,7 @@
 							// Assign Elements to the Api
 							$scope.newShareObject = function(result,
 									uGroupSelected) {
-								
-								
+
 								var newShSetting = result;
 								try {
 									for (z = 0; z <= (uGroupSelected.length) - 1; z++) {
@@ -561,29 +569,27 @@
 													.push({
 														id : uGroupSelected[z].id,
 														displayName : uGroupSelected[z].displayName,
-														access: uGroupSelected[z].access
+														access : uGroupSelected[z].access
 													});
-											
+
 										} else {
-											console.log("elseee accesss",$scope.uGroupSelected[z].access );
 											newShSetting = result;
 											newShSetting.object.userGroupAccesses
 													.push({
 														id : uGroupSelected[z].id,
 														displayName : uGroupSelected[z].displayName,
-														access:uGroupSelected[z].access
+														access : uGroupSelected[z].access
 													});
 										}
 									}
 									return newShSetting;
 								} catch (error) {
-									console.log("updateeee accesss",$scope.uGroupSelected[z].access );
 									newShSetting.object["userGroupAccesses"] = [];
 									newShSetting.object.userGroupAccesses
 											.push({
 												id : uGroupSelected[z].id,
 												displayName : uGroupSelected[z].displayName,
-												access: uGroupSelected[z]	.access
+												access : uGroupSelected[z].access
 											});
 									return newShSetting;
 								}
@@ -638,8 +644,33 @@
 							}
 
 							// remove Group Access
-							$scope.removeGroupAccess = function(objectSelected) {
-
+							$scope.removeGroupAccess = function() {
+								console.log("iff",	$scope.mObjects);
+								for (var c = 0; c < $scope.mObjects.length; c++) {
+										if(	$scope.elementToRemove.id ==$scope.mObjects[c].id ){
+											$scope.mObjects[c].userGroupAccesses.splice(c,1);
+											console.log("iff",	$scope.mObjects[c]);
+											sharingSetting.POST(
+													{
+														id : $scope.mObjects[c].id,
+														type : $scope.type
+													},
+													$scope.mObjects[c]).$promise
+											.then(function(
+													resultPost) {
+												console.log("resultPost",resultPost);
+											});
+											break;
+										}
+									}
 							}
+							
+							///return the Group Access and elements to remove
+							$scope.returnObjectToRemove = function(objectRemove, element) {
+								$scope.objectToRemove=objectRemove;
+								$scope.elementToRemove= element;
+							}
+							
+							
 
 						} ]);
