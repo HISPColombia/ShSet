@@ -1,7 +1,7 @@
 {
 	"version" : "0.1",
-	"name" : "Import Tracked Data value and entities to DHIS2",
-	"description" : "Import Tracked Data value and entities to DHIS2",
+	"name" : "Sharing Setting",
+	"description" : "Sharing Setting",
 	"launch_path" : "index.html",
 	"installs_allowed_from" : null,
 	"default_locale" : "es",
@@ -12,13 +12,13 @@
 	},
 	"developer" : {
 		"url" : "www.hispcolombia.org",
-		"name":"Helder Castrillon",
+		"name":"Helder Castrillon, Andres Rodriguez",
 		"company":"Hisp Colombia",
 		"email":"heldersoft@gmail.com"
 	},
 	"activities" : {
 		"dhis" : {
-			"href" : "https://dev.psi-mis.org"
+			"href" : "http://www.hispcolombia.org"
 		}
 	},
 	"folderName" : null,
