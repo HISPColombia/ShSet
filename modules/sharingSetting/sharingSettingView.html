@@ -58,8 +58,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="panel panel-body" id="Layer1"
-			style="width: 1125px; height: 260px; overflow: scroll">
+		<div class="panel panel-body" id="Layer1">
 			<br>
 
 			<div class="row">
@@ -357,7 +356,7 @@
 						<div class="col-md-12">
 							<div class="col-md-7">
 								<div class="row">
-									<div class="list-group">
+									<div class="list-group" style="overflow:scroll;height:200px;">
 										<div class="row list-group-item"
 											ng-repeat="(kug,uGroup) in uGroups" ng-model="uGroupSelect">
 											<div class="col-md-5">
@@ -422,22 +421,23 @@
 													type="button"
 													class="btn btn-{{ugStatusAccess[kug]==4?'success':'default'}} btn-lg"></button>
 											</div>
+                                            
+                                            <br />
+                                            <label> {{'LABEL_SELECTALL'| translate}}</label>
+                                            <br />
+                                            <div class="btn-group" role="allAccess">
+
+                                                <button ng-click="ugStatusAccess=0;changeButtons(changeButton=0,uGroups) "
+                                                        type="button" class="btn btn-danger btn-lg"></button>
+                                                <button ng-click="ugStatusAccess=1;changeButtons(changeButton=1,uGroups)"
+                                                        type="button" class="btn btn-warning btn-lg"></button>
+                                                <button ng-click="ugStatusAccess=2;changeButtons(changeButton=2,uGroups)"
+                                                        type="button" class="btn btn-success btn-lg"></button>
+                                            </div>
+                                            <br />
 										</div>
-										<label>{{'LABEL_SELECTALL'| translate}}</label>
-										<br>
-										<div class="btn-group " role="allAccess">
-											
-											<button
-												ng-click="ugStatusAccess=0;changeButtons(changeButton=0,uGroups) "
-												type="button" class="btn btn-danger btn-lg"></button>
-											<button
-												ng-click="ugStatusAccess=1;changeButtons(changeButton=1,uGroups)"
-												type="button" class="btn btn-warning btn-lg"></button>
-											<button
-												ng-click="ugStatusAccess=2;changeButtons(changeButton=2,uGroups)"
-												type="button" class="btn btn-success btn-lg"></button>
-										</div>
-										<br>
+										
+									
 
 									</div>
 									<br>
@@ -453,8 +453,8 @@
 
 							<label>{{'LABEL_CONVENTION'| translate}}</label><br> <label
 								class="label label-danger">{{'LABEL_NONE'|translate}}</label> <label
-								class=" label label-warning">{{'LABEL_READ'|translate}}</label>
-							<label class=" label label-success">{{'LABEL_READWRITE'|translate}}</label>
+								class="label label-warning">{{'LABEL_READ'|translate}}</label>
+							<label class="label label-success">{{'LABEL_READWRITE'|translate}}</label>
 						</div>
 						<div class="col-md-12 text-center">
 							<div class="input-group">
