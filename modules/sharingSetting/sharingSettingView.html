@@ -88,7 +88,8 @@
 								<div class="col-md-6">{{access.displayName}}</div>
 								<div class="col-md-2">
 									<button class="button btn-default btn-xs" data-toggle="modal"
-										data-target="#modal" ng-click="returnObjectToRemove(access,mObject)">
+										data-target="#modal"
+										ng-click="returnObjectToRemove(access,mObject)">
 										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 									</button>
 									<br>
@@ -407,8 +408,8 @@
 														class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 												</button>
 											</div>
-											<br> <br> <label> {{'LABEL_PUBLICACCESS'|
-												translate}}</label> <br>
+											<br> <label> {{'LABEL_PUBLICACCESS'| translate}}</label>
+											<br>
 
 
 											<div class="btn-group" role="groupAccess">
@@ -422,24 +423,28 @@
 													class="btn btn-{{ugStatusAccess[kug]==4?'success':'default'}} btn-lg"></button>
 											</div>
 										</div>
+										<label>{{'LABEL_SELECTALL'| translate}}</label>
+										<br>
+										<div class="btn-group " role="allAccess">
+											
+											<button
+												ng-click="ugStatusAccess=0;changeButtons(changeButton=0,uGroups) "
+												type="button" class="btn btn-danger btn-lg"></button>
+											<button
+												ng-click="ugStatusAccess=1;changeButtons(changeButton=1,uGroups)"
+												type="button" class="btn btn-warning btn-lg"></button>
+											<button
+												ng-click="ugStatusAccess=2;changeButtons(changeButton=2,uGroups)"
+												type="button" class="btn btn-success btn-lg"></button>
+										</div>
+										<br>
+
 									</div>
 									<br>
 								</div>
 							</div>
 
-							<div class="col-md-8">
-								<button
-									ng-click="ugStatusAccess=0;changeButtons(changeButton=0,uGroups) "
-									type="button" class="btn btn-danger btn-lg"></button>
-								<button
-									ng-click="ugStatusAccess=1;changeButtons(changeButton=1,uGroups)"
-									type="button" class="btn btn-warning btn-lg"></button>
-								<button
-									ng-click="ugStatusAccess=2;changeButtons(changeButton=2,uGroups)"
-									type="button" class="btn btn-success btn-lg"></button>
-								<br>
 
-							</div>
 
 
 

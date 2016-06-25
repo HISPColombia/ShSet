@@ -67,6 +67,7 @@
   "BUTTON_CLEAR":"Clear",
   "LABEL_KEEPPERMISSIONS":"Kepp permissions",
   "LABEL_UPDATEPERMISSIONS":"Update permissions",
-  "TAB_WHATDOYOUWANTTODO":"What do you want to do"
+  "TAB_WHATDOYOUWANTTODO":"What do you want to do",
+  "LABEL_SELECTALL":"select all"
     
   }

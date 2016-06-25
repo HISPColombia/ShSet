@@ -66,7 +66,8 @@
   "BUTTON_CLEAR":"Limpiar",
   "LABEL_KEEPPERMISSIONS":"Mantener permisos",
   "LABEL_UPDATEPERMISSIONS":"Actualizar permisos",
-  "TAB_WHATDOYOUWANTTODO":"Que desea hacer"
+  "TAB_WHATDOYOUWANTTODO":"Que desea hacer",
+  "LABEL_SELECTALL":"Seleccionar todos"
   
   
    }
