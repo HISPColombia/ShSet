@@ -23,9 +23,9 @@
 							$scope.filteredTodos = [];
 							$scope.objectSelected = [];
 							$scope.changeButton = 0;
-							$scope.ugStatus = [ 0, 0, 0, 0 ];
-							$scope.statusChange = [ 0, 0, 0, 0 ];
-							$scope.ugStatusAccess = [ 0, 0, 0, 0 ];
+							$scope.ugStatus = [];
+							$scope.statusChange = [];
+							$scope.ugStatusAccess = [];
 							$scope.publicAccess;
 							$scope.externalAccess;
 							$scope.objectSele = [];
@@ -210,9 +210,10 @@
 								return dataElements
 										.GET({
 											filter : "code:like:" + code,
-											fields : "id,name,displayName,user,userGroupAccesses,code"
+											fields : "id,name,displayName,user,userGroupAccesses"
 										}).$promise
 										.then(function(responseDataElements) {
+											console.log("$scope.mObjects",$scope.mObjects);
 											$scope.mObjects = responseDataElements.dataElements;
 											return responseDataElements.dataElements;
 										});
@@ -388,6 +389,7 @@
 								$scope.objectSelected = [];
 								$scope.objectSele = [];
 								$scope.ugStatusAccess = [];
+								$scope.status = [];
 								$scope.objectSele = [];
 								mObjects = $scope.objectPrincipal;
 								$scope.permissions = null;
@@ -684,6 +686,9 @@
 								$scope.elementToRemove= element;
 							}
 							
-							
+							$scope.selectAllButtons = function(all) {
+								console.log("allbuttons",all);
+								
+							}
 
 						} ]);

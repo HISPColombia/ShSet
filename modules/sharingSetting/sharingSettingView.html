@@ -88,22 +88,18 @@
 					<form class="navbar-form navbar-left" role="search">
 						<div class="form-group ">
 							<label class="label-control">{{'LABEL_SEARCHCODE'|translate}}</label>
-							<br> <input type="text" ng-model="groupSelected"
-								typeahead-loading="loadingLocations"
-								typeahead-no-results="noResults"
-								placeholder="{{'LABEL_SEARCHGROUP'|translate}}"
-								uib-typeahead="resultDataE as resultDataE.code for resultDataE in getCode($viewValue)"
-								class="form-control"> <i ng-show="loadingLocations"
-								class="glyphicon glyphicon-refresh"></i>
-							<div ng-show="noResults">
-								<i class="glyphicon glyphicon-remove"></i>
-								{{'LABEL_NORESULTSFOUND'| translate}}
+							<br>
+							<div class="input-group ">
+								<input type="text" ng-model="codeSelect"
+									placeholder="{{'LABEL_SEARCHGROUP'|translate}}" 
+									ng-change="getCode(codeSelect)"
+									class="form-control"> <span class="input-group-btn">
+									<button type="submit" class="btn btn-success"
+										ng-click="groupSelected=''; returnMobject()">
+										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+									</button>
+								</span>
 							</div>
-
-							<button type="submit" class="btn btn-success sm"
-								ng-click="groupSelected=''; returnMobject()">
-								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-							</button>
 						</div>
 					</form>
 				</div>
@@ -116,9 +112,8 @@
 								typeahead-no-results="noResults"
 								placeholder="{{'LABEL_SEARCHGROUP'|translate}}"
 								uib-typeahead="resultElements as resultElements.displayName for resultElements in getElementsByName($viewValue)"
-								class="form-control"
-								typeahead-on-select="onSelectCode($item, $model, $label)">
-							<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+								class="form-control"> <i ng-show="loadingLocations"
+								class="glyphicon glyphicon-refresh"></i>
 							<div ng-show="noResults">
 								<i class="glyphicon glyphicon-remove"></i>
 								{{'LABEL_NORESULTSFOUND'| translate}}
@@ -230,8 +225,10 @@
 				<div class="row list-group-item "
 					ng-repeat="mObject in mObjects | filter:searchText ">
 					<div class="col-md-6">{{mObject.displayName}}</div>
+<!-- 					<div class="col-md-2">{{mObject.code}}</div> -->
 					<div class="col-md-6">
-						<div class="row" ng-repeat="access in mObject.userGroupAccesses ">
+						<div class="row"
+							ng-repeat="(staUg,access) in mObject.userGroupAccesses ">
 							<div class="col-md-6">
 								<div class="col-md-10">{{access.displayName}}</div>
 								<div class="col-md-2">
@@ -251,17 +248,17 @@
 
 								<div class="btn-group" role="group" aria-label="...">
 									<button
-										ng-click="ugStatus[kug]=0; changeButtons(changeButton=0,uGroup)"
+										ng-click="status[staUg]=0; changeButtons(changeButton=0,uGroup)"
 										type="button"
-										class="btn btn-{{ugStatus[kug]==0?'danger':'default'}} btn-lg"></button>
+										class="btn btn-{{status[staUg]==0?'danger':'default'}} btn-lg"></button>
 									<button
-										ng-click="ugStatus[kug]=1; changeButtons(changeButton=1,uGroup)"
+										ng-click="status[staUg]=1; changeButtons(changeButton=1,uGroup)"
 										type="button"
-										class="btn btn-{{ugStatus[kug]==1?'warning':'default'}} btn-lg"></button>
+										class="btn btn-{{status[staUg]==1?'warning':'default'}} btn-lg"></button>
 									<button
-										ng-click="ugStatus[kug]=2; changeButtons(changeButton=2,uGroup)"
+										ng-click="status[staUg]=2; changeButtons(changeButton=2,uGroup)"
 										type="button"
-										class="btn btn-{{ugStatus[kug]==2?'success':'default'}} btn-lg"></button>
+										class="btn btn-{{status[staUg]==2?'success':'default'}} btn-lg"></button>
 								</div>
 
 							</div>
@@ -536,17 +533,17 @@
 											<div class="col-md-6">
 												<div class="btn-group" role="group">
 													<button
-														ng-click="ugStatus[kug]=0; changeButtons(changeButton=0,uGroup)"
+														ng-click="ugStatus[kug]=0; changeButtons(changeButton=0,uGroup);all=3;selectAllButtons(all)"
 														type="button"
-														class="btn btn-{{ugStatus[kug]==0?'danger':'default'}} btn-lg"></button>
+														class="btn btn-{{ugStatus[kug]==0? 'danger':'default'}} btn-lg || btn-{{all==0? 'danger':'default'}} btn-lg"></button>
 													<button
-														ng-click="ugStatus[kug]=1; changeButtons(changeButton=1,uGroup)"
+														ng-click="ugStatus[kug]=1; changeButtons(changeButton=1,uGroup);all=3"
 														type="button"
-														class="btn btn-{{ugStatus[kug]==1?'warning':'default'}} btn-lg"></button>
+														class="btn btn-{{ugStatus[kug]==1?'warning':'default'}} btn-lg || btn-{{all==1? 'warning':'default'}} btn-lg"></button>
 													<button
-														ng-click="ugStatus[kug]=2; changeButtons(changeButton=2,uGroup)"
+														ng-click="ugStatus[kug]=2; changeButtons(changeButton=2,uGroup);all=3"
 														type="button"
-														class="btn btn-{{ugStatus[kug]==2?'success':'default'}} btn-lg"></button>
+														class="btn btn-{{ugStatus[kug]==2?'success':'default'}} btn-lg || btn-{{all==2? 'success':'default'}} btn-lg"></button>
 												</div>
 											</div>
 										</div>
@@ -596,12 +593,12 @@
 											<br /> <label> {{'LABEL_SELECTALL'| translate}}</label> <br />
 											<div class="btn-group" role="allAccess">
 
-												<button ng-click="ugStatusAccess=0;ugStatus[kug]=0"
-													type="button" class="btn btn-danger btn-lg"></button>
-												<button ng-click="ugStatusAccess=1;ugStatus[kug]=1"
-													type="button" class="btn btn-warning btn-lg"></button>
-												<button ng-click="ugStatusAccess=2;ugStatus[kug]=2"
-													type="button" class="btn btn-success btn-lg"></button>
+												<button type="button" class="btn btn-danger btn-lg"
+													ng-click="all=0;selectAllButtons(all)"></button>
+												<button ng-click="all=1;selectAllButtons(all)" type="button"
+													class="btn btn-warning btn-lg"></button>
+												<button ng-click="all=2;selectAllButtons(all)" type="button"
+													class="btn btn-success btn-lg"></button>
 											</div>
 											<br />
 										</div>
