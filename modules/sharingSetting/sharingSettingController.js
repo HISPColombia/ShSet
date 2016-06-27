@@ -207,18 +207,31 @@
 
 							// Get data Elements By code
 							$scope.getCode = function(code) {
-
 								return dataElements
 										.GET({
 											filter : "code:like:" + code,
-											fields : "id,name,displayName,user,userGroupAccesses"
+											fields : "id,name,displayName,user,userGroupAccesses,code"
 										}).$promise
 										.then(function(responseDataElements) {
 											$scope.mObjects = responseDataElements.dataElements;
-											return responseDataElements;
+											return responseDataElements.dataElements;
 										});
 							}
-
+							
+							// Get data Elements By NAME
+							$scope.getElementsByName = function(name) {
+								return dataElements
+										.GET({
+											filter : "displayName:like:" + name,
+											fields : "id,name,displayName,user,userGroupAccesses,code"
+										}).$promise
+										.then(function(responseDataElements) {
+											$scope.mObjects = responseDataElements.dataElements;
+											return responseDataElements.dataElements;
+										});
+							}
+							
+							
 							// Get datasets By name
 							$scope.getdataSets = function(name) {
 								return dataSets.GET({
@@ -371,10 +384,10 @@
 							// Clean Variables
 							$scope.clean = function() {
 								console.log("Cleannnning");
-								$scope.ugStatus = [ 0, 0, 0, 0 ];
+								$scope.ugStatus = [ ];
 								$scope.objectSelected = [];
 								$scope.objectSele = [];
-								$scope.ugStatusAccess = [ 0, 0, 0, 0 ];
+								$scope.ugStatusAccess = [];
 								$scope.objectSele = [];
 								mObjects = $scope.objectPrincipal;
 								$scope.permissions = null;
