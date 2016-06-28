@@ -199,7 +199,12 @@
 
 								}).$promise.then(function(response) {
 
-									$scope.uGroups = response["userGroups"];
+								    $scope.uGroups = response["userGroups"];
+
+                                    ///init status value(for change color)
+								    angular.forEach($scope.uGroups, function (val, key) {
+								        $scope.ugStatus[key] = undefined;
+								    });
 
 								});
 							}
@@ -401,7 +406,6 @@
 							// public Access and External Access
 							$scope.changeButtons = function(changeButton,
 									uGroupSelect) {
-
 								if (changeButton == 0) {
 									access = "";
 									$scope.setValue(uGroupSelect,
@@ -686,9 +690,10 @@
 								$scope.elementToRemove= element;
 							}
 							
-							$scope.selectAllButtons = function(all) {
-								console.log("allbuttons",all);
-								
+							$scope.selectAllButtons = function (nval) {
+							    angular.forEach($scope.ugStatus, function (val, k) {
+							        $scope.ugStatus[k] = nval;
+							    });				
 							}
 
 						} ]);

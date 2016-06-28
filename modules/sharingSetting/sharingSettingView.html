@@ -533,17 +533,17 @@
 											<div class="col-md-6">
 												<div class="btn-group" role="group">
 													<button
-														ng-click="ugStatus[kug]=0; changeButtons(changeButton=0,uGroup);all=3;selectAllButtons(all)"
+														ng-click="ugStatus[kug]=0; changeButtons(changeButton=0,uGroup)"
 														type="button"
-														class="btn btn-{{ugStatus[kug]==0? 'danger':'default'}} btn-lg || btn-{{all==0? 'danger':'default'}} btn-lg"></button>
+														class="btn btn-{{ugStatus[kug]==0? 'danger':'default'}} btn-lg"></button>
 													<button
-														ng-click="ugStatus[kug]=1; changeButtons(changeButton=1,uGroup);all=3"
+														ng-click="ugStatus[kug]=1; changeButtons(changeButton=1,uGroup);"
 														type="button"
-														class="btn btn-{{ugStatus[kug]==1?'warning':'default'}} btn-lg || btn-{{all==1? 'warning':'default'}} btn-lg"></button>
+														class="btn btn-{{ugStatus[kug]==1?'warning':'default'}} btn-lg"></button>
 													<button
-														ng-click="ugStatus[kug]=2; changeButtons(changeButton=2,uGroup);all=3"
+														ng-click="ugStatus[kug]=2; changeButtons(changeButton=2,uGroup);"
 														type="button"
-														class="btn btn-{{ugStatus[kug]==2?'success':'default'}} btn-lg || btn-{{all==2? 'success':'default'}} btn-lg"></button>
+														class="btn btn-{{ugStatus[kug]==2?'success':'default'}} btn-lg"></button>
 												</div>
 											</div>
 										</div>
@@ -594,10 +594,10 @@
 											<div class="btn-group" role="allAccess">
 
 												<button type="button" class="btn btn-danger btn-lg"
-													ng-click="all=0;selectAllButtons(all)"></button>
-												<button ng-click="all=1;selectAllButtons(all)" type="button"
+													ng-click="selectAllButtons(0)"></button>
+												<button ng-click="selectAllButtons(1)" type="button"
 													class="btn btn-warning btn-lg"></button>
-												<button ng-click="all=2;selectAllButtons(all)" type="button"
+												<button ng-click="selectAllButtons(2)" type="button"
 													class="btn btn-success btn-lg"></button>
 											</div>
 											<br />
