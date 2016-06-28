@@ -35,7 +35,6 @@
 							$scope.showButtons;
 							$scope.permissions;
 							$scope.uGroupSelected = [];
-
 							// /Object array of api object and type variable in
 							// sharing Setting resource
 							$scope.elements = [
@@ -153,7 +152,6 @@
 											;
 
 											for (a = 0; a < $scope.mObjects.length; a++) {
-												$scope.mObjects[a]["status"] = "1";
 												$scope.mObjects[a]["key"] = a;
 											}
 											$scope.pager = response.pager.page;
@@ -193,18 +191,19 @@
 							// get the User Groups from the Api
 							$scope.getUserGroups = function(resource) {
 								$scope.currentResource = resource;
-								dhisResource.GET({
-									resource : resource,
-									fields : "id,displayName",
+								dhisResource
+										.GET({
+											resource : resource,
+											fields : "id,displayName,userGroupAccesses",
 
-								}).$promise.then(function(response) {
+										}).$promise.then(function(response) {
 
-								    $scope.uGroups = response["userGroups"];
-
-                                    ///init status value(for change color)
-								    angular.forEach($scope.uGroups, function (val, key) {
-								        $scope.ugStatus[key] = undefined;
-								    });
+									$scope.uGroups = response["userGroups"];
+									// /init status value(for change color)
+									angular.forEach($scope.uGroups, function(
+											val, key) {
+										$scope.ugStatus[key] = undefined;
+									});
 
 								});
 							}
@@ -218,12 +217,11 @@
 											fields : "id,name,displayName,user,userGroupAccesses"
 										}).$promise
 										.then(function(responseDataElements) {
-											console.log("$scope.mObjects",$scope.mObjects);
 											$scope.mObjects = responseDataElements.dataElements;
 											return responseDataElements.dataElements;
 										});
 							}
-							
+
 							// Get data Elements By NAME
 							$scope.getElementsByName = function(name) {
 								return dataElements
@@ -236,8 +234,7 @@
 											return responseDataElements.dataElements;
 										});
 							}
-							
-							
+
 							// Get datasets By name
 							$scope.getdataSets = function(name) {
 								return dataSets.GET({
@@ -390,7 +387,7 @@
 							// Clean Variables
 							$scope.clean = function() {
 								console.log("Cleannnning");
-								$scope.ugStatus = [ ];
+								$scope.ugStatus = [];
 								$scope.objectSelected = [];
 								$scope.objectSele = [];
 								$scope.ugStatusAccess = [];
@@ -469,17 +466,16 @@
 													} else {
 
 														try {
-															if(uGroupSelect.length){
-															for (b = 0; b < uGroupSelect.length; b++) {
-																uGroupSelected
-																		.push({
-																			id : uGroupSelect[b].id,
-																			displayName : uGroupSelect[b].displayName,
-																			access : access
-																		})
-															}
-															}
-															else{
+															if (uGroupSelect.length) {
+																for (b = 0; b < uGroupSelect.length; b++) {
+																	uGroupSelected
+																			.push({
+																				id : uGroupSelect[b].id,
+																				displayName : uGroupSelect[b].displayName,
+																				access : access
+																			})
+																}
+															} else {
 																uGroupSelected
 																		.push({
 																			id : uGroupSelect.id,
@@ -495,13 +491,8 @@
 																		access : access
 																	})
 														}
-													}// end else
+													}
 												});
-							}
-
-							// get uGroupsSelected
-							$scope.ugroupsSelected = function() {
-
 							}
 
 							// /Get and Put the permissions to the object
@@ -622,13 +613,11 @@
 									for (a = 0; a < objectSelected.length; a++) {
 										for (i = 0; i < mObjects.length; i++) {
 											if ((objectSelected[a].key) == ($scope.mObjects[i].key)) {
-												$scope.mObjects[i]["status"] = "2";
 												$scope.mObjects.splice(i, 1);
 												$scope.objectSele
 														.push({
 															id : objectSelected[a].id,
 															displayName : objectSelected[a].displayName,
-															status : "2",
 															key : objectSelected[a].key
 														});
 												break;
@@ -650,7 +639,6 @@
 													.push({
 														id : object[a].id,
 														displayName : object[a].displayName,
-														status : "1",
 														key : object[a].key
 													});
 											$scope.objectSele.splice(i, 1);
@@ -664,36 +652,85 @@
 
 							// remove Group Access
 							$scope.removeGroupAccess = function() {
-								console.log("iff",	$scope.mObjects);
+								console.log("iff", $scope.mObjects);
 								for (var c = 0; c < $scope.mObjects.length; c++) {
-										if(	$scope.elementToRemove.id ==$scope.mObjects[c].id ){
-											$scope.mObjects[c].userGroupAccesses.splice(c,1);
-											console.log("iff",	$scope.mObjects[c]);
-											sharingSetting.POST(
-													{
-														id : $scope.mObjects[c].id,
-														type : $scope.type
-													},
-													$scope.mObjects[c]).$promise
-											.then(function(
-													resultPost) {
-												console.log("resultPost",resultPost);
-											});
-											break;
-										}
+									if ($scope.elementToRemove.id == $scope.mObjects[c].id) {
+										$scope.mObjects[c].userGroupAccesses
+												.splice(c, 1);
+										$scope.mObjects[c]["userGroupAccesses"] = [];
+										delete $scope.mObjects[c].key;
+										delete $scope.mObjects[c].code;
+//									$scope.mObjects[c].userGroupAccesses[c].userGroupUid;
+										$scope.mObjects[c].userGroupAccesses
+										.push({
+											id : $scope.objectToRemove.id,
+											displayName : $scope.objectToRemove.displayName,
+											access : "rw------"
+										});
+										$scope.mObjects[c]["user"] = [];
+										$scope.mObjects[c].user
+										.push({
+											id : "soRhOul3gnx",
+											name: "admin admin"
+										});
+										$scope.mObjects[c].externalAccess= "false";
+										$scope.mObjects[c].publicAccess="rw------"
+										
+									
+										sharingSetting.POST({
+											id : $scope.mObjects[c].id,
+											type : $scope.type
+										}, $scope.mObjects[c]).$promise
+												.then(function(resultPost) {
+													console.log("resultPost",
+															resultPost);
+												});
+										break;
 									}
+								}
 							}
-							
-							///return the Group Access and elements to remove
-							$scope.returnObjectToRemove = function(objectRemove, element) {
-								$scope.objectToRemove=objectRemove;
-								$scope.elementToRemove= element;
+
+							// /return the Group Access and elements to remove
+							$scope.returnObjectToRemove = function(
+									objectRemove, element) {
+								console.log("objectRemove", objectRemove);
+								$scope.objectToRemove = objectRemove;
+								$scope.elementToRemove = element;
 							}
-							
-							$scope.selectAllButtons = function (nval) {
-							    angular.forEach($scope.ugStatus, function (val, k) {
-							        $scope.ugStatus[k] = nval;
-							    });				
+
+							// /select all buttons to assign permissions in
+							// panel
+							$scope.selectAllButtons = function(nval) {
+								angular.forEach($scope.ugStatus, function(val,
+										k) {
+									$scope.ugStatus[k] = nval;
+								});
+							}
+
+							$scope.loadAccess = function(userGroup) {
+								angular.forEach($scope.status,
+										function(val, k) {
+											$scope.status[k] = nval;
+										});
+							}
+
+							// Do post of user Group changed
+							$scope.postGroup = function(mObject, access,
+									userGroup) {
+								console.log("mObjectmObject", mObject);
+								for (var c = 0; c < $scope.mObjects.length; c++) {
+									if (mObject.id == $scope.mObjects[c].id) {
+										 $scope.mObjects[c].userGroupAccesses[c].access=access; 
+										sharingSetting.POST({
+											id : mObject.id,
+											type : $scope.type
+										}, mObject).$promise
+												.then(function(resultPost) {
+													console.log("resultPost",
+															resultPost);
+												});
+									}
+								}
 							}
 
 						} ]);
