@@ -58,6 +58,8 @@
   "LABEL_SEARCHCODE":"code",
   "LABEL_SEARCHPROGRAMS":"program",
   "LABEL_SEARCHNAME":" name",
+  "LABEL_SELECTGROUP":" Select group",
+  "LABEL_SELECTDATASET":" Select data set",
   "LABEL_SEARCHDATASET":"data set",
   "LABEL_SEARCHGROUP":"group",
   "LABEL_SEARCHCATEGORIES":"categories",
@@ -68,6 +70,8 @@
   "LABEL_KEEPPERMISSIONS":"Kepp permissions",
   "LABEL_UPDATEPERMISSIONS":"Update permissions",
   "TAB_WHATDOYOUWANTTODO":"What do you want to do",
-  "LABEL_SELECTALL":"select all"
+  "LABEL_SELECTALL":"select all",
+  "MESSAGE": "This element was update"
+  
     
   }

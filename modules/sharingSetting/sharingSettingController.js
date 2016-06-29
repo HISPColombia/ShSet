@@ -35,87 +35,119 @@
 							$scope.showButtons;
 							$scope.permissions;
 							$scope.uGroupSelected = [];
+							$scope.changeColor;
+							$scope.alerts = [];
+
+							// /add alert
+							$scope.addAlert = function(msg, type) {
+								$scope.alerts.push({
+									msg : msg,
+									type : type
+								});
+							};
+							// /close alert
+							$scope.closeAlert = function(index) {
+								$scope.alerts.splice(index, 1);
+							};
+
 							// /Object array of api object and type variable in
 							// sharing Setting resource
 							$scope.elements = [
 									{
 										type : "dataElement",
 										resource : "dataElements",
-										name : $translate("OBJ_DATAELEMENT")
+										name : $translate("OBJ_DATAELEMENT"),
+										list : 1
 									},
 									{
 										type : "dataElementGroup",
 										resource : "dataElementGroups",
-										name : $translate("OBJ_DATAELEMENTGROUP")
+										name : $translate("OBJ_DATAELEMENTGROUP"),
+										list : 1
 									},
 									{
 										type : "dataElementGroupSet",
 										resource : "dataElementGroupSets",
-										name : $translate("OBJ_DATAELEMENTGROUPSETS")
+										name : $translate("OBJ_DATAELEMENTGROUPSETS"),
+										list : 1
 									},
 									{
 										type : "category",
 										resource : "categories",
-										name : $translate("OBJ_CATEGORIES")
+										name : $translate("OBJ_CATEGORIES"),
+										list : 1
 									},
 									{
 										type : "categoryOption",
 										resource : "categoryOptions",
-										name : $translate("OBJ_CATEGORYOPTIONS")
+										name : $translate("OBJ_CATEGORYOPTIONS"),
+										list : 1
 									},
 									{
 										type : "categoryCombo",
 										resource : "categoryCombos",
-										name : $translate("OBJ_CATEGORYCOMBO")
+										name : $translate("OBJ_CATEGORYCOMBO"),
+										list : 1
+
 									},
 									{
 										type : "categoryOptionGroup",
 										resource : "categoryOptionGroups",
-										name : $translate("OBJ_CATEGORYOPTIONGROUPS")
+										name : $translate("OBJ_CATEGORYOPTIONGROUPS"),
+										list : 2
 									},
 									{
 										type : "categoryOptionGroupSet",
 										resource : "categoryOptionGroupSets",
-										name : $translate("OBJ_CATEGORYOPTIONGROUPSETS")
+										name : $translate("OBJ_CATEGORYOPTIONGROUPSETS"),
+										list : 2
 									},
 
 									{
 										type : "indicator",
 										resource : "indicators",
-										name : $translate("OBJ_INDICATORS")
+										name : $translate("OBJ_INDICATORS"),
+										list : 2
 									},
 									{
 										type : "indicatorType",
 										resource : "indicatorTypes",
-										name : $translate("OBJ_INDICATORSTYPES")
+										name : $translate("OBJ_INDICATORSTYPES"),
+										list : 2
 									},
 									{
 										type : "indicatorGroup",
 										resource : "indicatorGroups",
-										name : $translate("OBJ_INDICATORSGROUPS")
+										name : $translate("OBJ_INDICATORSGROUPS"),
+										list : 2
 									},
 									{
 										type : "dataSet",
 										resource : "dataSets",
-										name : $translate("OBJ_DATASETS")
+										name : $translate("OBJ_DATASETS"),
+										list : 2
 									},
 									{
 										type : "organisationUnitGroup",
 										resource : "organisationUnitGroups",
-										name : $translate("OBJ_ORGANISATIONUNITGROUPS")
+										name : $translate("OBJ_ORGANISATIONUNITGROUPS"),
+										list : 3
 									},
 									{
 										type : "organisationUnitGroupSet",
 										resource : "organisationUnitGroupSets",
-										name : $translate("OBJ_ORGANISATIONUNITGROUPSSETS")
+										name : $translate("OBJ_ORGANISATIONUNITGROUPSSETS"),
+										list : 3
 									}, {
 										type : "optionSet",
 										resource : "optionSets",
-										name : $translate("OBJ_OPTIONSETS")
+										name : $translate("OBJ_OPTIONSETS"),
+										list : 3
 									}, {
 										type : "userGroup",
 										resource : "userGroups",
-										name : $translate("OBJ_USERGROUPS")
+										name : $translate("OBJ_USERGROUPS"),
+										list : 3
 									}, ];
 
 							// Object get userGroups
@@ -231,7 +263,7 @@
 										}).$promise
 										.then(function(responseDataElements) {
 											$scope.mObjects = responseDataElements.dataElements;
-											return responseDataElements.dataElements;
+											return $scope.mObjects;
 										});
 							}
 
@@ -266,13 +298,32 @@
 							// validate the object to push
 							$scope.validateObject = function(objects) {
 								for (x = 0; x < objects.dataElements.length; x++) {
-									$scope.objects
-											.push({
-												id : objects.dataElements[x].id,
-												displayName : objects.dataElements[x].displayName,
-												user : objects.dataElements[x].user
-											});
+									if (objects.dataElements[x].userGroupAccesses.length > 1) {
+										$scope.objects
+												.push({
+													id : objects.dataElements[x].id,
+													displayName : objects.dataElements[x].displayName,
+													user : objects.dataElements[x].user,
+													userGroupAccesses : [ {
+														id : objects.dataElements[x].userGroupAccesses[x].id,
+														access : objects.dataElements[x].userGroupAccesses[x].access,
+														displayName : objects.dataElements[x].userGroupAccesses[x].displayName,
+														name : objects.dataElements[x].userGroupAccesses[x].displayName
+													} ]
+												});
+									}else{
+										$scope.objects
+												.push({
+													id : objects.dataElements[x].id,
+													displayName : objects.dataElements[x].displayName,
+													user : objects.dataElements[x].user,
+													userGroupAccesses : []
+												});
+
+									}
+
 								}
+
 								return objects;
 							}
 
@@ -391,11 +442,9 @@
 								$scope.objectSelected = [];
 								$scope.objectSele = [];
 								$scope.ugStatusAccess = [];
-								$scope.status = [];
 								$scope.objectSele = [];
-								mObjects = $scope.objectPrincipal;
+								$scope.mObjects = $scope.objectPrincipal;
 								$scope.permissions = null;
-								// $scope.uGroupSelected =[];
 
 							}
 
@@ -539,6 +588,10 @@
 																.then(function(
 																		result) {
 
+																	console
+																			.log(
+																					"result",
+																					result);
 																	$scope.newShSetting = result;
 																	$scope.newShSetting.object["userGroupAccesses"] = [];
 																	for (int = 0; int < $scope.uGroupSelected.length; int++) {
@@ -551,6 +604,11 @@
 																					access : $scope.uGroupSelected[int].access
 																				});
 																	}
+
+																	console
+																			.log(
+																					"$scope.newShSetting",
+																					$scope.newShSetting);
 																	sharingSetting
 																			.POST(
 																					{
@@ -560,6 +618,12 @@
 																					$scope.newShSetting).$promise
 																			.then(function(
 																					resultPost) {
+																				$scope
+																						.addAlertPermissions(
+																								$translate("MESSAGE")
+																										+ " "
+																										+ result.object.displayName,
+																								"success");
 																			});
 																})
 													}
@@ -652,50 +716,69 @@
 
 							// remove Group Access
 							$scope.removeGroupAccess = function() {
-								console.log("iff", $scope.mObjects);
+								$scope.groupAccesses = [];
 								for (var c = 0; c < $scope.mObjects.length; c++) {
 									if ($scope.elementToRemove.id == $scope.mObjects[c].id) {
-										$scope.mObjects[c].userGroupAccesses
-												.splice(c, 1);
-										$scope.mObjects[c]["userGroupAccesses"] = [];
-										delete $scope.mObjects[c].key;
-										delete $scope.mObjects[c].code;
-//									$scope.mObjects[c].userGroupAccesses[c].userGroupUid;
-										$scope.mObjects[c].userGroupAccesses
-										.push({
-											id : $scope.objectToRemove.id,
-											displayName : $scope.objectToRemove.displayName,
-											access : "rw------"
-										});
-										$scope.mObjects[c]["user"] = [];
-										$scope.mObjects[c].user
-										.push({
-											id : "soRhOul3gnx",
-											name: "admin admin"
-										});
-										$scope.mObjects[c].externalAccess= "false";
-										$scope.mObjects[c].publicAccess="rw------"
-										
-									
-										sharingSetting.POST({
+										for (d = 0; d < $scope.mObjects[c].userGroupAccesses.length; d++) {
+											if ($scope.idUgroup == $scope.mObjects[c].userGroupAccesses[d].id) {
+
+												$scope.mObjects[c].userGroupAccesses
+														.splice(d, 1);
+												break;
+											}
+										}
+										$scope.groupAccesses = $scope.mObjects[c].userGroupAccesses;
+										sharingSetting.get({
 											id : $scope.mObjects[c].id,
 											type : $scope.type
-										}, $scope.mObjects[c]).$promise
-												.then(function(resultPost) {
-													console.log("resultPost",
-															resultPost);
+										}).$promise
+												.then(function(result) {
+													$scope.mobject = result;
+													$scope.mobject.object.userGroupAccesses = $scope.mObjects[c].userGroupAccesses;
+													$scope.mObjects[c]["userGroupAccesses"] = [];
+													if ($scope.groupAccesses.length >= 1) {
+														for (n = 0; n < $scope.groupAccesses.length; n++) {
+															$scope.mObjects[c].userGroupAccesses[n] = ({
+																id : $scope.groupAccesses[n].id,
+																displayName : $scope.groupAccesses[n].displayName,
+																access : $scope.groupAccesses[n].access
+															})
+
+															$scope.mobject.object.userGroupAccesses[n] = ({
+																id : $scope.groupAccesses[n].id,
+																displayName : $scope.groupAccesses[n].displayName,
+																access : $scope.groupAccesses[n].access
+															})
+														}
+													} else {
+														$scope.mobject.object.userGroupAccesses = [];
+														$scope.mObjects[c].userGroupAccesses = [];
+
+													}
+													sharingSetting
+															.POST(
+																	{
+																		id : $scope.mobject.object.id,
+																		type : $scope.type
+																	},
+																	$scope.mobject).$promise
+															.then(function(
+																	resultPost) {
+																$scope.mobject = [];
+															});
 												});
 										break;
+
 									}
 								}
 							}
 
 							// /return the Group Access and elements to remove
 							$scope.returnObjectToRemove = function(
-									objectRemove, element) {
-								console.log("objectRemove", objectRemove);
+									objectRemove, element, id) {
 								$scope.objectToRemove = objectRemove;
 								$scope.elementToRemove = element;
+								$scope.idUgroup = id;
 							}
 
 							// /select all buttons to assign permissions in
@@ -714,23 +797,53 @@
 										});
 							}
 
-							// Do post of user Group changed
+							// Do post of user Group changed in principal
+							// interface
 							$scope.postGroup = function(mObject, access,
-									userGroup) {
-								console.log("mObjectmObject", mObject);
-								for (var c = 0; c < $scope.mObjects.length; c++) {
-									if (mObject.id == $scope.mObjects[c].id) {
-										 $scope.mObjects[c].userGroupAccesses[c].access=access; 
-										sharingSetting.POST({
-											id : mObject.id,
-											type : $scope.type
-										}, mObject).$promise
-												.then(function(resultPost) {
-													console.log("resultPost",
-															resultPost);
-												});
-									}
-								}
+									userGroup, id) {
+								sharingSetting.get({
+									id : mObject.id,
+									type : $scope.type
+								}).$promise
+										.then(function(result) {
+											console.log("res", result);
+
+											for (x = 0; x < result.object.userGroupAccesses.length; x++) {
+												for (z = 0; z < mObject.userGroupAccesses.length; z++) {
+													if (id == mObject.userGroupAccesses[z].id) {
+														console.log("iguales");
+														result.object.userGroupAccesses[z] = [];
+														result.object.userGroupAccesses = mObject.userGroupAccesses;
+														result.object.userGroupAccesses[z].access = access;
+
+																sharingSetting
+																		.POST(
+																				{
+																					id : result.object.id,
+																					type : $scope.type
+																				},
+																				result).$promise
+																		.then(function(
+																				resultPost) {
+																			$scope
+																					.addAlert(
+																							$translate("MESSAGE")
+																									+ " "
+																									+ result.object.displayName,
+																							"success");
+																		}),
+																function(error) {
+																	$scope
+																			.addAlert(
+																					error,
+																					"danger");
+
+																};
+													}
+												}
+												break;
+											}
+										});
 							}
 
 						} ]);

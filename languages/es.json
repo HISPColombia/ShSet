@@ -57,6 +57,8 @@
   "LABEL_SEARCHCODE":"codigo",
   "LABEL_SEARCHPROGRAMS":"programa",
   "LABEL_SEARCHNAME":"nombre",
+  "LABEL_SELECTGROUP":" Seleccione grupo",
+  "LABEL_SELECTDATASET":" Seleccione set de datos",
   "LABEL_SEARCHDATASET":"set de datos",
   "LABEL_SEARCHGROUP":"grupo",
   "LABEL_SEARCHCATEGORIES":"categorias",
@@ -67,7 +69,8 @@
   "LABEL_KEEPPERMISSIONS":"Mantener permisos",
   "LABEL_UPDATEPERMISSIONS":"Actualizar permisos",
   "TAB_WHATDOYOUWANTTODO":"Que desea hacer",
-  "LABEL_SELECTALL":"Seleccionar todos"
+  "LABEL_SELECTALL":"Seleccionar todos",
+   "MESSAGE": "Este elemento Fue Actualizado"
   
   
    }
