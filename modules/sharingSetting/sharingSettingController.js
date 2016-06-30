@@ -298,7 +298,7 @@
 							// validate the object to push
 							$scope.validateObject = function(objects) {
 								for (x = 0; x < objects.dataElements.length; x++) {
-									if (objects.dataElements[x].userGroupAccesses.length > 1) {
+									if (objects.dataElements[x].userGroupAccesses.length >= 1) {
 										$scope.objects
 												.push({
 													id : objects.dataElements[x].id,
@@ -587,11 +587,6 @@
 																}).$promise
 																.then(function(
 																		result) {
-
-																	console
-																			.log(
-																					"result",
-																					result);
 																	$scope.newShSetting = result;
 																	$scope.newShSetting.object["userGroupAccesses"] = [];
 																	for (int = 0; int < $scope.uGroupSelected.length; int++) {
@@ -604,11 +599,6 @@
 																					access : $scope.uGroupSelected[int].access
 																				});
 																	}
-
-																	console
-																			.log(
-																					"$scope.newShSetting",
-																					$scope.newShSetting);
 																	sharingSetting
 																			.POST(
 																					{
@@ -806,12 +796,9 @@
 									type : $scope.type
 								}).$promise
 										.then(function(result) {
-											console.log("res", result);
-
 											for (x = 0; x < result.object.userGroupAccesses.length; x++) {
 												for (z = 0; z < mObject.userGroupAccesses.length; z++) {
 													if (id == mObject.userGroupAccesses[z].id) {
-														console.log("iguales");
 														result.object.userGroupAccesses[z] = [];
 														result.object.userGroupAccesses = mObject.userGroupAccesses;
 														result.object.userGroupAccesses[z].access = access;

@@ -374,11 +374,11 @@
 																<br>
 																<div class="input-group ">
 																	<input type="text" ng-model="codeSe"
-																		placeholder="{{'LABEL_SEARCHGROUP'|translate}}"
+																		placeholder="{{'LABEL_SEARCHCODE'|translate}}"
 																		ng-change="getCode(codeSe)" class="form-control">
 																	<span class="input-group-btn">
 																		<button type="submit" class="btn btn-success"
-																			ng-click="groupSe=''; returnMobject()">
+																			ng-click="codeSe=''; returnMobject()">
 																			<span class="glyphicon glyphicon-remove"
 																				aria-hidden="true"></span>
 																		</button>
@@ -394,7 +394,7 @@
 																<br>
 																<div class="input-group ">
 																	<input type="text" ng-model="nameSe"
-																		placeholder="{{'LABEL_SEARCHGROUP'|translate}}"
+																		placeholder="{{'LABEL_SEARCHNAME'|translate}}"
 																		ng-change="getElementsByName(nameSe)"
 																		class="form-control"> <span
 																		class="input-group-btn">
@@ -412,7 +412,7 @@
 													<div class="row" ng-show="opSearch==8">
 														<form class="navbar-form navbar-left" role="search">
 															<div class="form-group">
-																<label class="label-control">{{'LABEL_SEARCHGROUP'|translate}}</label>
+																<label class="label-control">{{'LABEL_SELECTGROUP'|translate}}</label>
 																<br> <input type="text" ng-model="groupSelected"
 																	typeahead-loading="loadingLocations"
 																	typeahead-no-results="noResults"
@@ -439,7 +439,7 @@
 													<div class="row" ng-show="opSearch==9">
 														<form class="navbar-form navbar-left" role="search">
 															<div class="form-group">
-																<label class="label-control">{{'LABEL_SEARCHDATASET'|translate}}</label>
+																<label class="label-control">{{'LABEL_SELECTDATASET'|translate}}</label>
 																<br> <input type="text" ng-model="dataSetselected"
 																	typeahead-loading="loadingLocations"
 																	typeahead-no-results="noResults"
