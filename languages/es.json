@@ -70,7 +70,8 @@
   "LABEL_UPDATEPERMISSIONS":"Actualizar permisos",
   "TAB_WHATDOYOUWANTTODO":"Que desea hacer",
   "LABEL_SELECTALL":"Seleccionar todos",
-   "MESSAGE": "Este elemento Fue Actualizado"
+  "LABEL_CODE":"Codigo",
+  "MESSAGE": "Este elemento Fue Actualizado"
   
   
    }

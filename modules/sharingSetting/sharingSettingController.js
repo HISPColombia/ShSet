@@ -242,14 +242,18 @@
 							$scope.getUserGroups("userGroups");
 
 							// Get data Elements By code
-							$scope.getCode = function(code) {
+							$scope.getCode = function(code,object) {
 								return dataElements
 										.GET({
 											filter : "code:like:" + code,
-											fields : "id,name,displayName,user,userGroupAccesses"
+											fields : "id,name,displayName,user,userGroupAccesses,code"
 										}).$promise
 										.then(function(responseDataElements) {
-											$scope.mObjects = responseDataElements.dataElements;
+											if(object=="principal"){
+											$scope.mObjects= responseDataElements.dataElements;
+											}else{
+											$scope.listmObjects= responseDataElements.dataElements;
+											}
 											return responseDataElements.dataElements;
 										});
 							}
@@ -286,7 +290,7 @@
 								return dataSets
 										.GET({
 											id : id,
-											fields : "dataElements[id,name,displayName,user,userGroupAccesses]"
+											fields : "dataElements[id,name,displayName,user,userGroupAccesses,code]"
 										}).$promise.then(function(
 										getElementByDataSet) {
 									$scope.validateObject(getElementByDataSet);
@@ -299,8 +303,8 @@
 							$scope.validateObject = function(objects) {
 								for (x = 0; x < objects.dataElements.length; x++) {
 									if (objects.dataElements[x].userGroupAccesses.length >= 1) {
-										$scope.objects
-												.push({
+										try{
+											$scope.objects.push({
 													id : objects.dataElements[x].id,
 													displayName : objects.dataElements[x].displayName,
 													user : objects.dataElements[x].user,
@@ -311,6 +315,10 @@
 														name : objects.dataElements[x].userGroupAccesses[x].displayName
 													} ]
 												});
+										}catch(error){
+											
+											
+										};
 									}else{
 										$scope.objects
 												.push({
@@ -331,6 +339,7 @@
 							$scope.returnMobject = function() {
 								$scope.mObjects = $scope.objectPrincipal;
 								$scope.objects = [];
+								$scope.listmObjects=$scope.objectPrincipal;
 							}
 
 							// Get dataElementsGroups By name
@@ -356,13 +365,14 @@
 								return dataElementGroups
 										.GET({
 											id : id,
-											fields : "dataElements[id,name,displayName,user,userGroupAccesses]"
+											fields : "dataElements[id,name,displayName,user,code,userGroupAccesses]"
 										}).$promise
 										.then(function(
 												responseByDataElementsGroups) {
 											$scope
 													.validateObject(responseByDataElementsGroups);
 											$scope.mObjects = $scope.objects;
+											$scope.listmObjects =$scope.objects;
 											return responseByDataElementsGroups;
 										});
 							}
@@ -388,7 +398,7 @@
 								return categories
 										.GET({
 											id : id,
-											fields : "categoryOptions[id,name,displayName,user,userGroupAccesses]"
+											fields : "categoryOptions[id,name,displayName,user,code,userGroupAccesses]"
 
 										}).$promise
 										.then(function(responseCategories) {
@@ -401,6 +411,7 @@
 														});
 											}
 											$scope.mObjects = responseCategories.categoryOptions;
+											$scope.listmObjects= responseCategories.categoryOptions;
 											return responseCategories;
 										});
 							}
