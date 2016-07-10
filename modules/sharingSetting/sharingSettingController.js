@@ -13,10 +13,11 @@
 						'dataElementGroups',
 						'categories',
 						'dataElements',
+						'filterResource',
 						function($scope, $q, $filter, commonvariable,
 								sharingSetting, dhisResource, commonvariable,
 								dataSets, dataElementGroups, categories,
-								dataElements) {
+								dataElements, filterResource) {
 
 							// variables
 							var $translate = $filter('translate');
@@ -37,6 +38,9 @@
 							$scope.uGroupSelected = [];
 							$scope.changeColor;
 							$scope.alerts = [];
+							$scope.objectSelect;
+							$scope.show;
+							
 
 							// /add alert
 							$scope.addAlert = function(msg, type) {
@@ -148,6 +152,11 @@
 										resource : "userGroups",
 										name : $translate("OBJ_USERGROUPS"),
 										list : 3
+									}, {
+										type : "userRole",
+										resource : "userRoles",
+										name : $translate("OBJ_USERROLES"),
+										list : 3
 									}, ];
 
 							// Object get userGroups
@@ -159,6 +168,8 @@
 
 							// /methods
 							$scope.getObjects = function(object) {
+								$scope.objectSelect=object;
+								
 								$scope.titleList = object.name;
 								$scope.currentResource = object.resource;
 								$scope.currentObject = object;
@@ -179,9 +190,7 @@
 										}).$promise
 										.then(function(response) {
 											$scope.mObjects = response[object.resource];
-											$scope.listmObjects = $scope.mObjects;
 											$scope.objectPrincipal = response[object.resource];
-											;
 
 											for (a = 0; a < $scope.mObjects.length; a++) {
 												$scope.mObjects[a]["key"] = a;
@@ -193,6 +202,20 @@
 											$scope.makeTodos($scope.pageCount);
 											$scope.total = response.pager.total;
 											$scope.id = response.userGroupAccesses;
+										});
+							}
+
+							// /methods
+							$scope.getObjectsAux = function(object) {
+								dhisResource
+										.GET({
+											resource : object.resource,
+											fields : "id,code,displayName,userGroupAccesses",
+											page : $scope.page
+										}).$promise
+										.then(function(response) {
+											$scope.listmObjects = response[object.resource];
+											$scope.objectAux= response[object.resource];
 										});
 							}
 
@@ -242,40 +265,52 @@
 							$scope.getUserGroups("userGroups");
 
 							// Get data Elements By code
-							$scope.getCode = function(code,object) {
-								return dataElements
+							$scope.getCode = function(code, object) {
+								return filterResource
 										.GET({
+											resource : $scope.currentResource,
 											filter : "code:like:" + code,
 											fields : "id,name,displayName,user,userGroupAccesses,code"
 										}).$promise
 										.then(function(responseDataElements) {
-											if(object=="principal"){
-											$scope.mObjects= responseDataElements.dataElements;
-											}else{
-											$scope.listmObjects= responseDataElements.dataElements;
+											if (object == "principal") {
+												$scope.mObjects = responseDataElements[$scope.currentResource];
+											} else {
+												$scope.listmObjects = responseDataElements[$scope.currentResource];
 											}
-											return responseDataElements.dataElements;
+											return responseDataElements[$scope.currentResource];
 										});
 							}
 
 							// Get data Elements By NAME
-							$scope.getElementsByName = function(name) {
-								return dataElements
+							$scope.getElementsByName = function(name, object) {
+								return filterResource
 										.GET({
+											resource : $scope.currentResource,
 											filter : "displayName:like:" + name,
 											fields : "id,name,displayName,user,userGroupAccesses,code"
 										}).$promise
 										.then(function(responseDataElements) {
-											$scope.mObjects = responseDataElements.dataElements;
-											return $scope.mObjects;
+											if (object == "principal") {
+												$scope.mObjects = responseDataElements[$scope.currentResource];
+											} else {
+												$scope.listmObjects = responseDataElements[$scope.currentResource];
+											}
+											return responseDataElements[responseDataElements];
 										});
 							}
 
 							// Get datasets By name
-							$scope.getdataSets = function(name) {
+							$scope.getdataSets = function(name,object) {
 								return dataSets.GET({
 									filter : "name:like:" + name
 								}).$promise.then(function(responseDataSet) {
+									$scope.show = object;
+									if (object == "principal") {
+										$scope.mObjects = responseDataSet[$scope.currentResource];
+									} else {
+										$scope.listmObjects =responseDataSet[$scope.currentResource];
+									}	
 									return responseDataSet.dataSets;
 								});
 							}
@@ -293,8 +328,12 @@
 											fields : "dataElements[id,name,displayName,user,userGroupAccesses,code]"
 										}).$promise.then(function(
 										getElementByDataSet) {
-									$scope.validateObject(getElementByDataSet);
-									$scope.mObjects = $scope.objects;
+											if ($scope.show == "principal") {
+												$scope.mObjects = getElementByDataSet.dataElements;
+											} else {
+												$scope.listmObjects =getElementByDataSet.dataElements;
+												
+											}	
 									return getElementByDataSet;
 								});
 							}
@@ -303,23 +342,24 @@
 							$scope.validateObject = function(objects) {
 								for (x = 0; x < objects.dataElements.length; x++) {
 									if (objects.dataElements[x].userGroupAccesses.length >= 1) {
-										try{
-											$scope.objects.push({
-													id : objects.dataElements[x].id,
-													displayName : objects.dataElements[x].displayName,
-													user : objects.dataElements[x].user,
-													userGroupAccesses : [ {
-														id : objects.dataElements[x].userGroupAccesses[x].id,
-														access : objects.dataElements[x].userGroupAccesses[x].access,
-														displayName : objects.dataElements[x].userGroupAccesses[x].displayName,
-														name : objects.dataElements[x].userGroupAccesses[x].displayName
-													} ]
-												});
-										}catch(error){
-											
-											
-										};
-									}else{
+										try {
+											$scope.objects
+													.push({
+														id : objects.dataElements[x].id,
+														displayName : objects.dataElements[x].displayName,
+														user : objects.dataElements[x].user,
+														userGroupAccesses : [ {
+															id : objects.dataElements[x].userGroupAccesses[x].id,
+															access : objects.dataElements[x].userGroupAccesses[x].access,
+															displayName : objects.dataElements[x].userGroupAccesses[x].displayName,
+															name : objects.dataElements[x].userGroupAccesses[x].displayName
+														} ]
+													});
+										} catch (error) {
+											console.log("catch");
+										}
+										
+									} else {
 										$scope.objects
 												.push({
 													id : objects.dataElements[x].id,
@@ -339,16 +379,17 @@
 							$scope.returnMobject = function() {
 								$scope.mObjects = $scope.objectPrincipal;
 								$scope.objects = [];
-								$scope.listmObjects=$scope.objectPrincipal;
+								$scope.listmObjects = $scope.objectAux;
 							}
 
 							// Get dataElementsGroups By name
 							$scope.getDataElementsGroups = function(
-									nameElementGroup) {
+									nameElementGroup,object) {
 								return dataElementGroups.GET({
 									filter : "name:like:" + nameElementGroup
 								}).$promise
 										.then(function(responseElementGroup) {
+											$scope.show = object;
 											return responseElementGroup.dataElementGroups;
 										});
 							}
@@ -369,10 +410,12 @@
 										}).$promise
 										.then(function(
 												responseByDataElementsGroups) {
-											$scope
-													.validateObject(responseByDataElementsGroups);
-											$scope.mObjects = $scope.objects;
-											$scope.listmObjects =$scope.objects;
+											if ($scope.show == "principal") {
+												$scope.mObjects = responseByDataElementsGroups.dataElements;
+											} else {
+												$scope.listmObjects =responseByDataElementsGroups.dataElements;
+											}												
+											
 											return responseByDataElementsGroups;
 										});
 							}
@@ -411,7 +454,7 @@
 														});
 											}
 											$scope.mObjects = responseCategories.categoryOptions;
-											$scope.listmObjects= responseCategories.categoryOptions;
+											$scope.listmObjects = responseCategories.categoryOptions;
 											return responseCategories;
 										});
 							}
@@ -446,27 +489,13 @@
 										begin, end);
 							};
 
-							// Clean Variables
-							$scope.clean = function() {
-								console.log("Cleannnning");
-								$scope.ugStatus = [];
-								$scope.objectSelected = [];
-								$scope.objectSele = [];
-								$scope.ugStatusAccess = [];
-								$scope.objectSele = [];
-								$scope.mObjects = $scope.objectPrincipal;
-								$scope.permissions = null;
-
-							}
-
 							// Method Access depending of the button change
 							// public Access and External Access
 							$scope.changeButtons = function(changeButton,
 									uGroupSelect) {
 								if (changeButton == 0) {
 									access = "";
-									$scope.setValue(uGroupSelect,
-											$scope.uGroupSelected, access);
+									$scope.uGroupSelected.push[{}];
 								}
 								if (changeButton == 1) {
 									access = "r------";
@@ -587,9 +616,19 @@
 
 																			resultPost) {
 
+																				$scope
+																						.addAlert(
+																								$translate("MESSAGE")
+																										+ " "
+																										+ result.object.displayName,
+																								"success");
+																				$scope.uGroupSelected = [];
+																				$scope.getObjects($scope.objectSelect);
+
 																			});
 																})
-													} else if (permissions == 'update') {// update
+													} else if (permissions == 'update') {
+														// update
 														// Permissions
 														sharingSetting
 																.get({
@@ -620,11 +659,13 @@
 																			.then(function(
 																					resultPost) {
 																				$scope
-																						.addAlertPermissions(
+																						.addAlert(
 																								$translate("MESSAGE")
 																										+ " "
 																										+ result.object.displayName,
 																								"success");
+																				$scope.uGroupSelected = [];
+																				$scope.getObjects($scope.objectSelect);
 																			});
 																})
 													}
@@ -632,53 +673,61 @@
 							}
 
 							// Assign Elements to the Api
-							$scope.newShareObject = function(result,
-									uGroupSelected) {
-
-								var newShSetting = result;
+							$scope.newShareObject = function(resultGet,
+									uGroupSelected, access) {
+								var newShSetting;
+								var userGroupA = [];
 								try {
-									for (z = 0; z <= (uGroupSelected.length) - 1; z++) {
-										if ((result.object.userGroupAccesses[z].id) == (uGroupSelected[z].id)) {
-											newShSetting = result;
-											newShSetting.object.userGroupAccesses
-													.push({
-														id : uGroupSelected[z].id,
-														displayName : uGroupSelected[z].displayName,
-														access : uGroupSelected[z].access
-													});
 
-										} else {
-											newShSetting = result;
-											newShSetting.object.userGroupAccesses
-													.push({
-														id : uGroupSelected[z].id,
-														displayName : uGroupSelected[z].displayName,
-														access : uGroupSelected[z].access
-													});
+									for (x = 0; x < resultGet.object.userGroupAccesses.length; x++) {
+										for (z = 0; z <= (uGroupSelected.length) - 1; z++) {
+											if ((resultGet.object.userGroupAccesses[x].id) == (uGroupSelected[z].id)) {
+												resultGet.object.userGroupAccesses
+														.splice(x, 1);
+												userGroupA
+														.push({
+															id : uGroupSelected[z].id,
+															displayName : uGroupSelected[z].displayName,
+															access : $scope.uGroupSelected[z].access
+														});
+
+											}
 										}
+									}
+									newShSetting = resultGet;
+									for (y = 0; y < userGroupA.length; y++) {
+										newShSetting.object.userGroupAccesses
+												.push({
+													id : userGroupA[y].id,
+													displayName : userGroupA[y].displayName,
+													access : $scope.uGroupSelected[y].access
+												});
 									}
 									return newShSetting;
 								} catch (error) {
-									newShSetting.object["userGroupAccesses"] = [];
-									newShSetting.object.userGroupAccesses
-											.push({
-												id : uGroupSelected[z].id,
-												displayName : uGroupSelected[z].displayName,
-												access : uGroupSelected[z].access
-											});
+									newShSetting = resultGet;
+									for (a = 0; a < userGroupA.length; a++) {
+										newShSetting.object.userGroupAccesses
+												.push({
+													id : userGroupA[a].id,
+													displayName : userGroupA[a].displayName,
+													access : $scope.uGroupSelected[a].access
+												});
+									}
 									return newShSetting;
+
 								}
 							}
 
 							// Get Elements selected
 							$scope.getOptionSelected = function(objectSelected,
 									mObjects) {
-								$scope.listmObjects = mObjects;
 								try {
 									for (a = 0; a < objectSelected.length; a++) {
-										for (i = 0; i < mObjects.length; i++) {
-											if ((objectSelected[a].key) == ($scope.mObjects[i].key)) {
-												$scope.mObjects.splice(i, 1);
+										for (i = 0; i < $scope.listmObjects.length; i++) {
+											if ((objectSelected[a].id) == ($scope.listmObjects[i].id)) {
+												$scope.listmObjects
+														.splice(i, 1);
 												$scope.objectSele
 														.push({
 															id : objectSelected[a].id,
@@ -694,32 +743,77 @@
 								}
 							}
 
-							// Remove Selected Elements
-							$scope.removeOptionSelected = function(object,
-									mObjects) {
+							// pass all Elements selected
+							$scope.passAll = function(objectSelected) {
+								if ($scope.listmObjects.length) {
+									objectSelected = $scope.listmObjects;
+									try {
+										for (a = 0; a < objectSelected.length; a++) {
+											for (i = 0; i < $scope.listmObjects.length; i++) {
+												$scope.objectSele
+														.push({
+															id : objectSelected[a].id,
+															displayName : objectSelected[a].displayName,
+															key : objectSelected[a].key
+														});
+												break;
+											}
+										}
+									} catch (error) {
+									}
+								}
+								$scope.listmObjects = [];
+
+							}
+							// remove All Elements selected
+							$scope.removeAll = function(objectSelected) {
 								try {
-									for (a = 0; a < object.length; a++) {
-										for (i = 0; i < mObjects.length; i++) {
-											$scope.mObjects
-													.push({
-														id : object[a].id,
-														displayName : object[a].displayName,
-														key : object[a].key
-													});
-											$scope.objectSele.splice(i, 1);
-											break;
+									for (x = 0; x <= $scope.listmObjects.length; x++) {
+										$scope.listmObjects
+												.push({
+													id : objectSelected[x].id,
+													displayName : objectSelected[x].displayName,
+													key : objectSelected[x].key
+												});
+									}
+									$scope.objectSele = [];
+								} catch (error) {
+									$scope.objectSele = [];
+								}
+							}
+
+							// Remove Selected Elements
+							$scope.removeOptionSelected = function(
+									objectSelected) {
+								try {
+
+									for (x = 0; x < objectSelected.length; x++) {
+										for (z = 0; z < $scope.objectSele.length; z++) {
+
+											if ($scope.objectSele[z].id == objectSelected[x].id) {
+												$scope.listmObjects
+														.push({
+															id : objectSelected[x].id,
+															displayName : objectSelected[x].displayName,
+															key : objectSelected[x].key
+														});
+												$scope.objectSele.splice(z, 1)
+
+											}
+
 										}
 									}
 								} catch (error) {
-									$scope.object.length = 0;
+									console.log("catch", objectSelected);
 								}
+
 							}
 
 							// remove Group Access
 							$scope.removeGroupAccess = function() {
 								$scope.groupAccesses = [];
-								for (var c = 0; c < $scope.mObjects.length; c++) {
-									if ($scope.elementToRemove.id == $scope.mObjects[c].id) {
+								for (c = 0; c < $scope.mObjects.length; c++) {
+									if ($scope.elementToRemove == $scope.mObjects[c].id) {
 										for (d = 0; d < $scope.mObjects[c].userGroupAccesses.length; d++) {
 											if ($scope.idUgroup == $scope.mObjects[c].userGroupAccesses[d].id) {
 
@@ -765,6 +859,13 @@
 																	$scope.mobject).$promise
 															.then(function(
 																	resultPost) {
+
+																$scope
+																		.addAlert(
+																				$translate("MESSAGE")
+																						+ " "
+																						+ $scope.mobject.object.displayName,
+																				"success");
 																$scope.mobject = [];
 															});
 												});
@@ -778,7 +879,11 @@
 							$scope.returnObjectToRemove = function(
 									objectRemove, element, id) {
 								$scope.objectToRemove = objectRemove;
-								$scope.elementToRemove = element;
+								$scope.elementToRemove = element.id;
+								if ($scope.elementToRemove == undefined) {
+									$scope.elementToRemove = element[0].id;
+								}
+
 								$scope.idUgroup = id;
 							}
 
@@ -814,6 +919,19 @@
 														result.object.userGroupAccesses = mObject.userGroupAccesses;
 														result.object.userGroupAccesses[z].access = access;
 
+														for (w = 0; w < $scope.objectPrincipal.length; w++) {
+															if ($scope.objectPrincipal[w].id == result.object.id) {
+																for (y = 0; y < $scope.objectPrincipal[w].userGroupAccesses.length; y++) {
+																	if ($scope.objectPrincipal[w].userGroupAccesses[y].id == result.object.userGroupAccesses[z].id) {
+																		$scope.objectPrincipal[w].userGroupAccesses = mObject.userGroupAccesses;
+																		break;
+																	}
+
+																}
+																break;
+															}
+
+														}
 																sharingSetting
 																		.POST(
 																				{
@@ -829,6 +947,7 @@
 																									+ " "
 																									+ result.object.displayName,
 																							"success");
+
 																		}),
 																function(error) {
 																	$scope
@@ -842,6 +961,20 @@
 												break;
 											}
 										});
+							}
+
+							// Clean Variables
+							$scope.clean = function() {
+								$scope.ugStatus = [];
+								$scope.objectSelected = [];
+								$scope.ugStatusAccess = [];
+								$scope.objectSele = [];
+								$scope.listmObjects =$scope.objectPrincipal;;
+								$scope.permissions = null;
+								access = "";
+								responseDataElements = [];
+								$scope.newShSetting=[];
+								
 							}
 
 						} ]);

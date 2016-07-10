@@ -118,3 +118,17 @@ Dhis2Api.factory("categories", [ '$resource', 'commonvariable',
 				}
 			});
 		} ]);
+
+Dhis2Api.factory("filterResource", [ '$resource', 'commonvariable',
+                         		function($resource, commonvariable) {
+                         			return $resource(commonvariable.url + "/:resource/:id", {
+                        				resource : '@resource',
+
+                         				id : '@id',
+
+                         			}, {
+                         				GET : {
+                         					method : "GET"
+                         				}
+                         			});
+                         		} ]);

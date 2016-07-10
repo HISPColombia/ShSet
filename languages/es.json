@@ -18,21 +18,22 @@
   "LABEL_ITEM": "Elementos",
   "OBJ_DATAELEMENT":"Elemento de datos",
   "OBJ_DATAELEMENTGROUP":"Grupo de elemento de datos",
-  "OBJ_DATAELEMENTGROUPSETS":"set de grupos de elemento de datos",
+  "OBJ_DATAELEMENTGROUPSETS":"Set de grupos de elemento de datos",
   "OBJ_CATEGORYOPTIONS":"Opciones de categoría",
   "OBJ_CATEGORIES":"Categorias",
   "OBJ_CATEGORYCOMBO":"Combo de categoría",
   "OBJ_CATEGORYOPTIONCOMBOS":"Combo de opciones de categoria",
   "OBJ_CATEGORYOPTIONGROUPS":"Grupos de opciones de categoria",
-  "OBJ_CATEGORYOPTIONGROUPSETS":"sets de grupos de opciones de categoria",
+  "OBJ_CATEGORYOPTIONGROUPSETS":"Sets de grupos de opciones de categoria",
   "OBJ_INDICATORS":"Indicadores",
   "OBJ_INDICATORSTYPES": "Tipos de indicadores",
   "OBJ_INDICATORSGROUPS":"Grupos de indicadores",
   "OBJ_DATASETS":"Set de datos",
   "OBJ_ORGANISATIONUNITGROUPS":"Grupos de unidad de organización ",
   "OBJ_ORGANISATIONUNITGROUPSSETS":"Set de grupos de unidades de organización ",
-  "OBJ_OPTIONSETS":"set de opciones",
+  "OBJ_OPTIONSETS":"Set de opciones",
   "OBJ_USERGROUPS":"Grupos de usuarios",
+  "OBJ_USERROLES":"Roles de usuario",
   "LABEL_USER":"Usuario",
   "LABEL_READ":"Leer",
   "LABEL_READWRITE":"Leer / Escribir",
@@ -71,7 +72,7 @@
   "TAB_WHATDOYOUWANTTODO":"Que desea hacer",
   "LABEL_SELECTALL":"Seleccionar todos",
   "LABEL_CODE":"Codigo",
-  "MESSAGE": "Este elemento Fue Actualizado"
-  
+  "MESSAGE": "Este elemento Fue Actualizado",
+  "BUTTON_CLEAR_ALL":"Limpiar todo"
   
    }

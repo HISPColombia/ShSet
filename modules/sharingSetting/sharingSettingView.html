@@ -12,7 +12,7 @@
 					<div class="radio"
 						ng-repeat="element in elements | filter : element.list=1  ">
 						<label><input type="radio" name="lstObject"
-							ng-click="getObjects(element)"
+							ng-click="getObjects(element);getObjectsAux(element);$scope.objectSelect='element'"
 							onclick="buttonModal.disabled=false"> {{element.name}}</label>
 					</div>
 				</div>
@@ -84,10 +84,10 @@
 							<button type="button"
 								class="btn btn-{{opSearch==4?'primary':'default'}}"
 								ng-click="opSearch=4"
-								ng-show="type == 'dataElement' || type == 'dataSet'">{{'LABEL_SEARCHDATASET'|translate}}</button>
+								ng-show="type == 'dataElement'">{{'LABEL_SEARCHDATASET'|translate}}</button>
 							<button type="button"
 								class="btn btn-{{opSearch==5?'primary':'default'}}"
-								ng-show="type == 'categories' || type == 'categoryOptions'"
+								ng-show="type == 'category' || type == 'categoryOption'"
 								ng-click="opSearch=5">{{'LABEL_SEARCHCATEGORIES'|translate}}</button>
 						</div>
 						<br>
@@ -99,7 +99,8 @@
 									<div class="input-group ">
 										<input type="text" ng-model="codeSelect"
 											placeholder="{{'LABEL_SEARCHCODE'|translate}}"
-											ng-change="getCode(codeSelect,'principal')" class="form-control">
+											ng-change="getCode(codeSelect,'principal')"
+											class="form-control">
 										<span class="input-group-btn">
 											<button type="submit" class="btn btn-success"
 												ng-click="codeSelect=''; returnMobject()">
@@ -118,7 +119,7 @@
 									<div class="input-group ">
 										<input type="text" ng-model="nameSelect"
 											placeholder="{{'LABEL_SEARCHNAME'|translate}}"
-											ng-change="getElementsByName(nameSelect)"
+											ng-change="getElementsByName(nameSelect,'principal') | lowercase"
 											class="form-control"> <span class="input-group-btn">
 											<button type="submit" class="btn btn-success"
 												ng-click="nameSelect=''; returnMobject()">
@@ -138,14 +139,14 @@
 										<input type="text" ng-model="groupSelected"
 											typeahead-loading="loadingLocations"
 											placeholder="{{'LABEL_SEARCHGROUP'|translate}}"
-											uib-typeahead="resultElementGroup as resultElementGroup.displayName for resultElementGroup in getDataElementsGroups($viewValue)"
+											uib-typeahead="resultElementGroup as resultElementGroup.displayName for resultElementGroup in getDataElementsGroups($viewValue,'principal')"
 											class="form-control"
 											typeahead-on-select="onSelectGroups($item, $model, $label)">
 										<i ng-show="loadingLocations"
 											class="glyphicon glyphicon-refresh"></i> <span
 											class="input-group-btn">
 											<button type="submit" class="btn btn-success sm"
-												ng-click="groupSelected=''; returnMobject()">
+												ng-click="groupSelected=''; returnMobject();">
 												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 											</button>
 										</span>
@@ -163,7 +164,7 @@
 										<input type="text" ng-model="dataSetselected"
 											typeahead-loading="loadingLocations"
 											placeholder="{{'LABEL_SEARCHDATASET'|translate}}"
-											uib-typeahead="resultdataSets as resultdataSets.displayName for resultdataSets in getdataSets($viewValue)"
+											uib-typeahead="resultdataSets as resultdataSets.displayName for resultdataSets in getdataSets($viewValue,'principal')"
 											typeahead-min-length="2" class="form-control"
 											typeahead-on-select="onSelect($item, $model, $label)">
 										<i ng-show="loadingLocations"
@@ -216,15 +217,16 @@
 				</div>
 				<br>
 				<div class="col-md-8 text-center"></div>
-				
-				
+
+
 				<div class="col-md-4">
 
-							<label>{{'LABEL_CONVENTION'| translate}}</label><br> <label
-								class="label label-danger">{{'LABEL_NONE'|translate}}</label> <label
-								class="label label-warning">{{'LABEL_READ'|translate}}</label> <label
-								class="label label-success">{{'LABEL_READWRITE'|translate}}</label>
-						</div>
+					<label>{{'LABEL_CONVENTION'| translate}}</label><br> 
+<!-- 					<label	class="label label-danger">{{'LABEL_NONE'|translate}}</label>  -->
+						<label
+						class="label label-warning">{{'LABEL_READ'|translate}}</label> <label
+						class="label label-success">{{'LABEL_READWRITE'|translate}}</label>
+				</div>
 			</div>
 			<br>
 
@@ -249,24 +251,25 @@
 					<div class="col-md-1">{{mObject.code}}</div>
 					<div class="col-md-6">
 						<div class="row"
-							ng-repeat="(staUg,userGroup) in mObject.userGroupAccesses ">
-							<div class="col-md-8"><div class="col-md-7">
-								<div>{{userGroup.displayName}}</div>
-							</div>
-								<div  class="col-md-1">
+							ng-repeat="(staUg,userGroup) in mObject.userGroupAccesses  ">
+							<div class="col-md-8">
+								<div class="col-md-7">
+									<div>{{userGroup.displayName}}</div>
+								</div>
+								<div class="col-md-1">
 									<button class="button btn-default btn-xs" data-toggle="modal"
 										data-target="#modal"
 										ng-click="returnObjectToRemove(userGroup,mObject,userGroup.id)">
 										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 									</button>
-									</div>
 								</div>
-							<div >
+							</div>
+							<div>
 								<div class="btn-group" role="group" aria-label="...">
-									<button id="none"
-										ng-click="status[staUg]=0;postGroup(mObject,'',userGroup,userGroup.id);userGroup.access='none'"
-										type="button"
-										class="btn btn-{{(status[staUg]==0 || userGroup.access =='' )?'danger':'default'}} btn-lg"></button>
+<!-- 									<button id="none" -->
+<!-- 										ng-click="status[staUg]=0;postGroup(mObject,'',userGroup,userGroup.id);userGroup.access='none'" -->
+<!-- 										type="button" -->
+<!-- 										class="btn btn-{{(status[staUg]==0 || userGroup.access =='' )?'danger':'default'}} btn-lg"></button> -->
 									<button
 										ng-click="status[staUg]=1;postGroup(mObject,'r------' ,userGroup,userGroup.id);userGroup.access='read'"
 										type="button"
@@ -369,10 +372,10 @@
 														<button type="button"
 															class="btn btn-{{opSearch==9?'primary':'default'}}"
 															ng-click="opSearch=9"
-															ng-show="type == 'dataElement' || type == 'dataSet'">{{'LABEL_SEARCHDATASET'|translate}}</button>
+															ng-show="type == 'dataElement'">{{'LABEL_SEARCHDATASET'|translate}}</button>
 														<button type="button"
 															class="btn btn-{{opSearch==10?'primary':'default'}}"
-															ng-show="type == 'categories' || type == 'categoryOptions'"
+															ng-show="type == 'category' || type == 'categoryOption'"
 															ng-click="opSearch=10">{{'LABEL_SEARCHCATEGORIES'|translate}}</button>
 													</div>
 													<div class="row" ng-show="opSearch==6">
@@ -383,8 +386,9 @@
 																<div class="input-group ">
 																	<input type="text" ng-model="codeSe"
 																		placeholder="{{'LABEL_SEARCHCODE'|translate}}"
-																		ng-change="getCode(codeSe,'modal')" class="form-control">
-																	<span class="input-group-btn">
+																		ng-change="getCode(codeSe,'modal')"
+																		class="form-control"> <span
+																		class="input-group-btn">
 																		<button type="submit" class="btn btn-success"
 																			ng-click="codeSe=''; returnMobject()">
 																			<span class="glyphicon glyphicon-remove"
@@ -403,7 +407,7 @@
 																<div class="input-group ">
 																	<input type="text" ng-model="nameSe"
 																		placeholder="{{'LABEL_SEARCHNAME'|translate}}"
-																		ng-change="getElementsByName(nameSe)"
+																		ng-change="getElementsByName(nameSe,'modal')"
 																		class="form-control"> <span
 																		class="input-group-btn">
 																		<button type="submit" class="btn btn-success"
@@ -425,16 +429,11 @@
 																	typeahead-loading="loadingLocations"
 																	typeahead-no-results="noResults"
 																	placeholder="{{'LABEL_SEARCHGROUP'|translate}}"
-																	uib-typeahead="resultElementGroup as resultElementGroup.displayName for resultElementGroup in getDataElementsGroups($viewValue)"
+																	uib-typeahead="resultElementGroup as resultElementGroup.displayName for resultElementGroup in getDataElementsGroups($viewValue,'modal')"
 																	class="form-control"
 																	typeahead-on-select="onSelectGroups($item, $model, $label)">
 																<i ng-show="loadingLocations"
 																	class="glyphicon glyphicon-refresh"></i>
-																<div ng-show="noResults">
-																	<i class="glyphicon glyphicon-remove"></i>
-																	{{'LABEL_NORESULTSFOUND'| translate}}
-																</div>
-
 																<button type="submit" class="btn btn-success sm"
 																	ng-click="groupSelected=''; returnMobject()">
 																	<span class="glyphicon glyphicon-remove"
@@ -452,15 +451,11 @@
 																	typeahead-loading="loadingLocations"
 																	typeahead-no-results="noResults"
 																	placeholder="{{'LABEL_SEARCHDATASET'|translate}}"
-																	uib-typeahead="resultdataSets as resultdataSets.displayName for resultdataSets in getdataSets($viewValue)"
+																	uib-typeahead="resultdataSets as resultdataSets.displayName for resultdataSets in getdataSets($viewValue,'modal')"
 																	typeahead-min-length="2" class="form-control"
 																	typeahead-on-select="onSelect($item, $model, $label)">
 																<i ng-show="loadingLocations"
 																	class="glyphicon glyphicon-refresh"></i>
-																<div ng-show="noResults">
-																	<i class="glyphicon glyphicon-remove"></i>
-																	{{'LABEL_NORESULTSFOUND'| translate}}
-																</div>
 																<button type="submit" class="btn btn-success sm"
 																	ng-click="dataSetselected='' ; returnMobject()">
 																	<span class="glyphicon glyphicon-remove"
@@ -510,21 +505,29 @@
 										ng-dblclick="getOptionSelected(selectElements,listmObjects)"
 										ng-options="mObject.displayName for mObject in listmObjects | filter: searchName"></select>
 								</div>
+								
 								<div class="col-md-1"></div>
 								<div class="col-md-1">
-									<br> <input type="button" class=" pass left"
+									<br>
+									 <input type="button" class=" pass left"
 										style="width: 40px" value="<<" type="submit"
-										ng-click="removeOptionSelected(selectedElements,listmObjects)">
-									<br> <input type="button" class="pass left"
-										style="width: 40px" value="<" type="submit"
-										ng-click="removeOptionSelected(objectSele)"> <br>
-									<input type="button" class="pass Rigth" style="width: 40px"
-										value=">>" type="submit"
-										ng-click="getOptionSelected(objectSelected)"> <br>
-									<input type="button" class="pass Rigth" style="width: 40px"
-										value=">" type="submit"
+										ng-click="removeAll(objectSele)">
+										 <br> 
+										 <input
+										type="button" class="pass left" style="width: 40px" value="<"
+										type="submit" ng-click="removeOptionSelected(selectedElements)">
+										
+									<br> 
+									<input type="button" class="pass Rigth"
+										style="width: 40px" value=">>" type="submit"
+										ng-click="passAll(listmObjects)"> 
+										<br>
+										 <input
+										type="button" class="pass Rigth" style="width: 40px" value=">"
+										type="submit"
 										ng-click="getOptionSelected(selectElements,listmObjects);searchElements='' ">
 								</div>
+								
 								<div class="col-md-5">
 									<select class="sectionRigth"
 										style="width: 348px; height: 150px;" multiple="true"
@@ -556,8 +559,8 @@
 											</div>
 											<div class="col-md-6">
 												<div class="btn-group" role="group">
-													<button
-														ng-click="ugStatus[kug]=0; changeButtons(changeButton=0,uGroup)"
+													<button disabled="true"
+														ng-click="ugStatus[kug]=0; changeButtons(changeButton=0,uGroup);"
 														type="button"
 														class="btn btn-{{ugStatus[kug]==0? 'danger':'default'}} btn-lg"></button>
 													<button
@@ -632,7 +635,7 @@
 						<div class="col-md-8">
 
 							<label>{{'LABEL_CONVENTION'| translate}}</label><br> <label
-								class="label label-danger">{{'LABEL_NONE'|translate}}</label> <label
+								class="label label-danger">{{'BUTTON_CLEAR_ALL'|translate}}</label> <label
 								class="label label-warning">{{'LABEL_READ'|translate}}</label> <label
 								class="label label-success">{{'LABEL_READWRITE'|translate}}</label>
 						</div>
