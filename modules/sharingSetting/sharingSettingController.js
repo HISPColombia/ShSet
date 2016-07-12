@@ -894,8 +894,10 @@
 										k) {
 									$scope.ugStatus[k] = nval;
 								});
+								
 							}
-
+							
+							//load permissions
 							$scope.loadAccess = function(userGroup) {
 								angular.forEach($scope.status,
 										function(val, k) {
@@ -974,7 +976,7 @@
 								access = "";
 								responseDataElements = [];
 								$scope.newShSetting=[];
-								
+								$scope.getUserGroups("userGroups");
 							}
 
 						} ]);
