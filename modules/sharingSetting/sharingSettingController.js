@@ -42,6 +42,7 @@
 							$scope.userGroupAux = [];
 							permissions = "update";
 							$scope.aux = [];
+							
 
 							// /add alert
 							$scope.addAlert = function(msg, type) {
@@ -198,12 +199,6 @@
 
 												$scope.mObjects[a]["key"] = a;
 												for (z = 0; z < $scope.mObjects[a].userGroupAccesses.length; z++) {
-													// $scope.userGroupAux.push($scope.mObjects[a].userGroupAccesses[z].displayName);
-													// $scope.userGroupAux.sort();
-													// $scope.mObjects[a].userGroupAccesses[z].sort();
-													// console.log("prueba",$scope.userGroupAux);
-													// }
-
 													sorting(
 															$scope.mObjects[a].userGroupAccesses,
 															$scope.mObjects[a].userGroupAccesses[z].displayName);
@@ -217,6 +212,8 @@
 											$scope.total = response.pager.total;
 											$scope.id = response.userGroupAccesses;
 											$scope.getObjectsAux(object);
+											$scope.selectAllButtons(0);
+											ugStatusAccess=3;
 										});
 							}
 
@@ -520,6 +517,7 @@
 							// public Access and External Access
 							$scope.changeButtons = function(changeButton,
 									uGroupSelect) {
+								access="";
 								if (changeButton == 0) {
 									access = "";
 									$scope.uGroupSelected.push[{}];
@@ -753,11 +751,11 @@
 										}
 									}
 									newShSetting = resultGet;
-									for (y = 0; y < userGroupA.length; y++) {
+									for (y = 0; y < uGroupSelected.length; y++) {
 										newShSetting.object.userGroupAccesses
 												.push({
-													id : userGroupA[y].id,
-													displayName : userGroupA[y].displayName,
+													id : uGroupSelected[y].id,
+													displayName : uGroupSelected[y].displayName,
 													access : $scope.uGroupSelected[y].access
 												});
 									}
@@ -868,7 +866,7 @@
 							}
 
 							// remove Group Access
-							$scope.removeGroupAccess = function() {
+							$scope.removeGroupAccess = function(access,object,varModal) {
 								$scope.groupAccesses = [];
 								for (c = 0; c < $scope.mObjects.length; c++) {
 									if ($scope.elementToRemove == $scope.mObjects[c].id) {
@@ -917,13 +915,15 @@
 																	$scope.mobject).$promise
 															.then(function(
 																	resultPost) {
-
-																$scope
-																		.addAlert(
-																				$translate("MESSAGE")
-																						+ " "
-																						+ $scope.mobject.object.displayName,
-																				"success");
+																if (varModal!="modalDelete") {
+																	$scope
+																	.addAlert(
+																			$translate("MESSAGE")
+																					+ " "
+																					+ $scope.mobject.object.displayName,
+																			"success");
+																}
+													
 																$scope.mobject = [];
 															});
 												});
@@ -1030,7 +1030,6 @@
 								$scope.ugStatusAccess = [];
 								$scope.objectSele = [];
 								$scope.listmObjects = $scope.objectPrincipal;
-								// $scope.permissions = null;
 								access = "";
 								responseDataElements = [];
 								$scope.newShSetting = [];
@@ -1039,6 +1038,10 @@
 								var auxiliar=[];
 								var auxiliarConcat= "";
 								$scope.aux=[];
+								$scope.getObjects($scope.objectSelect);
+								permissions="update";
+								$scope.publicAccess="";
+//								$scope.selectAllButtons(0);
 							}
 
 						} ]);

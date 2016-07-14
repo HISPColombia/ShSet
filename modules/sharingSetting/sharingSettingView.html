@@ -231,10 +231,10 @@
 			<div class="list-group " style="overflow: scroll; height: 400px;">
 				<div class="row list-group-item">
 					<div class="col-md-5 text-center"></div>
-					<div class="col-md-1 align-rigth">
+					<div class="col-md-2 align-rigth">
 						<label> {{"LABEL_CODE"| translate}}</label>
 					</div>
-					<div class="col-md-3 align-center">
+					<div class="col-md-2 align-center">
 						<label>{{"LABEL_USERGROUP"|translate}}</label>
 					</div>
 					<div class="col-md-2 text-rigth">
@@ -264,10 +264,6 @@
 							</div>
 							<div>
 								<div class="btn-group col-md-4" role="group" aria-label="...">
-									<!-- 									<button id="none" -->
-									<!-- 										ng-click="status[staUg]=0;postGroup(mObject,'',userGroup,userGroup.id);userGroup.access='none'" -->
-									<!-- 										type="button" -->
-									<!-- 										class="btn btn-{{(status[staUg]==0 || userGroup.access =='' )?'danger':'default'}} btn-lg"></button> -->
 									<button
 										ng-click="status[staUg]=1;postGroup(mObject,'r------' ,userGroup,userGroup.id);userGroup.access='read'"
 										type="button"
@@ -304,7 +300,7 @@
 
 					{{'LABEL_WISHDELETEUSERGROUPS' | translate}} <br> <br>
 					<button class="btn btn-primary"
-						ng-click="removeGroupAccess(access,mObject)" data-dismiss="modal">{{'LABEL_YES'
+						ng-click="removeGroupAccess(access,mObject,varModal='principal')" data-dismiss="modal">{{'LABEL_YES'
 						| translate}}</button>
 					<button class="btn btn-primary" class="btn btn-primary"
 						data-dismiss="modal">{{'LABEL_NO' | translate}}</button>
@@ -557,10 +553,11 @@
 											<div class="col-md-5">
 												<label aria-label="...">{{uGroup.displayName}}</label>
 											</div>
+<!-- 											uGroup,objectSele,uGroup.id -->
 											<div class="col-md-6">
-												<div class="btn-group" role="group">
-													<button
-														ng-click="ugStatus[kug]=0; changeButtons(changeButton=0,uGroup);returnObjectToRemove(uGroup,mObject,uGroup.id)"
+												<div class="btn-group" role="group" >
+													<button 
+														ng-click="ugStatus[kug]=0;returnObjectToRemove(mObjects.userGroupAccesses,mObjects,uGroup.id);removeGroupAccess(access,mObject, varModal='modalDelete');"
 														type="button"
 														class="btn btn-{{ugStatus[kug]==0? 'danger':'default'}} btn-lg"></button>
 													<button
