@@ -43,7 +43,7 @@
   "LABEL_SELECTEDITEMS":"Elementos Seleccionados",
   "TAB_USERS":"Ver usuarios",
   "TAB_ASIGNPERMISSIONS":"Asignar permisos",
-  "TAB_ASIGNELEMENTS":"Asignar elementos",
+  "TAB_ASIGNELEMENTS":"Asignar",
   "LABEL_YES":"Si",
   "LABEL_NO":"No",
   "LABEL_SEARCH":"Buscar",
@@ -69,10 +69,12 @@
   "BUTTON_CLEAR":"Limpiar",
   "LABEL_KEEPPERMISSIONS":"Mantener permisos",
   "LABEL_UPDATEPERMISSIONS":"Actualizar permisos",
-  "TAB_WHATDOYOUWANTTODO":"Que desea hacer",
-  "LABEL_SELECTALL":"Seleccionar todos",
+  "TAB_WHATDOYOUWANTTODO":"¿Que desea hacer ? ",
+  "LABEL_SELECTALL":"Aplicar a todos los grupos de usuarios",
   "LABEL_CODE":"Codigo",
-  "MESSAGE": "Este elemento Fue Actualizado",
-  "BUTTON_CLEAR_ALL":"Limpiar todo"
+  "MESSAGE": "Este elemento(s) fue Actualizado",
+  "ERROR": "Este elemento tuvo error",
+  "BUTTON_CLEAR_ALL":"Limpiar todo",
+  "BUTTON_DELETE_ALL":"Eliminar grupos de usuario"
   
    }

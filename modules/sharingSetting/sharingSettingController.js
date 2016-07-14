@@ -34,13 +34,14 @@
 							$scope.respo = [];
 							$scope.objects = [];
 							$scope.showButtons;
-							$scope.permissions;
 							$scope.uGroupSelected = [];
-							$scope.changeColor;
+							$scope.changeColor = 2;
 							$scope.alerts = [];
 							$scope.objectSelect;
 							$scope.show;
-							
+							$scope.userGroupAux = [];
+							permissions = "update";
+							$scope.aux = [];
 
 							// /add alert
 							$scope.addAlert = function(msg, type) {
@@ -168,8 +169,8 @@
 
 							// /methods
 							$scope.getObjects = function(object) {
-								$scope.objectSelect=object;
-								
+								$scope.objectSelect = object;
+
 								$scope.titleList = object.name;
 								$scope.currentResource = object.resource;
 								$scope.currentObject = object;
@@ -189,11 +190,24 @@
 											page : $scope.page
 										}).$promise
 										.then(function(response) {
+
 											$scope.mObjects = response[object.resource];
 											$scope.objectPrincipal = response[object.resource];
 
 											for (a = 0; a < $scope.mObjects.length; a++) {
+
 												$scope.mObjects[a]["key"] = a;
+												for (z = 0; z < $scope.mObjects[a].userGroupAccesses.length; z++) {
+													// $scope.userGroupAux.push($scope.mObjects[a].userGroupAccesses[z].displayName);
+													// $scope.userGroupAux.sort();
+													// $scope.mObjects[a].userGroupAccesses[z].sort();
+													// console.log("prueba",$scope.userGroupAux);
+													// }
+
+													sorting(
+															$scope.mObjects[a].userGroupAccesses,
+															$scope.mObjects[a].userGroupAccesses[z].displayName);
+												}
 											}
 											$scope.pager = response.pager.page;
 											$scope.itemsPerPage = response.pager.pageSize;
@@ -202,7 +216,19 @@
 											$scope.makeTodos($scope.pageCount);
 											$scope.total = response.pager.total;
 											$scope.id = response.userGroupAccesses;
+											$scope.getObjectsAux(object);
 										});
+							}
+
+							function sorting(json_object, key_to_sort_by) {
+								function sortByKey(a, b) {
+									var x = a[key_to_sort_by];
+									var y = b[key_to_sort_by];
+									return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+								}
+
+								json_object.sort(sortByKey);
+
 							}
 
 							// /methods
@@ -215,7 +241,7 @@
 										}).$promise
 										.then(function(response) {
 											$scope.listmObjects = response[object.resource];
-											$scope.objectAux= response[object.resource];
+											$scope.objectAux = response[object.resource];
 										});
 							}
 
@@ -301,18 +327,19 @@
 							}
 
 							// Get datasets By name
-							$scope.getdataSets = function(name,object) {
+							$scope.getdataSets = function(name, object) {
 								return dataSets.GET({
 									filter : "name:like:" + name
-								}).$promise.then(function(responseDataSet) {
-									$scope.show = object;
-									if (object == "principal") {
-										$scope.mObjects = responseDataSet[$scope.currentResource];
-									} else {
-										$scope.listmObjects =responseDataSet[$scope.currentResource];
-									}	
-									return responseDataSet.dataSets;
-								});
+								}).$promise
+										.then(function(responseDataSet) {
+											$scope.show = object;
+											if (object == "principal") {
+												$scope.mObjects = responseDataSet[$scope.currentResource];
+											} else {
+												$scope.listmObjects = responseDataSet[$scope.currentResource];
+											}
+											return responseDataSet.dataSets;
+										});
 							}
 
 							$scope.onSelect = function($item, $model, $label) {
@@ -326,16 +353,16 @@
 										.GET({
 											id : id,
 											fields : "dataElements[id,name,displayName,user,userGroupAccesses,code]"
-										}).$promise.then(function(
-										getElementByDataSet) {
+										}).$promise
+										.then(function(getElementByDataSet) {
 											if ($scope.show == "principal") {
 												$scope.mObjects = getElementByDataSet.dataElements;
 											} else {
-												$scope.listmObjects =getElementByDataSet.dataElements;
-												
-											}	
-									return getElementByDataSet;
-								});
+												$scope.listmObjects = getElementByDataSet.dataElements;
+
+											}
+											return getElementByDataSet;
+										});
 							}
 
 							// validate the object to push
@@ -358,7 +385,7 @@
 										} catch (error) {
 											console.log("catch");
 										}
-										
+
 									} else {
 										$scope.objects
 												.push({
@@ -384,7 +411,7 @@
 
 							// Get dataElementsGroups By name
 							$scope.getDataElementsGroups = function(
-									nameElementGroup,object) {
+									nameElementGroup, object) {
 								return dataElementGroups.GET({
 									filter : "name:like:" + nameElementGroup
 								}).$promise
@@ -413,9 +440,9 @@
 											if ($scope.show == "principal") {
 												$scope.mObjects = responseByDataElementsGroups.dataElements;
 											} else {
-												$scope.listmObjects =responseByDataElementsGroups.dataElements;
-											}												
-											
+												$scope.listmObjects = responseByDataElementsGroups.dataElements;
+											}
+
 											return responseByDataElementsGroups;
 										});
 							}
@@ -509,16 +536,16 @@
 								}
 
 								if (changeButton == 3) {
-									publicAccess = false;
+									$scope.publicAccess = "r------";
 								}
 								if (changeButton == 4) {
-									publicAccess = true;
+									$scope.publicAccess = "rw------";
 								}
 								if (changeButton == 5) {
-									externalAccess = false;
+									$scope.externalAccess = false;
 								}
 								if (changeButton == 6) {
-									externalAccess = true;
+									$scope.externalAccess = true;
 								}
 
 							}
@@ -586,7 +613,11 @@
 
 							// /Get and Put the permissions to the object
 							$scope.assignPermissions = function(objectSelected) {
-
+								var newShSetting;
+								
+								for (c = 0; c < objectSelected.length; c++) {
+									$scope.aux.push({displayName : objectSelected[c].displayName});	
+								}
 								angular
 										.forEach(
 												objectSelected,
@@ -600,36 +631,44 @@
 																}).$promise
 																.then(function(
 																		result) {
+																	try {
+																		newShSetting = result;
+																		newShSetting.object.publicAccess = $scope.publicAccess;
+																		newShSetting = $scope
+																				.newShareObject(
+																						result,
+																						$scope.uGroupSelected);
+																		sharingSetting
+																				.POST(
+																						{
+																							id : newShSetting.object.id,
+																							type : $scope.type
+																						},
+																						newShSetting).$promise
+																				.then(function(
 
-																	newShSetting = $scope
-																			.newShareObject(
-																					result,
-																					$scope.uGroupSelected);
-																	sharingSetting
-																			.POST(
-																					{
-																						id : newShSetting.object.id,
-																						type : $scope.type
-																					},
-																					newShSetting).$promise
-																			.then(function(
+																				resultPost) {
+																					$scope.uGroupSelected = [];
+																					$scope.getObjects($scope.objectSelect);
 
-																			resultPost) {
+																				});
 
-																				$scope
-																						.addAlert(
-																								$translate("MESSAGE")
-																										+ " "
-																										+ result.object.displayName,
-																								"success");
-																				$scope.uGroupSelected = [];
-																				$scope.getObjects($scope.objectSelect);
+																	} catch (error) {
+																		$scope
+																				.addAlert(
+																						$translate("ERROR")
+																								+ " "
+																								+ result.object.displayName,
+																						"danger");
+																		console.log("catchh");
+																	}
 
-																			});
 																})
+												
 													} else if (permissions == 'update') {
 														// update
 														// Permissions
+
 														sharingSetting
 																.get({
 																	id : objectSelected.id,
@@ -638,6 +677,7 @@
 																.then(function(
 																		result) {
 																	$scope.newShSetting = result;
+																	$scope.newShSetting.object.publicAccess = $scope.publicAccess;
 																	$scope.newShSetting.object["userGroupAccesses"] = [];
 																	for (int = 0; int < $scope.uGroupSelected.length; int++) {
 
@@ -658,18 +698,36 @@
 																					$scope.newShSetting).$promise
 																			.then(function(
 																					resultPost) {
-																				$scope
-																						.addAlert(
-																								$translate("MESSAGE")
-																										+ " "
-																										+ result.object.displayName,
-																								"success");
 																				$scope.uGroupSelected = [];
-																				$scope.getObjects($scope.objectSelect);
-																			});
+																				$scope
+																						.getObjects($scope.objectSelect);
+
+																			})
 																})
 													}
 												})
+												
+								
+								var auxiliar=[];
+								var auxiliarConcat= "";
+								for ( w = 0; w < $scope.aux.length; w++) {
+									auxiliar.push({ displayName : $scope.aux[w].displayName});
+									
+									if (auxiliar.length ==$scope.aux.length ) {
+										for (v = 0; v < auxiliar.length; v++) {
+											
+											auxiliarConcat=auxiliarConcat + ", ";
+											auxiliarConcat = auxiliarConcat.concat(auxiliar[v].displayName);
+										}
+										
+										$scope.addAlert($translate("MESSAGE") + " "
+												+ auxiliarConcat, "success");
+										objectSelected=[];
+										
+									}
+								}
+								
+							
 							}
 
 							// Assign Elements to the Api
@@ -894,10 +952,10 @@
 										k) {
 									$scope.ugStatus[k] = nval;
 								});
-								
+
 							}
-							
-							//load permissions
+
+							// load permissions
 							$scope.loadAccess = function(userGroup) {
 								angular.forEach($scope.status,
 										function(val, k) {
@@ -971,12 +1029,16 @@
 								$scope.objectSelected = [];
 								$scope.ugStatusAccess = [];
 								$scope.objectSele = [];
-								$scope.listmObjects =$scope.objectPrincipal;;
-								$scope.permissions = null;
+								$scope.listmObjects = $scope.objectPrincipal;
+								// $scope.permissions = null;
 								access = "";
 								responseDataElements = [];
-								$scope.newShSetting=[];
+								$scope.newShSetting = [];
 								$scope.getUserGroups("userGroups");
+								$scope.changeColor = 2;
+								var auxiliar=[];
+								var auxiliarConcat= "";
+								$scope.aux=[];
 							}
 
 						} ]);
