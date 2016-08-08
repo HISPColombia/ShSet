@@ -2,7 +2,7 @@
   "_______________ Common ":" for APPS SHARING SETTING________",
   "TITLE_APPS":"SHARING SETTING",
   "LBL_DATA_ELEMENTS": "DataElements",
-  "LBL_DATA_ELEMENTS_GROUPS": "Data Elements Groups",
+  "LABEL_LIST_OBJECTS": "List Objects",
   "LBL_CATEGORY_OPTIONS": "Category Options",
   "LBL_CATEGORY_COMBO": "CategoryCombo",
   "LBLSELECT_ELEMENTS": "Select Elements",
@@ -42,8 +42,8 @@
   "LABEL_USERPERMISIONS":"User permision",
   "LABEL_SELECTEDITEMS":"Selected items",
   "TAB_USERS":"Watch Users",
-  "TAB_ASIGNPERMISSIONS":"Assign permisions",
-  "TAB_ASIGNELEMENTS":"Assign",
+  "TAB_ASIGNPERMISSIONS":"Assign permisions to",
+  "TAB_ASIGNELEMENTS":"Assign User Groups",
   "LABEL_ASIGN":"Assign",
   "LABEL_YES":"Yes",
   "LABEL_NO":"No",
@@ -71,11 +71,11 @@
   "LABEL_KEEPPERMISSIONS":"Keep permissions",
   "LABEL_UPDATEPERMISSIONS":"Update permissions",
   "TAB_WHATDOYOUWANTTODO":"What do you want to do?",
-  "LABEL_SELECTALL":"Apply to all user Groups the next option",
+  "LABEL_SELECTALL":"Apply to all user Groups Firtered",
   "LABEL_CODE":"Code",
   "MESSAGE": "This element(s) was update",
   "ERROR": "this element was mistake",
   "BUTTON_CLEAR_ALL":"Clear all",
-  "BUTTON_DELETE_ALL":"Delete all user groups"
-    
+  "BUTTON_DELETE_ALL":"Delete all user groups",
+    "LABEL_SEARCHUSERGROUP":"Filter user groups"      
   }

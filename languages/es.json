@@ -2,7 +2,7 @@
   "_______________ Common ":" for APPS SHARING SETTING________",
   "TITLE_APPS":"SHARING SETTING",
   "LBL_DATA_ELEMENTS": "DataElements",
-  "LBL_DATA_ELEMENTS_GROUPS": "Grupo de objetos",
+  "LABEL_LIST_OBJECTS": "Lista de objetos",
   "LBL_CATEGORY_OPTIONS": "Opciones De Categoría",
   "LBL_CATEGORY_COMBO": "Combo de Categoría",
   "LBLSELECT_ELEMENTS": "Selecione Elementos",
@@ -42,8 +42,8 @@
   "LABEL_USERPERMISIONS":"Permisos de usuario",
   "LABEL_SELECTEDITEMS":"Elementos Seleccionados",
   "TAB_USERS":"Ver usuarios",
-  "TAB_ASIGNPERMISSIONS":"Asignar permisos",
-  "TAB_ASIGNELEMENTS":"Asignar",
+  "TAB_ASIGNPERMISSIONS":"Asignar permisos a ",
+  "TAB_ASIGNELEMENTS":"Asignar Grupo de Usuarios",
   "LABEL_YES":"Si",
   "LABEL_NO":"No",
   "LABEL_SEARCH":"Buscar",
@@ -70,11 +70,11 @@
   "LABEL_KEEPPERMISSIONS":"Mantener permisos",
   "LABEL_UPDATEPERMISSIONS":"Actualizar permisos",
   "TAB_WHATDOYOUWANTTODO":"¿Que desea hacer ? ",
-  "LABEL_SELECTALL":"Aplicar a todos los grupos de usuarios",
+  "LABEL_SELECTALL":"Aplicar a todos los grupos de usuarios Filtrados",
   "LABEL_CODE":"Codigo",
   "MESSAGE": "Este elemento(s) fue Actualizado",
   "ERROR": "Este elemento tuvo error",
   "BUTTON_CLEAR_ALL":"Limpiar todo",
-  "BUTTON_DELETE_ALL":"Eliminar grupos de usuario"
-  
+  "BUTTON_DELETE_ALL":"Eliminar grupos de usuario",
+  "LABEL_SEARCHUSERGROUP":"Filtrar Grupo de usuarios"  
    }

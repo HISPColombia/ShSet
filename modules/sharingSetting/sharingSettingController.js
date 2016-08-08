@@ -1,23 +1,4 @@
-﻿appImport
-		.controller(
-				'importController',
-				[
-						'$scope',
-						'$q',
-						'$filter',
-						'commonvariable',
-						'sharingSetting',
-						'dhisResource',
-						'commonvariable',
-						'dataSets',
-						'dataElementGroups',
-						'categories',
-						'dataElements',
-						'filterResource',
-						function($scope, $q, $filter, commonvariable,
-								sharingSetting, dhisResource, commonvariable,
-								dataSets, dataElementGroups, categories,
-								dataElements, filterResource) {
+﻿appImport.controller('importController',['$scope','$q','$filter','commonvariable','sharingSetting','dhisResource','dataSets','dataElementGroups','categories','dataElements','filterResource', function($scope, $q, $filter, commonvariable, sharingSetting, dhisResource,	dataSets, dataElementGroups,categories,	dataElements, filterResource) {
 
 							// variables
 							var $translate = $filter('translate');
@@ -42,6 +23,7 @@
 							$scope.userGroupAux = [];
 							permissions = "update";
 							$scope.aux = [];
+							$scope.UserGroupsFiltred=[];
 							
 
 							// /add alert
@@ -171,7 +153,7 @@
 							// /methods
 							$scope.getObjects = function(object) {
 								$scope.objectSelect = object;
-
+								$scope.opSearch=0;
 								$scope.titleList = object.name;
 								$scope.currentResource = object.resource;
 								$scope.currentObject = object;
@@ -216,6 +198,19 @@
 											ugStatusAccess=3;
 										});
 							}
+
+							$scope.filterUserGroups = function (valSearch) {
+								$scope.UserGroupsFiltred=[];
+								angular.forEach($scope.uGroups, function (value, key) {
+
+									if(value.displayName.indexOf(valSearch)!=-1){
+										$scope.UserGroupsFiltred.push(true);
+									}
+									else{
+										$scope.UserGroupsFiltred.push(false);
+									}
+								});
+							};
 
 							function sorting(json_object, key_to_sort_by) {
 								function sortByKey(a, b) {
@@ -499,7 +494,7 @@
 							$scope.pageChanged = function() {
 								$scope.figureOutTodosToDisplay();
 
-								// $scope.getObjects($scope.currentObject);
+								console.log($scope.currentObject);
 								$scope
 										.getPage($scope.currentResource,
 												$scope.currentTitle,
@@ -948,11 +943,10 @@
 							// /select all buttons to assign permissions in
 							// panel
 							$scope.selectAllButtons = function(nval) {
-								angular.forEach($scope.ugStatus, function(val,
-										k) {
-									$scope.ugStatus[k] = nval;
+								angular.forEach($scope.ugStatus, function(val,k) {
+									if((($scope.UserGroupsFiltred.length>1)?$scope.UserGroupsFiltred[k]:true)==true)
+										$scope.ugStatus[k] = nval;
 								});
-
 							}
 
 							// load permissions

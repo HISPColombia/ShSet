@@ -2,7 +2,7 @@
 <div class="row col-md-12">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">{{'LBL_DATA_ELEMENTS_GROUPS'|
+			<h3 class="panel-title">{{'LABEL_LIST_OBJECTS'|
 				translate}}</h3>
 		</div>
 		<div class="panel-body">
@@ -41,7 +41,7 @@
 	<button type="button" class="btn btn-success" disabled="true"
 		id="buttonModal" data-toggle="modal" data-target="#assignPermissions"
 		on-change="changeColor =2;permissions='update'">
-		{{'TAB_ASIGNPERMISSIONS'| translate}} <span
+		{{'TAB_ASIGNPERMISSIONS'| translate}} {{titleList}} <span
 			class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>
 	</button>
 </div>
@@ -280,7 +280,7 @@
 				</div>
 			</div>
 		</div>
-		<uib-pagination boundary-links="true" max-size="2"
+		<uib-pagination ng-show="(opSearch==0)?true:false" boundary-links="true" max-size="(pageCount/4)<30?(pageCount/4):30"
 			num-pages="itemsPerPage" total-items="total" ng-model="currentPage"
 			ng-change="pageChanged()" num-pages="pageCount" boundary-links="true"></uib-pagination>
 	</div>
@@ -326,7 +326,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">{{'TAB_ASIGNPERMISSIONS'|
-								translate}}</h3>
+								translate}} {{titleList}}</h3>
 						</div>
 						<div class="panel-body">
 
@@ -540,22 +540,28 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">{{'TAB_ASIGNELEMENTS'| translate}}
-							{{titleList}}</h3>
+							</h3>
 					</div>
 					<div class="panel-body">
 						<div class="col-md-12">
 							<div class="col-md-7">
 								<div class="row">
+									<div class="col-md-12 input-group">
+										<span class="input-group-addon" id="basic-addon3"> {{'LABEL_SEARCHUSERGROUP'| translate}} :</span>
+									
+										<input type="text" value="" ng-model="UserGrupsFind" ng-change="filterUserGroups(UserGrupsFind)" class="form-control"/> 
+									</div>
+								</div>
+								<div class="row">
 									<div class="list-group"
 										style="overflow: scroll; height: 200px;">
-										<div class="row list-group-item"
-											ng-repeat="(kug,uGroup) in uGroups" ng-model="uGroupSelect">
-											<div class="col-md-5">
+										<div class="row list-group-item" ng-repeat="(kug,uGroup) in uGroups" ng-model="uGroupSelect" ng-show="(UserGroupsFiltred.length>1)?UserGroupsFiltred[kug]:true">
+											<div class="col-md-5" >
 												<label aria-label="...">{{uGroup.displayName}}</label>
 											</div>
 <!-- 											uGroup,objectSele,uGroup.id -->
 											<div class="col-md-6">
-												<div class="btn-group" role="group" >
+												<div class="btn-group" role="group">
 													<button 
 														ng-click="ugStatus[kug]=0;returnObjectToRemove(mObjects.userGroupAccesses,mObjects,uGroup.id);removeGroupAccess(access,mObject, varModal='modalDelete');"
 														type="button"
