@@ -1,5 +1,5 @@
 {
-  "version": "0.2",
+  "version": "1.0",
   "name": "Sharing Setting",
   "description": "Sharing Setting",
   "icons": {
@@ -9,7 +9,7 @@
   },
   "developer": {
     "url": "",
-    "name": "Helder Castrillon, Andres Rodriguez",
+    "name": "Helder Castrillon,Marko Garcia, Andres Rodriguez",
     "company": "Hisp Colombia",
     "email": "heldersoft@gmail.com"
   },

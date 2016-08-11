@@ -1,9 +1,9 @@
 {
-	"version":"0.2"
+	"version":"1.0"
 	,"name":"Sharing Setting"
 	,"description":"Sharing Setting"
 	,"icons":{"16":null,"48":"img/icon48.png"}
-	,"developer":{"url":"www.hispcolombia.org","name":"Helder Castrillon, Andres Rodriguez","company":"Hisp Colombia","email":"heldersoft@gmail.com"}
+	,"developer":{"url":"www.hispcolombia.org","name":"Helder Castrillon,Marko Garcia, Andres Rodriguez","company":"Hisp Colombia","email":"heldersoft@gmail.com"}
 	,"launch_path":"index.html"
 	,"installs_allowed_from":null
 	,"default_locale":"es"

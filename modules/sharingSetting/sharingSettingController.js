@@ -178,6 +178,9 @@
 								$scope.nameSelect="";
 								$scope.groupSelected="";
 								$scope.dataSetselected="";
+								//modal model
+								$scope.codeSe="";
+								$scope.nameSe="";
 							}
 							// /methods
 							$scope.getObjects = function(object) {
