@@ -49,8 +49,9 @@ Dhis2Api.factory("sharingSetting", [ '$resource', 'commonvariable',
 // /get Resource
 Dhis2Api.factory("dhisResource", [ '$resource', 'commonvariable',
 		function($resource, commonvariable) {
-			return $resource(commonvariable.url + "/:resource", {
+			return $resource(commonvariable.url + "/:resource/:uidopt", {
 				resource : '@resource',
+				uidopt:'@uidopt0'
 
 			}, {
 				GET : {

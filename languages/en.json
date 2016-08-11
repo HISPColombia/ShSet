@@ -56,12 +56,12 @@
   "LABEL_PUBLICACCESS":"Public Access",
   "LABEL_EXTERNALACCESS":"External",
   "LABEL_PERMISSIONS":"Permissions",
-  "LABEL_SEARCHCODE":"code",
-  "LABEL_SEARCHPROGRAMS":"program",
-  "LABEL_SEARCHNAME":" name",
+  "LABEL_SEARCHCODE":"Code",
+  "LABEL_SEARCHPROGRAMS":"Program",
+  "LABEL_SEARCHNAME":" Name",
   "LABEL_SELECTGROUP":" Select group",
   "LABEL_SELECTDATASET":" Select data set",
-  "LABEL_SEARCHDATASET":"data set",
+  "LABEL_SEARCHDATASET":"Data Set",
   "LABEL_SEARCHGROUP":"group",
   "LABEL_SEARCHCATEGORIES":"categories",
   "LABEL_NORESULTSFOUND" :"NO RESULTS FOUND",
@@ -77,5 +77,6 @@
   "ERROR": "this element was mistake",
   "BUTTON_CLEAR_ALL":"Clear all",
   "BUTTON_DELETE_ALL":"Delete all user groups",
-    "LABEL_SEARCHUSERGROUP":"Filter user groups"      
+  "LABEL_SEARCHUSERGROUP":"Filter user groups",
+  "LABEL_SEARCHUSERGROUP2":"Name "       
   }

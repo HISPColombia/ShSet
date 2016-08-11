@@ -1,4 +1,24 @@
+<div ng-show="viewWaiting" style="display: block; 
+         visibility: visible; 
+         position: absolute; 
+         z-index: 999; 
+         top: 0px; 
+         left: 0px; 
+         width: 100%; 
+         height: 100%; 
+         background-color: #ccc; 
+         text-align: center; 
+         padding-top: 0%; 
+         filter: alpha(opacity=75); 
+         opacity: 0.75;">
+		<div style="top:50%;left:50%"><img  src="img/loading.gif"  width="100px" height="100px"  ></div>
+		 </div>
 <br />
+<div class="row">
+<div class="col-md-1">
+	
+</div>
+<div class="col-md-11">
 <div class="row col-md-12">
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -75,20 +95,16 @@
 						<div class="btn-group" role="group" aria-label="...">
 							<button id="code" type="button"
 								class="btn btn-{{opSearch==1?'primary':'default'}}"
-								ng-click="opSearch=1">{{'LABEL_SEARCHCODE'|translate}}</button>
+								ng-click="ClearSearch(1)">{{'LABEL_SEARCHCODE'|translate}}</button>
 							<button type="button"
 								class="btn btn-{{opSearch==2?'primary':'default'}}"
-								ng-click="opSearch=2">{{'LABEL_SEARCHNAME'|translate}}</button>
+								ng-click="ClearSearch(2)">{{'LABEL_SEARCHNAME'|translate}}</button>
 							<button type="button"
 								class="btn btn-{{opSearch==3?'primary':'default'}}"
-								ng-click="opSearch=3">{{'LABEL_SEARCHGROUP'|translate}}</button>
+								ng-click="ClearSearch(3)" ng-show="currentObject.groupName">{{currentObject.groupName}}</button>
 							<button type="button"
 								class="btn btn-{{opSearch==4?'primary':'default'}}"
-								ng-click="opSearch=4" ng-show="type == 'dataElement'">{{'LABEL_SEARCHDATASET'|translate}}</button>
-							<button type="button"
-								class="btn btn-{{opSearch==5?'primary':'default'}}"
-								ng-show="type == 'category' || type == 'categoryOption'"
-								ng-click="opSearch=5">{{'LABEL_SEARCHCATEGORIES'|translate}}</button>
+								ng-click="ClearSearch(4)" ng-show="type == 'dataElement'">{{'LABEL_SEARCHDATASET'|translate}}</button>
 						</div>
 						<br>
 						<div class="row col-md-12" ng-show="opSearch==1 ">
@@ -129,16 +145,16 @@
 								</div>
 							</form>
 						</div>
-						<div class="row col-md-12" ng-show="opSearch==3">
+						<div class="row col-md-12" ng-show="opSearch==3 && currentObject.group!=''">
 							<form class="navbar-form navbar-left" role="search">
 								<div class="form-group">
-									<label class="label-control">{{'LABEL_SELECTGROUP'|translate}}</label>
+									<label class="label-control">{{currentObject.groupName}}</label>
 									<br>
 									<div class="input-group ">
 										<input type="text" ng-model="groupSelected"
 											typeahead-loading="loadingLocations"
-											placeholder="{{'LABEL_SEARCHGROUP'|translate}}"
-											uib-typeahead="resultElementGroup as resultElementGroup.displayName for resultElementGroup in getDataElementsGroups($viewValue,'principal')"
+											placeholder="{{currentObject.groupName}}"
+											uib-typeahead="resultElementGroup as resultElementGroup.displayName for resultElementGroup in getGroups($viewValue,'principal')"
 											class="form-control"
 											typeahead-on-select="onSelectGroups($item, $model, $label)">
 										<i ng-show="loadingLocations"
@@ -171,30 +187,6 @@
 											class="input-group-btn">
 											<button type="submit" class="btn btn-success sm"
 												ng-click="dataSetselected='' ; returnMobject()">
-												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-											</button>
-										</span>
-									</div>
-								</div>
-							</form>
-						</div>
-						<div class="row col-md-12" ng-show="opSearch==5; ">
-							<form class="navbar-form navbar-left" role="search">
-								<div class="form-group">
-									<label class="label-control">{{'LABEL_SEARCHCATEGORIES'|translate}}</label>
-									<br>
-									<div class="input-group ">
-										<input type="text" ng-model="selectedCategories"
-											typeahead-loading="loadingLocations"
-											placeholder="{{'LABEL_SEARCHDATASET'|translate}}"
-											uib-typeahead="resultCategories as resultCategories.displayName for resultCategories in getCategories($viewValue)"
-											class="form-control"
-											typeahead-on-select="onSelectCategories($item, $model, $label)">
-										<i ng-show="loadingLocations"
-											class="glyphicon glyphicon-refresh"></i> <span
-											class="input-group-btn">
-											<button type="submit" class="btn btn-success sm"
-												ng-click="selectedCategories=''; returnMobject()">
 												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 											</button>
 										</span>
@@ -546,13 +538,6 @@
 						<div class="col-md-12">
 							<div class="col-md-7">
 								<div class="row">
-									<div class="col-md-12 input-group">
-										<span class="input-group-addon" id="basic-addon3"> {{'LABEL_SEARCHUSERGROUP'| translate}} :</span>
-									
-										<input type="text" value="" ng-model="UserGrupsFind" ng-change="filterUserGroups(UserGrupsFind)" class="form-control"/> 
-									</div>
-								</div>
-								<div class="row">
 									<div class="list-group"
 										style="overflow: scroll; height: 200px;">
 										<div class="row list-group-item" ng-repeat="(kug,uGroup) in uGroups" ng-model="uGroupSelect" ng-show="(UserGroupsFiltred.length>1)?UserGroupsFiltred[kug]:true">
@@ -620,8 +605,14 @@
 													<span>{{'LABEL_YES'|translate}}</span>
 												</button>
 											</div>
+											<br /> <label> {{'LABEL_SEARCHUSERGROUP'| translate}}</label> <br />											
+											<div class="input-group">
+												<span class="input-group-addon" id="basic-addon3"> {{'LABEL_SEARCHUSERGROUP2'| translate}} :</span>												
+												<input type="text" value="" ng-model="UserGrupsFind" ng-change="filterUserGroups(UserGrupsFind)" class="form-control"/> 
+											</div>
+										
 											<!-- SELECT ALL  -->
-											<br /> <label> {{'LABEL_SELECTALL'| translate}}</label> <br />
+											 <label> {{'LABEL_SELECTALL'| translate}}</label> <br />
 											<div class="btn-group" role="allAccess">
 												<button type="button" class="btn btn-danger btn-sm"
 													ng-click="selectAllButtons(0); changeButtons(changeButton=0,uGroups)">{{'BUTTON_CLEAR_ALL'|translate}}</button>
@@ -664,4 +655,6 @@
 			</div>
 		</div>
 	</div>
+</div>
+</div>
 </div>

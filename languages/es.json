@@ -55,13 +55,13 @@
   "LABEL_PUBLICACCESS":"Acceso publico",
   "LABEL_EXTERNALACCESS":"Externo",
   "LABEL_PERMISSIONS":"Permisos",
-  "LABEL_SEARCHCODE":"codigo",
+  "LABEL_SEARCHCODE":"Codigo",
   "LABEL_SEARCHPROGRAMS":"programa",
-  "LABEL_SEARCHNAME":"nombre",
+  "LABEL_SEARCHNAME":"Nombre",
   "LABEL_SELECTGROUP":" Seleccione grupo",
   "LABEL_SELECTDATASET":" Seleccione set de datos",
-  "LABEL_SEARCHDATASET":"set de datos",
-  "LABEL_SEARCHGROUP":"grupo",
+  "LABEL_SEARCHDATASET":"Set de Datos",
+  "LABEL_SEARCHGROUP":"Grupo",
   "LABEL_SEARCHCATEGORIES":"categorias",
   "LABEL_NORESULTSFOUND":"No hay resultados",
   "LABEL_SEARCHBY":"Buscar por",
@@ -76,5 +76,6 @@
   "ERROR": "Este elemento tuvo error",
   "BUTTON_CLEAR_ALL":"Limpiar todo",
   "BUTTON_DELETE_ALL":"Eliminar grupos de usuario",
-  "LABEL_SEARCHUSERGROUP":"Filtrar Grupo de usuarios"  
+  "LABEL_SEARCHUSERGROUP":"Filtrar Grupo de usuarios",
+   "LABEL_SEARCHUSERGROUP2":"Nombre "  
    }

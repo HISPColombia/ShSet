@@ -24,6 +24,7 @@
 							permissions = "update";
 							$scope.aux = [];
 							$scope.UserGroupsFiltred=[];
+							$scope.viewWaiting=false;
 							
 
 							// /add alert
@@ -45,35 +46,43 @@
 										type : "dataElement",
 										resource : "dataElements",
 										name : $translate("OBJ_DATAELEMENT"),
+										group: "dataElementGroups",
+										groupName:$translate("OBJ_DATAELEMENTGROUP"),
 										list : 1
 									},
 									{
 										type : "dataElementGroup",
 										resource : "dataElementGroups",
+										group: "dataElementGroupSets",
 										name : $translate("OBJ_DATAELEMENTGROUP"),
 										list : 1
 									},
 									{
 										type : "dataElementGroupSet",
 										resource : "dataElementGroupSets",
+										group:"",
 										name : $translate("OBJ_DATAELEMENTGROUPSETS"),
 										list : 1
 									},
 									{
 										type : "category",
 										resource : "categories",
+										group:"",
 										name : $translate("OBJ_CATEGORIES"),
 										list : 1
 									},
 									{
 										type : "categoryOption",
 										resource : "categoryOptions",
+										group:"categories",
+										groupName:$translate("OBJ_CATEGORIES"),
 										name : $translate("OBJ_CATEGORYOPTIONS"),
 										list : 1
 									},
 									{
 										type : "categoryCombo",
 										resource : "categoryCombos",
+										group:"",
 										name : $translate("OBJ_CATEGORYCOMBO"),
 										list : 1
 
@@ -81,12 +90,15 @@
 									{
 										type : "categoryOptionGroup",
 										resource : "categoryOptionGroups",
+										group:"categoryOptionGroupSets",
+										groupName : $translate("OBJ_CATEGORYOPTIONGROUPSETS"),
 										name : $translate("OBJ_CATEGORYOPTIONGROUPS"),
 										list : 2
 									},
 									{
 										type : "categoryOptionGroupSet",
 										resource : "categoryOptionGroupSets",
+										group:"",
 										name : $translate("OBJ_CATEGORYOPTIONGROUPSETS"),
 										list : 2
 									},
@@ -94,51 +106,62 @@
 									{
 										type : "indicator",
 										resource : "indicators",
+										group:"indicatorGroups",
+										groupName: $translate("OBJ_INDICATORSGROUPS"),
 										name : $translate("OBJ_INDICATORS"),
 										list : 2
 									},
 									{
 										type : "indicatorType",
 										resource : "indicatorTypes",
+										group:"",
 										name : $translate("OBJ_INDICATORSTYPES"),
 										list : 2
 									},
 									{
 										type : "indicatorGroup",
 										resource : "indicatorGroups",
+										group:"",
 										name : $translate("OBJ_INDICATORSGROUPS"),
 										list : 2
 									},
 									{
 										type : "dataSet",
 										resource : "dataSets",
+										group:"",
 										name : $translate("OBJ_DATASETS"),
 										list : 2
 									},
 									{
 										type : "organisationUnitGroup",
 										resource : "organisationUnitGroups",
+										group:"organisationUnitGroupSets",
+										groupName : $translate("OBJ_ORGANISATIONUNITGROUPSSETS"),
 										name : $translate("OBJ_ORGANISATIONUNITGROUPS"),
 										list : 3
 									},
 									{
 										type : "organisationUnitGroupSet",
 										resource : "organisationUnitGroupSets",
+										group:"",
 										name : $translate("OBJ_ORGANISATIONUNITGROUPSSETS"),
 										list : 3
 									}, {
 										type : "optionSet",
 										resource : "optionSets",
+										group:"",
 										name : $translate("OBJ_OPTIONSETS"),
 										list : 3
 									}, {
 										type : "userGroup",
 										resource : "userGroups",
+										group:"",
 										name : $translate("OBJ_USERGROUPS"),
 										list : 3
 									}, {
 										type : "userRole",
 										resource : "userRoles",
+										group:"",
 										name : $translate("OBJ_USERROLES"),
 										list : 3
 									}, ];
@@ -149,7 +172,13 @@
 								resource : "userGroups",
 								name : $translate("OBJ_USERGROUPS")
 							}, ];
-
+							$scope.ClearSearch=function(option){
+								$scope.opSearch=option;
+								$scope.codeSelect="";
+								$scope.nameSelect="";
+								$scope.groupSelected="";
+								$scope.dataSetselected="";
+							}
 							// /methods
 							$scope.getObjects = function(object) {
 								$scope.objectSelect = object;
@@ -159,7 +188,7 @@
 								$scope.currentObject = object;
 								$scope.type = object.type;
 								$scope.page = object.page;
-
+								$scope.viewWaiting=true;
 								if (object.name == ($translate("OBJ_DATAELEMENT"))) {
 									$scope.showButtons = true;
 								} else if (object.name == ($translate("OBJ_CATEGORIES"))) {
@@ -184,8 +213,15 @@
 													sorting(
 															$scope.mObjects[a].userGroupAccesses,
 															$scope.mObjects[a].userGroupAccesses[z].displayName);
+												
+														if(z>=$scope.mObjects[a].userGroupAccesses.length-1 && a>=$scope.mObjects.length-1){
+															$scope.viewWaiting=false;
+														}
 												}
 											}
+
+											//$scope.viewWaiting=false;
+
 											$scope.pager = response.pager.page;
 											$scope.itemsPerPage = response.pager.pageSize;
 											$scope.currentPage = response.pager.page;
@@ -401,41 +437,44 @@
 								$scope.listmObjects = $scope.objectAux;
 							}
 
-							// Get dataElementsGroups By name
-							$scope.getDataElementsGroups = function(
-									nameElementGroup, object) {
-								return dataElementGroups.GET({
-									filter : "name:like:" + nameElementGroup
-								}).$promise
-										.then(function(responseElementGroup) {
+							// Get Group By name
+							$scope.getGroups = function(nameGroup,object) {
+							return dhisResource
+										.GET({
+											resource :$scope.currentObject.group,	
+											filter : "displayName:like:" + nameGroup,										
+											page : 1
+										}).$promise
+										.then(function(responseGroups) {
 											$scope.show = object;
-											return responseElementGroup.dataElementGroups;
+											return responseGroups[$scope.currentObject.group];
 										});
 							}
+							
 
 							// element select on groups
-							$scope.onSelectGroups = function($item, $model,
-									$label) {
-								$scope.getElementByDataElementsGroups($item.id);
-
+							$scope.onSelectGroups = function($item, $model,$label) {								
+								$scope.getElementByGrouped($item.id,$scope.currentObject.group);
 							};
 
 							// Get DataElements by DataElementsGroups
-							$scope.getElementByDataElementsGroups = function(id) {
-								return dataElementGroups
+							$scope.getElementByGrouped = function(id,resourceGroup) {
+								return dhisResource
 										.GET({
-											id : id,
-											fields : "dataElements[id,name,displayName,user,code,userGroupAccesses]"
+											resource :resourceGroup,	
+											uidopt:id,
+											fields:$scope.currentResource+"[id,code,displayName,userGroupAccesses]",									
+											page : 1
 										}).$promise
 										.then(function(
-												responseByDataElementsGroups) {
+												responseGroups) {
 											if ($scope.show == "principal") {
-												$scope.mObjects = responseByDataElementsGroups.dataElements;
+												$scope.mObjects = responseGroups[$scope.currentResource];
 											} else {
-												$scope.listmObjects = responseByDataElementsGroups.dataElements;
+												$scope.listmObjects =  responseGroups[$scope.currentResource];
 											}
 
-											return responseByDataElementsGroups;
+											return responseGroups;
 										});
 							}
 
@@ -577,12 +616,15 @@
 														try {
 															if (uGroupSelect.length) {
 																for (b = 0; b < uGroupSelect.length; b++) {
-																	uGroupSelected
+																		if((($scope.UserGroupsFiltred.length>1)?$scope.UserGroupsFiltred[b]:true)==true){
+																			uGroupSelected
 																			.push({
 																				id : uGroupSelect[b].id,
 																				displayName : uGroupSelect[b].displayName,
 																				access : access
-																			})
+																			});
+																		}
+																
 																}
 															} else {
 																uGroupSelected
@@ -607,7 +649,7 @@
 							// /Get and Put the permissions to the object
 							$scope.assignPermissions = function(objectSelected) {
 								var newShSetting;
-								
+								$scope.viewWaiting=true;
 								for (c = 0; c < objectSelected.length; c++) {
 									$scope.aux.push({displayName : objectSelected[c].displayName});	
 								}
@@ -694,6 +736,8 @@
 																				$scope.uGroupSelected = [];
 																				$scope
 																						.getObjects($scope.objectSelect);
+
+																						
 
 																			})
 																})
@@ -946,6 +990,10 @@
 								angular.forEach($scope.ugStatus, function(val,k) {
 									if((($scope.UserGroupsFiltred.length>1)?$scope.UserGroupsFiltred[k]:true)==true)
 										$scope.ugStatus[k] = nval;
+									else{
+										if($scope.ugStatus[k]=="")
+											$scope.ugStatus[k] = 0;
+									}
 								});
 							}
 
@@ -1035,6 +1083,8 @@
 								$scope.getObjects($scope.objectSelect);
 								permissions="update";
 								$scope.publicAccess="";
+								$scope.UserGrupsFind="";
+								$scope.UserGroupsFiltred=[];
 //								$scope.selectAllButtons(0);
 							}
 
