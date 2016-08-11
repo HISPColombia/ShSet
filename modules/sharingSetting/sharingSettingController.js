@@ -688,7 +688,10 @@
 
 																				resultPost) {
 																					$scope.uGroupSelected = [];
-																					//$scope.getObjects($scope.objectSelect);
+																					///load again de object when it finishes
+																					if(kObject==objectsSelected.length-1){
+																						$scope.getObjects($scope.objectSelect);
+																					}
 
 																				});
 
@@ -738,7 +741,10 @@
 																			.then(function(
 																					resultPost) {
 																				$scope.uGroupSelected = [];
-																				//$scope.getObjects($scope.objectSelect);
+																				///load again de object when it finishes
+																				if(kObject==objectsSelected.length-1){
+																					$scope.getObjects($scope.objectSelect);
+																				}
 
 																						
 
@@ -746,10 +752,7 @@
 																})
 													}
 
-													///load again de object when it finishes
-													if(kObject==objectsSelected.length-1){
-														$scope.getObjects($scope.objectSelect);
-													}
+													
 												})
 												
 								
@@ -765,8 +768,7 @@
 											auxiliarConcat = auxiliarConcat.concat(auxiliar[v].displayName);
 										}
 										
-										$scope.addAlert($translate("MESSAGE") + " "
-												+ auxiliarConcat, "success");
+										$scope.addAlert($translate("MESSAGE") + " " + auxiliarConcat, "success");
 										objectSelected=[];
 										
 									}
