@@ -604,19 +604,12 @@
 												</button>
 											</div>
 											<br /> <label> {{'LABEL_SEARCHUSERGROUP'| translate}}</label> <br />											
-											<div class="row">
-											<div class="col-md-10">
-													<div class="input-group">
-														<span class="input-group-addon" id="basic-addon3"> {{'LABEL_SEARCHUSERGROUP2'| translate}} :</span>
-														<input type="text" value="" ng-model="UserGrupsFind" ng-change="filterUserGroups(UserGrupsFind)" class="form-control">
-													</div>
-												</div>
-												<div class="col-md-2 text-align-left">
-													<button type="submit" class="btn btn-success sm" ng-click="UserGrupsFind=''">
-																										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-																							</button>
-												</div>
+											
+											<div class="input-group">
+												<span class="input-group-addon" id="basic-addon3"> {{'LABEL_SEARCHUSERGROUP2'| translate}} :</span>
+												<input type="text" value="" ng-model="UserGrupsFind" ng-change="filterUserGroups(UserGrupsFind)" class="form-control">
 											</div>
+												
 											<!-- SELECT ALL  -->
 											 <label> {{'LABEL_SELECTALL'| translate}}</label> <br />
 											<div class="btn-group" role="allAccess">
