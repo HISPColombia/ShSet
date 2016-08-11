@@ -206,22 +206,23 @@
 											$scope.mObjects = response[object.resource];
 											$scope.objectPrincipal = response[object.resource];
 
-											for (a = 0; a < $scope.mObjects.length; a++) {
+											//for (a = 0; a < $scope.mObjects.length; a++) {
 
-												$scope.mObjects[a]["key"] = a;
-												for (z = 0; z < $scope.mObjects[a].userGroupAccesses.length; z++) {
-													sorting(
-															$scope.mObjects[a].userGroupAccesses,
-															$scope.mObjects[a].userGroupAccesses[z].displayName);
-												
-														if(z>=$scope.mObjects[a].userGroupAccesses.length-1 && a>=$scope.mObjects.length-1){
-															$scope.viewWaiting=false;
-														}
-												}
-											}
+											//	$scope.mObjects[a]["key"] = a;
+											//	for (z = 0; z < $scope.mObjects[a].userGroupAccesses.length; z++) {
+													//sorting($scope.mObjects[a].userGroupAccesses,$scope.mObjects[a].userGroupAccesses[z].displayName);												
+											//			if(z>=$scope.mObjects[a].userGroupAccesses.length-1 && a>=$scope.mObjects.length-1){
+											//				$scope.viewWaiting=false;
+											//			}
+											//	}
+											//	if($scope.mObjects[a].userGroupAccesses.length==0 && a>=$scope.mObjects.length-1){
+											//				$scope.viewWaiting=false;
+											//			}
+											// }
 
-											//$scope.viewWaiting=false;
+											$scope.viewWaiting=false;
 
+											
 											$scope.pager = response.pager.page;
 											$scope.itemsPerPage = response.pager.pageSize;
 											$scope.currentPage = response.pager.page;
@@ -229,7 +230,10 @@
 											$scope.makeTodos($scope.pageCount);
 											$scope.total = response.pager.total;
 											$scope.id = response.userGroupAccesses;
-											$scope.getObjectsAux(object);
+											//$scope.getObjectsAux(object); // change for that
+												$scope.listmObjects = response[object.resource];
+												$scope.objectAux = response[object.resource];
+											//
 											$scope.selectAllButtons(0);
 											ugStatusAccess=3;
 										});
@@ -647,16 +651,16 @@
 							}
 
 							// /Get and Put the permissions to the object
-							$scope.assignPermissions = function(objectSelected) {
-								var newShSetting;
+							$scope.assignPermissions = function(objectsSelected) {
+								var newShSetting;								
 								$scope.viewWaiting=true;
-								for (c = 0; c < objectSelected.length; c++) {
-									$scope.aux.push({displayName : objectSelected[c].displayName});	
+								for (c = 0; c < objectsSelected.length; c++) {
+									$scope.aux.push({displayName : objectsSelected[c].displayName});	
 								}
 								angular
 										.forEach(
-												objectSelected,
-												function(objectSelected) {
+												objectsSelected,
+												function(objectSelected,kObject) {
 													if (permissions == 'keep') {// keep
 														// Permissions
 														sharingSetting
@@ -684,7 +688,7 @@
 
 																				resultPost) {
 																					$scope.uGroupSelected = [];
-																					$scope.getObjects($scope.objectSelect);
+																					//$scope.getObjects($scope.objectSelect);
 
 																				});
 
@@ -734,13 +738,17 @@
 																			.then(function(
 																					resultPost) {
 																				$scope.uGroupSelected = [];
-																				$scope
-																						.getObjects($scope.objectSelect);
+																				//$scope.getObjects($scope.objectSelect);
 
 																						
 
 																			})
 																})
+													}
+
+													///load again de object when it finishes
+													if(kObject==objectsSelected.length-1){
+														$scope.getObjects($scope.objectSelect);
 													}
 												})
 												
@@ -1080,7 +1088,7 @@
 								var auxiliar=[];
 								var auxiliarConcat= "";
 								$scope.aux=[];
-								$scope.getObjects($scope.objectSelect);
+								//$scope.getObjects($scope.objectSelect);
 								permissions="update";
 								$scope.publicAccess="";
 								$scope.UserGrupsFind="";
