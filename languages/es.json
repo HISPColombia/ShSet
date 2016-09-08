@@ -1,6 +1,7 @@
 {
   "_______________ Common ":" for APPS SHARING SETTING________",
   "TITLE_APPS":"SHARING SETTING",
+  "HOME":"Inicio",
   "LBL_DATA_ELEMENTS": "DataElements",
   "LABEL_LIST_OBJECTS": "Lista de objetos",
   "LBL_CATEGORY_OPTIONS": "Opciones De Categoría",

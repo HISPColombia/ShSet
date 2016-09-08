@@ -1,6 +1,7 @@
 {
   "_______________ Common ":" for APPS SHARING SETTING________",
   "TITLE_APPS":"SHARING SETTING",
+   "HOME":"Home",
   "LBL_DATA_ELEMENTS": "DataElements",
   "LABEL_LIST_OBJECTS": "List Objects",
   "LBL_CATEGORY_OPTIONS": "Category Options",
@@ -23,7 +24,7 @@
   "OBJ_CATEGORIES":"Categories",
   "OBJ_CATEGORYCOMBO":"Category Combo",
   "OBJ_CATEGORYOPTIONCOMBOS":"Category option combos",
-  "OBJ_CATEGORYOPTIONGROUPS":"Grupos de opciones de categoria",
+  "OBJ_CATEGORYOPTIONGROUPS":"Category Option Groups",
   "OBJ_CATEGORYOPTIONGROUPSETS":"Category option group sets",
   "OBJ_INDICATORS":"Indicators",
   "OBJ_INDICATORSTYPES": "Indicator types",

@@ -112,13 +112,6 @@
 										list : 2
 									},
 									{
-										type : "indicatorType",
-										resource : "indicatorTypes",
-										group:"",
-										name : $translate("OBJ_INDICATORSTYPES"),
-										list : 2
-									},
-									{
 										type : "indicatorGroup",
 										resource : "indicatorGroups",
 										group:"",
@@ -138,7 +131,7 @@
 										group:"organisationUnitGroupSets",
 										groupName : $translate("OBJ_ORGANISATIONUNITGROUPSSETS"),
 										name : $translate("OBJ_ORGANISATIONUNITGROUPS"),
-										list : 3
+										list : 2
 									},
 									{
 										type : "organisationUnitGroupSet",
@@ -305,12 +298,12 @@
 							}
 
 							// get the User Groups from the Api
-							$scope.getUserGroups = function(resource) {
-								$scope.currentResource = resource;
+							$scope.getUserGroups = function(resource) {								
 								dhisResource
 										.GET({
 											resource : resource,
 											fields : "id,displayName,userGroupAccesses",
+											pageSize:1000
 
 										}).$promise.then(function(response) {
 
@@ -318,7 +311,7 @@
 									// /init status value(for change color)
 									angular.forEach($scope.uGroups, function(
 											val, key) {
-										$scope.ugStatus[key] = undefined;
+										$scope.ugStatus[key] = 0;//undefined;
 									});
 
 								});
