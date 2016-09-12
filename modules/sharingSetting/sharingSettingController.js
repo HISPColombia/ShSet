@@ -557,7 +557,7 @@
 									$scope.uGroupSelected.push[{}];
 								}
 								if (changeButton == 1) {
-									access = "r------";
+									access = "r-------";
 									$scope.setValue(uGroupSelect,
 											$scope.uGroupSelected, access);
 								}
@@ -568,7 +568,7 @@
 								}
 
 								if (changeButton == 3) {
-									$scope.publicAccess = "r------";
+									$scope.publicAccess = "r-------";
 								}
 								if (changeButton == 4) {
 									$scope.publicAccess = "rw------";
