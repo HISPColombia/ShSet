@@ -8,7 +8,7 @@
 							$scope.ugStatus = [];
 							$scope.statusChange = [];
 							$scope.ugStatusAccess = [];
-							$scope.publicAccess;
+							$scope.publicAccess="--------";
 							$scope.externalAccess;
 							$scope.objectSele = [];
 							$scope.object = [];
@@ -682,8 +682,8 @@
 																						newShSetting).$promise
 																				.then(function(
 
-																				resultPost) {
-																					$scope.uGroupSelected = [];
+																				resultPost) {																					
+																					$scope.clean();
 																					///load again de object when it finishes
 																					if(kObject==objectsSelected.length-1){
 																						$scope.getObjects($scope.objectSelect);
@@ -736,7 +736,7 @@
 																					$scope.newShSetting).$promise
 																			.then(function(
 																					resultPost) {
-																				$scope.uGroupSelected = [];
+																				$scope.clean();
 																				///load again de object when it finishes
 																				if(kObject==objectsSelected.length-1){
 																					$scope.getObjects($scope.objectSelect);
@@ -1088,7 +1088,7 @@
 								$scope.aux=[];
 								//$scope.getObjects($scope.objectSelect);
 								permissions="update";
-								$scope.publicAccess="";
+								$scope.publicAccess="--------";
 								$scope.UserGrupsFind="";
 								$scope.UserGroupsFiltred=[];
 //								$scope.selectAllButtons(0);
