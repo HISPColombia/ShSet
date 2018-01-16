@@ -579,6 +579,9 @@
 								if (changeButton == 6) {
 									$scope.externalAccess = true;
 								}
+								if (changeButton == 7) {
+									$scope.publicAccess = "--------";
+								}
 
 							}
 

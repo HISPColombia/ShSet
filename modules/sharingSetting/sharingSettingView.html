@@ -511,11 +511,14 @@
 																	<br> <label> {{'LABEL_PUBLICACCESS'| translate}}</label>
 																	<br>
 																	<div class="btn-group" role="groupAccess">
-																		<button ng-click="ugStatusAccess[kug]=3;changeButtons(changeButton=3,uGroup)" type="button" class="btn btn-{{ugStatusAccess[kug]==3?'danger':'default'}} btn-sm">
+																		<button ng-click="ugStatusAccess[kug]=7;changeButtons(changeButton=7,uGroup)" type="button" class="btn btn-{{ugStatusAccess[kug]==7 || !ugStatusAccess[kug]?'danger':'default'}} btn-sm">
 													<span>{{'LABEL_NO'|translate}}</span>
 												</button>
-																		<button ng-click="ugStatusAccess[kug]=4;changeButtons(changeButton=4,uGroup)" type="button" class="btn btn-{{ugStatusAccess[kug]==4?'success':'default'}} btn-sm">
-													<span>{{'LABEL_YES'|translate}}</span>
+																		<button ng-click="ugStatusAccess[kug]=3;changeButtons(changeButton=3,uGroup)" type="button" class="btn btn-{{ugStatusAccess[kug]==3?'success':'default'}} btn-sm">
+													<span>{{'LABEL_READ'|translate}}</span>
+												</button>
+												<button ng-click="ugStatusAccess[kug]=4;changeButtons(changeButton=4,uGroup)" type="button" class="btn btn-{{ugStatusAccess[kug]==4?'success':'default'}} btn-sm">
+													<span>{{'LABEL_READWRITE'|translate}}</span>
 												</button>
 																	</div>
 																	<br /> <label> {{'LABEL_SEARCHUSERGROUP'| translate}}</label> <br />
