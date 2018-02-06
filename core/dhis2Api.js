@@ -9,7 +9,7 @@
  * */
 var Dhis2Api = angular.module("Dhis2Api", [ 'ngResource', ]);
 
-var urlApi = "../../../api";
+var urlApi = "../../../api/25";
 // Create all common variables of the apps
 Dhis2Api.factory("commonvariable", function() {
 	var Vari = {
@@ -75,6 +75,18 @@ Dhis2Api.factory("dhisResource", [ '$resource', 'commonvariable',
 Dhis2Api.factory("dataSets", [ '$resource', 'commonvariable',
 		function($resource, commonvariable) {
 			return $resource(commonvariable.url + "/dataSets/:id", {
+				id : '@id',
+
+			}, {
+				GET : {
+					method : "GET"
+				}
+			});
+		} ]);
+
+Dhis2Api.factory("programs", [ '$resource', 'commonvariable',
+		function($resource, commonvariable) {
+			return $resource(commonvariable.url + "/programs/:id", {
 				id : '@id',
 
 			}, {

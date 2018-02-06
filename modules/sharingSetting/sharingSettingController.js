@@ -1,4 +1,4 @@
-﻿appImport.controller('importController',['$scope','$q','$filter','commonvariable','sharingSetting','dhisResource','dataSets','dataElementGroups','categories','dataElements','filterResource', function($scope, $q, $filter, commonvariable, sharingSetting, dhisResource,	dataSets, dataElementGroups,categories,	dataElements, filterResource) {
+﻿appImport.controller('importController',['$scope','$q','$filter','commonvariable','sharingSetting','dhisResource','dataSets','programs','dataElementGroups','categories','dataElements','filterResource', function($scope, $q, $filter, commonvariable, sharingSetting, dhisResource,	dataSets,programs, dataElementGroups,categories,	dataElements, filterResource) {
 
 							// variables
 							var $translate = $filter('translate');
@@ -93,7 +93,7 @@
 										group:"categoryOptionGroupSets",
 										groupName : $translate("OBJ_CATEGORYOPTIONGROUPSETS"),
 										name : $translate("OBJ_CATEGORYOPTIONGROUPS"),
-										list : 2
+										list : 1
 									},
 									{
 										type : "categoryOptionGroupSet",
@@ -138,13 +138,13 @@
 										resource : "organisationUnitGroupSets",
 										group:"",
 										name : $translate("OBJ_ORGANISATIONUNITGROUPSSETS"),
-										list : 3
+										list : 2
 									}, {
 										type : "optionSet",
 										resource : "optionSets",
 										group:"",
 										name : $translate("OBJ_OPTIONSETS"),
-										list : 3
+										list : 2
 									}, {
 										type : "userGroup",
 										resource : "userGroups",
@@ -157,7 +157,80 @@
 										group:"",
 										name : $translate("OBJ_USERROLES"),
 										list : 3
-									}, ];
+									}, {
+										type : "legendSet",
+										resource : "legendSets",
+										group:"",
+										name : $translate("OBJ_LEGENDSETS"),
+										list : 3
+									}, {
+										type : "constant",
+										resource : "constants",
+										group:"",
+										name : $translate("OBJ_CONSTANTS"),
+										list : 3
+									}, {
+										type : "trackedEntityAttribute",
+										resource : "trackedEntityAttributes",
+										group:"",
+										name : $translate("OBJ_TRKATTRIBUTES"),
+										list : 3
+									}, {
+										type : "program",
+										resource : "programs",
+										group:"",
+										name : $translate("OBJ_PROGRAMS"),
+										list : 3
+									}, {
+										type : "programIndicator",
+										resource : "programIndicators",
+										group:"",
+										name : $translate("OBJ_PROGRAMINDOCATORS"),
+										list : 3
+									}, {
+										type : "dashboard",
+										resource : "dashboards",
+										group:"",
+										name : $translate("OBJ_DASHBOARDS"),
+										list : 4
+									}, {
+										type : "map",
+										resource : "maps",
+										group:"",
+										name : $translate("OBJ_MAPS"),
+										list : 4
+									}, {
+										type : "eventReport",
+										resource : "eventReports",
+										group:"",
+										name : $translate("OBJ_EVENTREPORTS"),
+										list : 4
+									}, {
+										type : "eventChart",
+										resource : "eventCharts",
+										group:"",
+										name : $translate("OBJ_EVENTCHARTS"),
+										list : 4
+									}, {
+										type : "reportTable",
+										resource : "reportTables",
+										group:"",
+										name : $translate("OBJ_REPORTTABLES"),
+										list : 4
+									}, {
+										type : "chart",
+										resource : "charts",
+										group:"",
+										name : $translate("OBJ_CHARTS"),
+										list : 4
+									}, {
+										type : "sqlView",
+										resource : "sqlViews",
+										group:"",
+										name : $translate("OBJ_SQLVIEWS"),
+										list : 4
+									}									
+								];
 
 							// Object get userGroups
 							$scope.userGr = [ {
@@ -369,29 +442,74 @@
 											return responseDataSet.dataSets;
 										});
 							}
+						    // Get programs By name
+							$scope.getPrograms = function(name, object) {
+								return programs.GET({
+									filter : "name:like:" + name
+								}).$promise
+										.then(function(responseDataSet) {
+											$scope.show = object;
+											if (object == "principal") {
+												$scope.mObjects = responseDataSet[$scope.currentResource];
+											} else {
+												$scope.listmObjects = responseDataSet[$scope.currentResource];
+											}
+											return responseDataSet.programs;
+										});
+							}
 
 							$scope.onSelect = function($item, $model, $label) {
 								$scope.getElementByDataSet($item.id);
 
 							};
+							$scope.onSelectP = function($item, $model, $label) {
+								$scope.getElementByProgram($item.id);
+
+							};
 
 							// Get DataElements by DataSet
 							$scope.getElementByDataSet = function(id) {
-								return dataSets
+								return filterResource
 										.GET({
-											id : id,
-											fields : "dataElements[id,name,displayName,user,userGroupAccesses,code]"
+											resource : "dataElements",
+											filter:"dataSetElements.dataSet.id:like:"+id,
+											fields :"id,name,displayName,user,userGroupAccesses,code"
 										}).$promise
-										.then(function(getElementByDataSet) {
+										.then(function(responseDataElements) {
 											if ($scope.show == "principal") {
-												$scope.mObjects = getElementByDataSet.dataElements;
+												$scope.mObjects = responseDataElements.dataElements;
 											} else {
-												$scope.listmObjects = getElementByDataSet.dataElements;
+												$scope.listmObjects = responseDataElements.dataElements;
 
 											}
-											return getElementByDataSet;
+											return responseDataElements;
 										});
 							}
+
+							// Get DataElements by Program
+							$scope.getElementByProgram = function(id) {
+								$scope.mObjects=[];
+								$scope.listmObjects=[]
+								return filterResource
+										.GET({
+											resource : "programStageDataElements",
+											filter:"programStage.program.id:like:"+id,
+											fields :"dataElement[id,name,displayName,user,userGroupAccesses,code]"
+										}).$promise
+										.then(function(resp) {
+											angular.forEach(resp.programStageDataElements, function(val,k) {
+												if ($scope.show == "principal") {
+													$scope.mObjects.push(val.dataElement);
+												} else {
+													$scope.listmObjects.push(val.dataElement);
+	
+												}
+											});
+											
+											return $scope.mObjects;
+										});
+							}
+
 
 							// validate the object to push
 							$scope.validateObject = function(objects) {
@@ -701,7 +819,7 @@
 																								+ " "
 																								+ result.object.displayName,
 																						"danger");
-																		console.log("catchh");
+																		console.log("catch");
 																	}
 
 																})
@@ -1071,7 +1189,10 @@
 												}
 												break;
 											}
-										});
+										}).catch(function(fallback) {
+											$scope.addAlert(fallback.data.message,
+												"danger");
+										  });
 							}
 
 							// Clean Variables
